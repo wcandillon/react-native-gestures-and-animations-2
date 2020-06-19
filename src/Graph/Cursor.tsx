@@ -40,17 +40,20 @@ interface CursorProps {
 const Cursor = ({ path, length, point }: CursorProps) => {
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: (event, ctx) => {
-      ctx.offset = length.value;
+      ctx.offsetX = interpolate(
+        length.value,
+        [0, path.length],
+        [0, width],
+        Extrapolate.CLAMP
+      );
     },
     onActive: (event, ctx) => {
-      length.value =
-        ctx.offset +
-        interpolate(
-          event.translationX,
-          [0, width],
-          [0, path.length],
-          Extrapolate.CLAMP
-        );
+      length.value = interpolate(
+        ctx.offsetX + event.translationX,
+        [0, width],
+        [0, path.length],
+        Extrapolate.CLAMP
+      );
     },
     onEnd: ({ velocityX }) => {
       length.value = withDecay({

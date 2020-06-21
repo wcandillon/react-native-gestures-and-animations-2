@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 
 import { Button, StyleGuide, cards } from "../components";
-import { useSpringTransition } from "../components/AnimatedHelpers";
+import { useSpring } from "../components/AnimatedHelpers";
 import AnimatedCard from "./AnimatedCard";
 
 const styles = StyleSheet.create({
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
 
 const UseTransition = () => {
   const [toggled, setToggle] = useState(false);
-  const transition = useSpringTransition(toggled);
+  const transition = useSpring(toggled);
   return (
     <View style={styles.container}>
       {cards.slice(0, 3).map((card, index) => (

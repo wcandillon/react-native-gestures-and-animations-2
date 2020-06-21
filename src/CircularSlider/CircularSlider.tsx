@@ -15,7 +15,7 @@ import Animated, {
 import Cursor from "./Cursor";
 import CircularProgress from "./CircularProgress";
 import { StyleGuide } from "../components";
-import { interpolateColor, canvas2Polar } from "../components/AnimatedHelpers";
+import { canvas2Polar } from "../components/AnimatedHelpers/Coordinates";
 
 const { width } = Dimensions.get("window");
 const size = width - 32;

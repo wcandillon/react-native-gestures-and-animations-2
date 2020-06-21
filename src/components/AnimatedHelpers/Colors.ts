@@ -45,7 +45,6 @@ const color = (r, g, b, opacity = 1) => {
 };
 
 export const hsv2rgb = (h, s, v) => {
-  "worklet";
   // vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
   const K = {
     x: 1,
@@ -73,7 +72,6 @@ export const hsv2rgb = (h, s, v) => {
 };
 
 export const hsv2color = (h, s, v) => {
-  "worklet";
   const { r, g, b } = hsv2rgb(h, s, v);
   return color(r, g, b);
 };

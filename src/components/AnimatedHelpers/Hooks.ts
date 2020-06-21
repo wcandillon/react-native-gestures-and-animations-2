@@ -8,7 +8,7 @@ import {
 
 import { bin } from "./Math";
 
-export const useSpringTransition = (state: boolean | number, config) => {
+export const useSpring = (state: boolean | number, config) => {
   const value = useSharedValue(0);
   useEffect(() => {
     value.value = typeof state === "boolean" ? bin(state) : state;
@@ -19,10 +19,7 @@ export const useSpringTransition = (state: boolean | number, config) => {
   return transition;
 };
 
-export const useTransition = (
-  state: boolean | number,
-  config = { duration: 250 }
-) => {
+export const useTiming = (state: boolean | number, config) => {
   const value = useSharedValue(0);
   useEffect(() => {
     value.value = typeof state === "boolean" ? bin(state) : state;

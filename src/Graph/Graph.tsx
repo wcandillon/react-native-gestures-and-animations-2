@@ -34,14 +34,14 @@ const range = {
   y: [height, 0],
 };
 
-const scale = (v, domain, range) => {
+const scale = (v: number, d: number[], r: number[]) => {
   "worklet";
-  return interpolate(v, domain, range, Extrapolate.CLAMP);
+  return interpolate(v, d, r, Extrapolate.CLAMP);
 };
 
-const scaleInvert = (y, domain, range) => {
+const scaleInvert = (y: number[], d: number[], r: number[]) => {
   "worklet";
-  return interpolate(y, range, domain, Extrapolate.CLAMP);
+  return interpolate(y, r, d, Extrapolate.CLAMP);
 };
 
 const d = shape

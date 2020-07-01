@@ -7,9 +7,10 @@
     "ios": "react-native run-ios",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint .",
+    "lint": "eslint --ext .ts,.tsx . --max-warnings 1",
     "tsc": "tsc",
-    "ci": "yarn lint && yarn tsc"
+    "ci": "yarn lint && yarn tsc",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
@@ -38,9 +39,10 @@
     "@types/react-native": "^0.62.12",
     "babel-jest": "^26.0.1",
     "eslint": "^7.1.0",
-    "eslint-config-react-native-wcandillon": "^3.0.1",
+    "eslint-config-react-native-wcandillon": "3.3.0",
     "jest": "^26.0.1",
     "metro-react-native-babel-preset": "^0.59.0",
+    "patch-package": "^6.2.2",
     "react-test-renderer": "16.11.0",
     "typescript": "^3.9.3"
   },

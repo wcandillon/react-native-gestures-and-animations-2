@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { useDerivedValue } from "react-native-reanimated";
+import Animated, { useDerivedValue } from "react-native-reanimated";
 
 import { ReText, round } from "../components/AnimatedHelpers";
 import { StyleGuide } from "../components";
@@ -16,8 +16,19 @@ const styles = StyleSheet.create({
   },
 });
 
+export interface DataPoint {
+  coord: {
+    x: number;
+    y: number;
+  };
+  data: {
+    x: number;
+    y: number;
+  };
+}
+
 interface LabelProps {
-  point: any;
+  point: Animated.SharedValue<DataPoint>;
 }
 
 const Label = ({ point }: LabelProps) => {

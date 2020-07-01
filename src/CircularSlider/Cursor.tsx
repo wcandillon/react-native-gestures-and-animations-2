@@ -17,7 +17,7 @@ const THRESHOLD = 0.001;
 interface CursorProps {
   r: number;
   strokeWidth: number;
-  theta: any;
+  theta: Animated.SharedValue<number>;
 }
 
 const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {

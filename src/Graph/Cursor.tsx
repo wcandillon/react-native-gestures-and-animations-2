@@ -3,13 +3,13 @@ import { View, StyleSheet, Dimensions } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
-  useSharedValue,
   Extrapolate,
   interpolate,
   useAnimatedStyle,
 } from "react-native-reanimated";
 
 import { Path, withDecay } from "../components/AnimatedHelpers";
+import { DataPoint } from "./Label";
 
 const { width } = Dimensions.get("window");
 const CURSOR = 100;
@@ -33,8 +33,8 @@ const styles = StyleSheet.create({
 
 interface CursorProps {
   path: Path;
-  length: any;
-  point: any;
+  length: Animated.SharedValue<number>;
+  point: Animated.SharedValue<DataPoint>;
 }
 
 const Cursor = ({ path, length, point }: CursorProps) => {

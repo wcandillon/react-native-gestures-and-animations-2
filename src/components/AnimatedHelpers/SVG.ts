@@ -64,11 +64,14 @@ export const serializePath = (path: Path) =>
     )
     .join("");
 
-export const getPointAtLength = (path, length) => {
+export const getPointAtLength = (path: Path, length: number) => {
   "worklet";
   const c = path.curves.find(
     (curve) => length >= curve.start && length <= curve.end
   );
+  if (!c) {
+    throw new Error("Curve not found");
+  }
   const t = (length - c.start) / (c.end - c.start);
   return {
     x: cubicBezier(t, c.from.x, c.c1.x, c.c2.x, c.to.x),

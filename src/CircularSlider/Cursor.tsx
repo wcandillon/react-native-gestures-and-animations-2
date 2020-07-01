@@ -33,9 +33,8 @@ const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
       );
     },
     onActive: (event, ctx) => {
-      const { translationX, translationY } = event;
-      const x = ctx.offset.x + translationX;
-      const y1 = ctx.offset.y + translationY;
+      const x = ctx.offset.x + event.translationX;
+      const y1 = ctx.offset.y + event.translationY;
       const y =
         x < r
           ? y1
@@ -47,7 +46,7 @@ const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
     },
   });
   const style = useAnimatedStyle(() => {
-    const { x: translateX, y: translateY } = polar2Canvas(
+    const translation = polar2Canvas(
       {
         theta: theta.value,
         radius: r,
@@ -55,7 +54,7 @@ const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
       center
     );
     return {
-      transform: [{ translateX }, { translateY }],
+      transform: [{ translateX: translation.x }, { translateY: translation.y }],
     };
   });
   return (

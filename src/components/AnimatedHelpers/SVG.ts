@@ -66,12 +66,12 @@ export const serializePath = (path: Path) =>
 
 export const getPointAtLength = (path, length) => {
   "worklet";
-  const { start, end, from, to, c1, c2 } = path.curves.find(
-    (c) => length >= c.start && length <= c.end
+  const c = path.curves.find(
+    (curve) => length >= curve.start && length <= curve.end
   );
-  const t = (length - start) / (end - start);
+  const t = (length - c.start) / (c.end - c.start);
   return {
-    x: cubicBezier(t, from.x, c1.x, c2.x, to.x),
-    y: cubicBezier(t, from.y, c1.y, c2.y, to.y),
+    x: cubicBezier(t, c.from.x, c.c1.x, c.c2.x, c.to.x),
+    y: cubicBezier(t, c.from.y, c.c1.y, c.c2.y, c.to.y),
   };
 };

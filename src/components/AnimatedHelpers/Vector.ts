@@ -1,6 +1,6 @@
 import { useSharedValue } from "react-native-reanimated";
 
-export interface Vector<T = any> {
+export interface Vector<T = number> {
   x: T;
   y: T;
 }

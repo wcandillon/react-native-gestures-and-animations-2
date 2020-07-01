@@ -64,9 +64,9 @@ const Cursor = ({ path, length, point }: CursorProps) => {
   });
 
   const style = useAnimatedStyle(() => {
-    const { x, y } = point.value.coord;
-    const translateX = x - CURSOR / 2;
-    const translateY = y - CURSOR / 2;
+    const coord = point.value.coord;
+    const translateX = coord.x - CURSOR / 2;
+    const translateY = coord.y - CURSOR / 2;
     return {
       transform: [{ translateX }, { translateY }],
     };

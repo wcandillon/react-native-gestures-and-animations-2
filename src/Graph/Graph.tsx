@@ -63,15 +63,15 @@ const styles = StyleSheet.create({
 const Graph = () => {
   const length = useSharedValue(0);
   const point = useDerivedValue(() => {
-    const { x, y } = getPointAtLength(path, length.value);
+    const p = getPointAtLength(path, length.value);
     return {
       coord: {
-        x,
-        y,
+        x: p.x,
+        y: p.y,
       },
       data: {
-        x: scaleInvert(x, domain.x, range.x),
-        y: scaleInvert(y, domain.y, range.y),
+        x: scaleInvert(p.x, domain.x, range.x),
+        y: scaleInvert(p.y, domain.y, range.y),
       },
     };
   });

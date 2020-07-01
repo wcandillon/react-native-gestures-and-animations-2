@@ -9,29 +9,29 @@ import {
 
 import { clamp, fract, mix } from "./Math";
 
-export const opacity = (c) => {
+export const opacity = (c: number) => {
   "worklet";
   return ((c >> 24) & 255) / 255;
 };
 
-export const red = (c) => {
+export const red = (c: number) => {
   "worklet";
   return (c >> 16) & 255;
 };
 
-export const green = (c) => {
+export const green = (c: number) => {
   "worklet";
   return (c >> 8) & 255;
 };
 
-export const blue = (c) => {
+export const blue = (c: number) => {
   "worklet";
   return c & 255;
 };
 
-const color = (r, g, b, opacity = 1) => {
+const color = (r: number, g: number, b: number, alpha = 1) => {
   "worklet";
-  const a = Math.round(opacity * 255);
+  const a = Math.round(alpha * 255);
   const result =
     ((a * 1) << 24) +
     ((Math.round(r) * 1) << 16) +
@@ -44,7 +44,7 @@ const color = (r, g, b, opacity = 1) => {
   return result;
 };
 
-export const hsv2rgb = (h, s, v) => {
+export const hsv2rgb = (h: number, s: number, v: number) => {
   // vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
   const K = {
     x: 1,
@@ -71,12 +71,12 @@ export const hsv2rgb = (h, s, v) => {
   };
 };
 
-export const hsv2color = (h, s, v) => {
+export const hsv2color = (h: number, s: number, v: number) => {
   const { r, g, b } = hsv2rgb(h, s, v);
   return color(r, g, b);
 };
 
-export const colorForBackground = (r, g, b) => {
+export const colorForBackground = (r: number, g: number, b: number) => {
   "worklet";
   const L = 0.299 * r + 0.587 * g + 0.114 * b;
   return L > 186 ? 0x000000ff : 0xffffffff;

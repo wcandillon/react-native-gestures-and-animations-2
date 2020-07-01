@@ -1,4 +1,11 @@
-export function withDecay(userConfig, callback) {
+export function withDecay(
+  userConfig: {
+    clamp: [number, number];
+    velocity: number;
+    deceleration?: number;
+  },
+  callback?: () => void
+): number {
   "worklet";
 
   // TODO: not sure what should I return here

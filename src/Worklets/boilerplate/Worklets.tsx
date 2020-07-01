@@ -1,9 +1,8 @@
-import React, { useState } from "react";
-import { View, StyleSheet, Text, Platform } from "react-native";
-import { useSharedValue, runOnUI } from "react-native-reanimated";
+import React from "react";
+import { View, StyleSheet, Platform } from "react-native";
+import Animated from "react-native-reanimated";
 
 import { Button } from "../../components";
-import { ReText } from "../../components/AnimatedHelpers";
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +12,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const formatDatetime = (datetime) => {
+const formatDatetime = (datetime: Date) => {
   "worklet";
   return datetime.toLocaleDateString("en-US", {
     weekday: "long",
@@ -23,7 +22,11 @@ const formatDatetime = (datetime) => {
   });
 };
 
-const sayHello = (text, from, cb) => {
+const sayHello = (
+  text: Animated.SharedValue<string>,
+  from: string,
+  cb: (v: string) => void
+) => {
   "worklet";
   text.value = `Hello from ${from} on ${Platform.OS} at ${formatDatetime(
     new Date()
@@ -32,9 +35,10 @@ const sayHello = (text, from, cb) => {
 };
 
 const Worklets = () => {
+  console.log(sayHello);
   return (
     <View style={styles.container}>
-      <Button label="Say Hello" primary />
+      <Button label="Say Hello" primary onPress={() => null} />
     </View>
   );
 };

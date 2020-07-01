@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
 });
 
 interface AnimatedCardProps {
-  transition: any;
+  transition: Animated.SharedValue<number>;
   index: number;
   card: Cards;
 }

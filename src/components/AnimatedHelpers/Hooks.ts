@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {
+import Animated, {
   useSharedValue,
   useDerivedValue,
   withTiming,
@@ -8,7 +8,10 @@ import {
 
 import { bin } from "./Math";
 
-export const useSpring = (state: boolean | number, config) => {
+export const useSpring = (
+  state: boolean | number,
+  config?: Omit<Animated.SpringConfig, "toValue">
+) => {
   const value = useSharedValue(0);
   useEffect(() => {
     value.value = typeof state === "boolean" ? bin(state) : state;
@@ -19,7 +22,10 @@ export const useSpring = (state: boolean | number, config) => {
   return transition;
 };
 
-export const useTiming = (state: boolean | number, config) => {
+export const useTiming = (
+  state: boolean | number,
+  config?: Omit<Animated.TimingConfig, "toValue">
+) => {
   const value = useSharedValue(0);
   useEffect(() => {
     value.value = typeof state === "boolean" ? bin(state) : state;

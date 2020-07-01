@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { Button, StyleGuide, cards } from "../../components";
-import { useSpringTransition } from "../../components/AnimatedHelpers";
+import { bin } from "../../components/AnimatedHelpers";
 import AnimatedCard from "./AnimatedCard";
 import {
   useSharedValue,
   useDerivedValue,
   withSpring,
-  withTiming,
 } from "react-native-reanimated";
 
 const styles = StyleSheet.create({
@@ -19,29 +18,10 @@ const styles = StyleSheet.create({
   },
 });
 
-const useSpring = (state, config) => {
-  const value = useSharedValue(0);
-  useEffect(() => {
-    value.value = typeof state === "number" ? state : state ? 1 : 0;
-  }, [state, value]);
-  return useDerivedValue(() => {
-    return withSpring(value.value, config);
-  });
-};
-const useTiming = (state, config) => {
-  const value = useSharedValue(0);
-  useEffect(() => {
-    value.value = typeof state === "number" ? state : state ? 1 : 0;
-  }, [state, value]);
-  return useDerivedValue(() => {
-    return withTiming(value.value, config);
-  });
-};
-
 const UseTransition = () => {
   const toggled = useSharedValue(false);
   const transition = useDerivedValue(() => {
-    return withSpring(toggled.value);
+    return withSpring(bin(toggled.value));
   });
   return (
     <View style={styles.container}>

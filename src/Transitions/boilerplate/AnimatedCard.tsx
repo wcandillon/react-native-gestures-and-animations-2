@@ -1,9 +1,6 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  interpolate,
-} from "react-native-reanimated";
+import { StyleSheet } from "react-native";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { mix } from "../../components/AnimatedHelpers";
 import { Card, Cards, StyleGuide } from "../../components";
 import { Dimensions } from "react-native";
@@ -20,7 +17,7 @@ const styles = StyleSheet.create({
 });
 
 interface AnimatedCardProps {
-  transition: any;
+  transition: Animated.SharedValue<number>;
   index: number;
   card: Cards;
 }

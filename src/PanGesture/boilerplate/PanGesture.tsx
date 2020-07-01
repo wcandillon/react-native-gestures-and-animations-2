@@ -1,14 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 
-import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../../components";
-import Animated, {
-  useAnimatedGestureHandler,
-  useSharedValue,
-  useAnimatedStyle,
-} from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import { withDecay, clamp } from "../../components/AnimatedHelpers";
+import { Card, Cards } from "../../components";
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +15,7 @@ interface GestureProps {
 }
 
 const Gesture = ({ width, height }: GestureProps) => {
+  console.log({ width, height });
   return (
     <View style={styles.container}>
       <Card card={Cards.Card1} />

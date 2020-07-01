@@ -27,7 +27,7 @@ const Gesture = ({ width, height }: GestureProps) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const onGestureEvent = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
+    onStart: (_, ctx) => {
       ctx.offsetX = translateX.value;
       ctx.offsetY = translateY.value;
     },

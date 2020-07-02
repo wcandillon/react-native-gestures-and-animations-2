@@ -1,22 +1,19 @@
 import React from "react";
-import { StyleSheet, processColor } from "react-native";
-import Animated, {
-  useAnimatedProps,
-  useDerivedValue,
-  interpolate,
-} from "react-native-reanimated";
+import { StyleSheet } from "react-native";
+import Animated from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
+
 import { StyleGuide } from "../../components";
 
 const { PI } = Math;
 
 interface CircularProgressProps {
-  theta: Animated.Node<number>;
+  theta: Animated.SharedValue<number>;
   r: number;
   strokeWidth: number;
 }
 
-const CircularProgress = ({ theta, r, strokeWidth }: CircularProgressProps) => {
+const CircularProgress = ({ r, strokeWidth }: CircularProgressProps) => {
   const radius = r - strokeWidth / 2;
   const circumference = radius * 2 * PI;
   return (

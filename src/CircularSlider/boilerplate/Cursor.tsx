@@ -1,29 +1,14 @@
 import * as React from "react";
 import { StyleSheet, View } from "react-native";
-import Animated, {
-  useAnimatedGestureHandler,
-  useSharedValue,
-  useAnimatedStyle,
-  useDerivedValue,
-} from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import {
-  canvas2Polar,
-  polar2Canvas,
-  clamp,
-  interpolateColor,
-} from "../../components/AnimatedHelpers";
-import { StyleGuide } from "../../components";
 
-const THRESHOLD = 0.001;
+import { StyleGuide } from "../../components";
 
 interface CursorProps {
   r: number;
   strokeWidth: number;
 }
 
-const Cursor = ({ r, strokeWidth }: CursorProps) => {
-  const center = { x: r, y: r };
+const Cursor = ({ strokeWidth }: CursorProps) => {
   return (
     <View
       style={[

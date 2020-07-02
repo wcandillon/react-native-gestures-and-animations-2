@@ -2,16 +2,12 @@ import React from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Svg, { Path, Defs, Stop, LinearGradient } from "react-native-svg";
 import * as shape from "d3-shape";
+import { interpolate, Extrapolate } from "react-native-reanimated";
 
-import { parsePath, getPointAtLength } from "../../components/AnimatedHelpers";
+import { parsePath } from "../../components/AnimatedHelpers";
+
 import Cursor from "./Cursor";
 import Label from "./Label";
-import {
-  useSharedValue,
-  useDerivedValue,
-  interpolate,
-  Extrapolate,
-} from "react-native-reanimated";
 
 const { width } = Dimensions.get("window");
 const height = width;
@@ -34,14 +30,14 @@ const range = {
   y: [height, 0],
 };
 
-const scale = (v, domain, range) => {
+const scale = (v: number, d: number[], r: number[]) => {
   "worklet";
-  return interpolate(v, domain, range, Extrapolate.CLAMP);
+  return interpolate(v, d, r, Extrapolate.CLAMP);
 };
 
-const scaleInvert = (y, domain, range) => {
+const scaleInvert = (y: number, d: number[], r: number[]) => {
   "worklet";
-  return interpolate(y, range, domain, Extrapolate.CLAMP);
+  return interpolate(y, r, d, Extrapolate.CLAMP);
 };
 
 const d = shape
@@ -61,9 +57,19 @@ const styles = StyleSheet.create({
 });
 
 const Graph = () => {
+  const point = {
+    coord: {
+      x: 0,
+      y: 0,
+    },
+    data: {
+      x: scaleInvert(0, domain.x, range.x),
+      y: scaleInvert(0, domain.y, range.y),
+    },
+  };
   return (
     <View style={styles.container}>
-      <Label {...{ data }} />
+      <Label {...{ data, point }} />
       <View>
         <Svg {...{ width, height }}>
           <Defs>

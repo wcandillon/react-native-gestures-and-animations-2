@@ -1,6 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+
 import { Routes } from "./Routes";
 import Examples from "./Examples";
 import PanGesture from "./PanGesture";

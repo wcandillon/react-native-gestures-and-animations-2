@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
+
 import { StyleGuide } from "../components";
 
 const { PI } = Math;

@@ -9,6 +9,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { Path, withDecay } from "../components/AnimatedHelpers";
+
 import { DataPoint } from "./Label";
 
 const { width } = Dimensions.get("window");
@@ -39,7 +40,7 @@ interface CursorProps {
 
 const Cursor = ({ path, length, point }: CursorProps) => {
   const onGestureEvent = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
+    onStart: (_event, ctx) => {
       ctx.offsetX = interpolate(
         length.value,
         [0, path.length],
@@ -64,7 +65,7 @@ const Cursor = ({ path, length, point }: CursorProps) => {
   });
 
   const style = useAnimatedStyle(() => {
-    const coord = point.value.coord;
+    const { coord } = point.value;
     const translateX = coord.x - CURSOR / 2;
     const translateY = coord.y - CURSOR / 2;
     return {

@@ -1,8 +1,7 @@
+/* eslint-disable react-native/no-unused-styles */
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { useDerivedValue } from "react-native-reanimated";
 
-import { ReText, round } from "../../components/AnimatedHelpers";
 import { StyleGuide } from "../../components";
 
 const styles = StyleSheet.create({
@@ -16,11 +15,24 @@ const styles = StyleSheet.create({
   },
 });
 
-interface LabelProps {
-  point: any;
+console.log({ styles });
+
+export interface DataPoint {
+  coord: {
+    x: number;
+    y: number;
+  };
+  data: {
+    x: number;
+    y: number;
+  };
 }
 
-const Label = ({ point }: LabelProps) => {
+interface LabelProps {
+  point: DataPoint;
+}
+
+const Label = ({}: LabelProps) => {
   return <View />;
 };
 

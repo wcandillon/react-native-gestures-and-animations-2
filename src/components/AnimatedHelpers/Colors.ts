@@ -1,5 +1,4 @@
 /* eslint-disable no-bitwise */
-import Animated from "react-native-reanimated";
 import { Platform } from "react-native";
 import {
   interpolate,
@@ -8,6 +7,12 @@ import {
 } from "react-native-reanimated";
 
 import { clamp, fract, mix } from "./Math";
+
+export type Color = string | number;
+export enum ColorSpace {
+  RGB,
+  HSV,
+}
 
 export const opacity = (c: number) => {
   "worklet";
@@ -114,7 +119,11 @@ const rgbToHsv = (c: number) => {
   return { h, s, v };
 };
 
-const interpolateColorsHSV = (value, inputRange, colors) => {
+const interpolateColorsHSV = (
+  value: number,
+  inputRange: number[],
+  colors: number[]
+) => {
   "worklet";
   const colorsAsHSV = colors.map((c) => rgbToHsv(c));
   const h = interpolate(
@@ -138,7 +147,11 @@ const interpolateColorsHSV = (value, inputRange, colors) => {
   return hsv2color(h, s, v);
 };
 
-const interpolateColorsRGB = (value, inputRange, colors) => {
+const interpolateColorsRGB = (
+  value: number,
+  inputRange: number[],
+  colors: number[]
+) => {
   "worklet";
   const r = Math.round(
     interpolate(
@@ -176,22 +189,27 @@ const interpolateColorsRGB = (value, inputRange, colors) => {
 };
 
 export const interpolateColor = (
-  value,
-  inputRange,
-  rawOutputRange,
-  colorSpace = "rgb"
+  value: number,
+  inputRange: number[],
+  rawOutputRange: Color[],
+  colorSpace: ColorSpace = ColorSpace.RGB
 ) => {
   "worklet";
   const outputRange = rawOutputRange.map((c) =>
     typeof c === "number" ? c : processColor(c)
   );
-  if (colorSpace === "hsv") {
+  if (colorSpace === ColorSpace.HSV) {
     return interpolateColorsHSV(value, inputRange, outputRange);
   }
   return interpolateColorsRGB(value, inputRange, outputRange);
 };
 
-export const mixColor = (value, color1, color2, colorSpace = "rgb") => {
+export const mixColor = (
+  value: number,
+  color1: Color,
+  color2: Color,
+  colorSpace: ColorSpace = ColorSpace.RGB
+) => {
   "worklet";
   return interpolateColor(value, [0, 1], [color1, color2], colorSpace);
 };

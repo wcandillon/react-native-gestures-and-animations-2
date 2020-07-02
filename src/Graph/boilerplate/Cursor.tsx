@@ -1,17 +1,9 @@
+/* eslint-disable react-native/no-unused-styles */
 import React from "react";
-import { View, StyleSheet, Dimensions } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedGestureHandler,
-  useSharedValue,
-  Extrapolate,
-  interpolate,
-  useAnimatedStyle,
-} from "react-native-reanimated";
+import { View, StyleSheet } from "react-native";
 
-import { Path, withDecay } from "../../components/AnimatedHelpers";
+import { Path } from "../../components/AnimatedHelpers";
 
-const { width } = Dimensions.get("window");
 const CURSOR = 100;
 const styles = StyleSheet.create({
   cursorContainer: {
@@ -35,7 +27,7 @@ interface CursorProps {
   path: Path;
 }
 
-const Cursor = ({ path }: CursorProps) => {
+const Cursor = ({}: CursorProps) => {
   return (
     <View style={StyleSheet.absoluteFill}>
       <View style={styles.cursor} />

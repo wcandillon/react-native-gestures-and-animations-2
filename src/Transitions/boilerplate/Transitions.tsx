@@ -1,14 +1,15 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-
-import { Button, StyleGuide, cards } from "../../components";
-import { bin } from "../../components/AnimatedHelpers";
-import AnimatedCard from "./AnimatedCard";
 import {
   useSharedValue,
   useDerivedValue,
   withSpring,
 } from "react-native-reanimated";
+
+import { Button, StyleGuide, cards } from "../../components";
+import { bin } from "../../components/AnimatedHelpers";
+
+import AnimatedCard from "./AnimatedCard";
 
 const styles = StyleSheet.create({
   container: {

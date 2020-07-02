@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-reanimated/react-native-reanimated.d.ts b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
-index 38772d8..f3f5b60 100644
+index 38772d8..3e1d11c 100644
 --- a/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 +++ b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 @@ -16,8 +16,15 @@ declare module 'react-native-reanimated' {
@@ -77,7 +77,7 @@ index 38772d8..f3f5b60 100644
      // hooks
      export function useCode(
        exec: () => Nullable< AnimatedNode<number>[] | AnimatedNode<number> > | boolean,
-@@ -380,6 +424,65 @@ declare module 'react-native-reanimated' {
+@@ -380,6 +424,66 @@ declare module 'react-native-reanimated' {
        initialValue: T
      ): AnimatedValue<T>;
  
@@ -93,7 +93,8 @@ index 38772d8..f3f5b60 100644
 +    export function useDerivedValue<T extends SharedValueType>(
 +      processor: () => T
 +    ): SharedValue<T>;
-+    export function useAnimatedStyle<T extends ViewStyle, TextStyle, ImageStyle>(
++
++    export function useAnimatedStyle<T extends AnimateProps<ViewStyle> | AnimateProps<TextStyle> | AnimateProps<ImageStyle>>(
 +      updater: () => T
 +    ): T;
 +    export function useAnimatedProps<T extends {}>(
@@ -143,7 +144,7 @@ index 38772d8..f3f5b60 100644
      // configuration
      export function addWhitelistedNativeProps(props: { [key: string]: true }): void;
      export function addWhitelistedUIProps(props: { [key: string]: true }): void;
-@@ -500,5 +603,19 @@ declare module 'react-native-reanimated' {
+@@ -500,5 +604,19 @@ declare module 'react-native-reanimated' {
    export const timing: typeof Animated.timing
    export const spring: typeof Animated.spring
    export const SpringUtils: typeof Animated.SpringUtils

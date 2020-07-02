@@ -5,6 +5,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
+
 import {
   canvas2Polar,
   polar2Canvas,
@@ -23,7 +24,7 @@ interface CursorProps {
 const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
   const center = { x: r, y: r };
   const onGestureEvent = useAnimatedGestureHandler({
-    onStart: (event, ctx) => {
+    onStart: (_event, ctx) => {
       ctx.offset = polar2Canvas(
         {
           theta: theta.value,

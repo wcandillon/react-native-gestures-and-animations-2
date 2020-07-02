@@ -1,3 +1,4 @@
+/// <reference path="SVG.d.ts"/>
 import parseSVG from "parse-svg-path";
 import absSVG from "abs-svg-path";
 import normalizeSVG from "normalize-svg-path";

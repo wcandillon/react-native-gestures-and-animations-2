@@ -2,16 +2,17 @@ import React from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Svg, { Path, Defs, Stop, LinearGradient } from "react-native-svg";
 import * as shape from "d3-shape";
-
-import { parsePath, getPointAtLength } from "../components/AnimatedHelpers";
-import Cursor from "./Cursor";
-import Label from "./Label";
 import {
   useSharedValue,
   useDerivedValue,
   interpolate,
   Extrapolate,
 } from "react-native-reanimated";
+
+import { parsePath, getPointAtLength } from "../components/AnimatedHelpers";
+
+import Cursor from "./Cursor";
+import Label from "./Label";
 
 const { width } = Dimensions.get("window");
 const height = width;
@@ -39,7 +40,7 @@ const scale = (v: number, d: number[], r: number[]) => {
   return interpolate(v, d, r, Extrapolate.CLAMP);
 };
 
-const scaleInvert = (y: number[], d: number[], r: number[]) => {
+const scaleInvert = (y: number, d: number[], r: number[]) => {
   "worklet";
   return interpolate(y, r, d, Extrapolate.CLAMP);
 };

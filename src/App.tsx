@@ -9,6 +9,7 @@ import Transitions from "./Transitions";
 import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
+import Animations from "./Animations";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
@@ -26,6 +27,13 @@ const AppNavigator = () => (
         component={Worklets}
         options={{
           title: "Worklets",
+        }}
+      />
+      <Stack.Screen
+        name="Animations"
+        component={Animations}
+        options={{
+          title: "Animations",
         }}
       />
       <Stack.Screen

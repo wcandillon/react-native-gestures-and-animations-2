@@ -27,13 +27,17 @@ const Timing = () => {
   const [play, setPlay] = useState(false);
   const isPlaying = useSharedValue(false);
   const progress = useSharedValue(0);
+  const dest = useSharedValue(1);
   const runAnimation = () => {
     "worklet";
     if (isPlaying.value) {
       cancelAnimation(progress);
     } else {
       progress.value = loop(
-        withTiming(1, { duration: 1000, easing: Easing.linear }),
+        withTiming(dest.value, {
+          duration: 1000,
+          easing: Easing.linear,
+        }),
         -1
       );
     }

@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-reanimated/react-native-reanimated.d.ts b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
-index 38772d8..3e1d11c 100644
+index 38772d8..63acb63 100644
 --- a/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 +++ b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 @@ -16,8 +16,15 @@ declare module 'react-native-reanimated' {
@@ -94,7 +94,7 @@ index 38772d8..3e1d11c 100644
 +      processor: () => T
 +    ): SharedValue<T>;
 +
-+    export function useAnimatedStyle<T extends AnimateProps<ViewStyle> | AnimateProps<TextStyle> | AnimateProps<ImageStyle>>(
++    export function useAnimatedStyle<T extends StyleProp<AnimateStyle<ViewStyle | ImageStyle | TextStyle>>>(
 +      updater: () => T
 +    ): T;
 +    export function useAnimatedProps<T extends {}>(

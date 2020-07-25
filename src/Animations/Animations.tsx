@@ -4,7 +4,7 @@ import {
   useSharedValue,
   withTiming,
   Easing,
-  loop,
+  repeat,
   useDerivedValue,
   cancelAnimation,
   runOnUI,
@@ -25,34 +25,31 @@ const styles = StyleSheet.create({
 
 const Timing = () => {
   const [play, setPlay] = useState(false);
-  const isPlaying = useSharedValue(false);
-  const progress = useSharedValue(0);
-  const dest = useSharedValue(1);
-  const runAnimation = () => {
-    "worklet";
-    if (isPlaying.value) {
-      cancelAnimation(progress);
+  const dest = useSharedValue(0);
+  const progress = useDerivedValue(() => {
+    return repeat(
+      withTiming(dest.value, {
+        duration: 1000,
+        easing: Easing.linear,
+      }),
+      -1
+    );
+  });
+  useEffect(() => {
+    if (play) {
+      dest.value = 1;
     } else {
-      progress.value = loop(
-        withTiming(dest.value, {
-          duration: 1000,
-          easing: Easing.linear,
-        }),
-        -1
-      );
+      dest.value = 0;
+      cancelAnimation(progress);
     }
-  };
+  }, [dest, play, progress]);
   return (
     <View style={styles.container}>
       <ChatBubble {...{ progress }} />
       <Button
         label={play ? "Pause" : "Play"}
         primary
-        onPress={() => {
-          setPlay((prev) => !prev);
-          isPlaying.value = !isPlaying.value;
-          runOnUI(runAnimation)();
-        }}
+        onPress={() => setPlay((prev) => !prev)}
       />
     </View>
   );

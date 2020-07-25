@@ -10,7 +10,7 @@ import { bin } from "./Math";
 
 export const useSpring = (
   state: boolean | number,
-  config?: Omit<Animated.SpringConfig, "toValue">
+  config?: Animated.WithSpringConfig
 ) => {
   const value = useSharedValue(0);
   useEffect(() => {

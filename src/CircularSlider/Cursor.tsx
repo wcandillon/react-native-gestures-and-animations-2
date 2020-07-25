@@ -36,12 +36,14 @@ const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
     onActive: (event, ctx) => {
       const x = ctx.offset.x + event.translationX;
       const y1 = ctx.offset.y + event.translationY;
-      const y =
-        x < r
-          ? y1
-          : theta.value < Math.PI
-          ? clamp(y1, 0, r - THRESHOLD)
-          : clamp(y1, r, 2 * r);
+      let y: number;
+      if (x < r) {
+        y = y1;
+      } else if (theta.value < Math.PI) {
+        y = clamp(y1, 0, r - THRESHOLD);
+      } else {
+        y = clamp(y1, r, 2 * r);
+      }
       const value = canvas2Polar({ x, y }, center).theta;
       theta.value = value > 0 ? value : 2 * Math.PI + value;
     },

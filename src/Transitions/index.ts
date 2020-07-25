@@ -1,1 +1,1 @@
-export { default } from "./boilerplate/Transitions";
+export { default } from "./Transitions";

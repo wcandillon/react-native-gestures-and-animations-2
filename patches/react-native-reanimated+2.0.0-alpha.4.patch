@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-reanimated/react-native-reanimated.d.ts b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
-index 38772d8..63acb63 100644
+index 38772d8..45d8ce6 100644
 --- a/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 +++ b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 @@ -16,8 +16,15 @@ declare module 'react-native-reanimated' {
@@ -32,7 +32,29 @@ index 38772d8..63acb63 100644
      export type Mapping = { [key: string]: Mapping } | Adaptable<any>;
      export type Adaptable<T> =
        | T
-@@ -341,6 +354,14 @@ declare module 'react-native-reanimated' {
+@@ -92,6 +105,11 @@ declare module 'react-native-reanimated' {
+     export interface DecayConfig {
+       deceleration: Adaptable<number>;
+     }
++    export interface WithDecayConfig {
++      deceleration?: number;
++      velocity?: number;
++      clamp?: [number, number];
++    }
+     export interface BackwardCompatibleWrapper {
+       start: (callback?: (data: { finished: boolean }) => any) => void;
+       stop: () => void;
+@@ -118,6 +136,9 @@ declare module 'react-native-reanimated' {
+       restDisplacementThreshold: Adaptable<number>;
+       toValue: Adaptable<number>;
+     }
++    export interface WithSpringConfig extends Omit<SpringConfig, 'toValue'> {
++      velocity: number
++    }
+ 
+     interface SpringConfigWithOrigamiTensionAndFriction {
+       tension: Adaptable<number>;
+@@ -341,6 +362,14 @@ declare module 'react-native-reanimated' {
      export const max: BinaryOperator;
      export const min: BinaryOperator;
  
@@ -47,7 +69,7 @@ index 38772d8..63acb63 100644
      // animations
      export function decay(
        clock: AnimatedClock,
-@@ -371,6 +392,29 @@ declare module 'react-native-reanimated' {
+@@ -371,6 +400,35 @@ declare module 'react-native-reanimated' {
        config: DecayConfig,
      ): BackwardCompatibleWrapper;
  
@@ -59,8 +81,12 @@ index 38772d8..63acb63 100644
 +    ): number;
 +    export function withSpring(
 +      toValue: number,
-+      userConfig?: Omit<SpringConfig, 'toValue'>,
++      userConfig?: WithSpringConfig,
 +      callback?: (isCancelled: boolean) => void,
++    ): number;
++    export function withDecay(
++      userConfig: WithDecayConfig,
++      callback?: (isCancelled: boolean) => void
 +    ): number;
 +    export function cancelAnimation<T extends SharedValue<SharedValueType>>(
 +        sharedValue: T
@@ -69,15 +95,17 @@ index 38772d8..63acb63 100644
 +      delayMS: number,
 +      delayedAnimation: number,
 +    ): number;
-+    export function loop(
-+      loopedAnimation: number,
-+      numberOfLoops?: number,
++    export function repeat(
++      animation: number,
++      numberOfReps?: number,
++      reverse?: boolean
 +    ): number;
++    export function sequence(...animations: [number, ...number[]]): number;
 +
      // hooks
      export function useCode(
        exec: () => Nullable< AnimatedNode<number>[] | AnimatedNode<number> > | boolean,
-@@ -380,6 +424,66 @@ declare module 'react-native-reanimated' {
+@@ -380,6 +438,66 @@ declare module 'react-native-reanimated' {
        initialValue: T
      ): AnimatedValue<T>;
  
@@ -144,7 +172,7 @@ index 38772d8..63acb63 100644
      // configuration
      export function addWhitelistedNativeProps(props: { [key: string]: true }): void;
      export function addWhitelistedUIProps(props: { [key: string]: true }): void;
-@@ -500,5 +604,19 @@ declare module 'react-native-reanimated' {
+@@ -500,5 +618,21 @@ declare module 'react-native-reanimated' {
    export const timing: typeof Animated.timing
    export const spring: typeof Animated.spring
    export const SpringUtils: typeof Animated.SpringUtils
@@ -159,9 +187,11 @@ index 38772d8..63acb63 100644
 +  export const useAnimatedScrollHandler: typeof Animated.useAnimatedScrollHandler
 +  export const withTiming: typeof Animated.withTiming
 +  export const withSpring: typeof Animated.withSpring
++  export const withDecay: typeof Animated.withDecay
 +  export const cancelAnimation: typeof Animated.cancelAnimation
 +  export const delay: typeof Animated.delay
-+  export const loop: typeof Animated.loop
++  export const repeat: typeof Animated.repeat;
++  export const sequence: typeof Animated.sequence;
 +  export const interpolate: typeof Animated.interpolate
  }
 \ No newline at end of file

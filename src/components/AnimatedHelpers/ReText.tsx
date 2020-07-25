@@ -20,6 +20,7 @@ const ReText = (props: TextProps) => {
     <AnimatedTextInput
       underlineColorAndroid="transparent"
       editable={false}
+      value={text.value}
       {...{ style, animatedProps }}
     />
   );

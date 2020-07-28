@@ -62,7 +62,15 @@ const Values = ({ translateX }: ValuesProps) => {
   const date = useDerivedValue(() => formatDatetime(values.value.date));
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.table}>
+      <ReText style={styles.date} text={date} />
+    </SafeAreaView>
+  );
+};
+
+export default Values;
+
+/*
+    <View style={styles.table}>
         <View style={styles.column}>
           <Row label="Open" value="open" color={white} {...{ values }} />
           <Row label="Close" value="close" color={white} {...{ values }} />
@@ -74,13 +82,4 @@ const Values = ({ translateX }: ValuesProps) => {
           <Row label="Change" value="change" {...{ values, color }} />
         </View>
       </View>
-      <ReText style={styles.date} text={date} />
-    </SafeAreaView>
-  );
-};
-
-export default Values;
-
-/*
-
       */

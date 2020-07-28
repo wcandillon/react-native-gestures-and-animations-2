@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 20,
     fontVariant: ["tabular-nums"],
+    color: "white",
   },
 });
 
@@ -33,18 +34,16 @@ interface Value {
 
 interface RowProps {
   label: string;
-  value: keyof Value;
   color: Animated.SharedValue<string>;
-  values: Animated.SharedValue<Value>;
+  value: Animated.SharedValue<string>;
 }
 
-const Row = ({ label, value, values, color }: RowProps) => {
-  const text = useDerivedValue(() => `${values.value[value]}`);
+const Row = ({ label, value, color }: RowProps) => {
   // const style = useAnimatedStyle(() => ({ color: color.value }));
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <ReText style={styles.value} {...{ text }} />
+      <ReText style={styles.value} text={value} />
     </View>
   );
 };

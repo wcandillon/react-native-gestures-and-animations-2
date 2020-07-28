@@ -38,48 +38,51 @@ interface ValuesProps {
 }
 
 const Values = ({ translateX }: ValuesProps) => {
-  const values = useDerivedValue(() => {
-    const { open, close, low, high, date } = CANDLES[
-      Math.floor(translateX.value / STEP)
-    ];
-    const diff = `${((close - open) * 100) / open}`;
-    return {
-      date,
-      open,
-      close,
-      low,
-      high,
-      diff,
-      change: `${
-        close - open < 0 ? diff.substring(0, 5) : diff.substring(0, 4)
-      }%`,
-    };
-  });
+  const candle = useDerivedValue(
+    () => CANDLES[Math.floor(translateX.value / STEP)]
+  );
+  const open = useDerivedValue(() => `${candle.value.open}`);
+  const close = useDerivedValue(() => `${candle.value.close}`);
+  const low = useDerivedValue(() => `${candle.value.low}`);
+  const high = useDerivedValue(() => `${candle.value.low}`);
+  const diff = useDerivedValue(
+    () =>
+      `${((candle.value.close - candle.value.open) * 100) / candle.value.open}`
+  );
+  const change = useDerivedValue(
+    () =>
+      `${
+        candle.value.close - candle.value.open < 0
+          ? diff.value.substring(0, 5)
+          : diff.value.substring(0, 4)
+      }%`
+  );
+  const white = "#fff";
+  const color = white;
+  /*
   const white = useSharedValue("#ffffff");
   const color = useDerivedValue(() =>
     values.value.close - values.value.open > 0 ? "#4AFA9A" : "#E33F64"
   );
-  const date = useDerivedValue(() => formatDatetime(values.value.date));
+  */
+  const date = useDerivedValue(() => formatDatetime(candle.value.date));
   return (
     <SafeAreaView style={styles.container}>
+      <View style={styles.table}>
+        <View style={styles.column}>
+          <Row label="Open" value={open} color={white} />
+          <Row label="Close" value={close} color={white} />
+        </View>
+        <View style={styles.separator} />
+        <View style={styles.column}>
+          <Row label="High" value={high} color={white} />
+          <Row label="Low" value={low} color={white} />
+          <Row label="Change" value={change} />
+        </View>
+      </View>
       <ReText style={styles.date} text={date} />
     </SafeAreaView>
   );
 };
 
 export default Values;
-
-/*
-    <View style={styles.table}>
-        <View style={styles.column}>
-          <Row label="Open" value="open" color={white} {...{ values }} />
-          <Row label="Close" value="close" color={white} {...{ values }} />
-        </View>
-        <View style={styles.separator} />
-        <View style={styles.column}>
-          <Row label="High" value="high" color={white} {...{ values }} />
-          <Row label="Low" value="low" color={white} {...{ values }} />
-          <Row label="Change" value="change" {...{ values, color }} />
-        </View>
-      </View>
-      */

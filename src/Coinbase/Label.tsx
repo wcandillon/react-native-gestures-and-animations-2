@@ -1,5 +1,13 @@
 import React from "react";
-import { View, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useDerivedValue,
+} from "react-native-reanimated";
+
+import { ReText } from "../components/AnimatedHelpers";
+
+import { formatUSD, scaleYInvert } from "./ChartHelpers";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,12 +22,26 @@ const styles = StyleSheet.create({
 });
 
 interface LabelProps {
-  domain: [number, number];
-  size: number;
+  translateY: Animated.SharedValue<number>;
+  opacity: Animated.SharedValue<number>;
 }
 
-const Label = ({ domain: [min, max], size }: LabelProps) => {
-  return <View style={[styles.container]} />;
+const Label = ({ opacity, translateY }: LabelProps) => {
+  const vertical = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateY: translateY.value }],
+  }));
+  const value = useDerivedValue(() => {
+    return formatUSD(scaleYInvert(translateY.value));
+  });
+  return (
+    <Animated.View style={[styles.container, vertical]}>
+      <ReText
+        text={value}
+        style={{ color: "black", fontVariant: ["tabular-nums"] }}
+      />
+    </Animated.View>
+  );
 };
 
 export default Label;

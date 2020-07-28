@@ -1,65 +1,71 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useSharedValue,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
-import data from "./data.json";
-import Chart, { size } from "./Chart";
+import { clamp } from "../components/AnimatedHelpers";
+
+import Chart from "./Chart";
 import Values from "./Values";
 import Line from "./Line";
 import Label from "./Label";
-import { Candle } from "./Candle";
 import Content from "./Content";
 import Header from "./Header";
+import { SIZE, STEP } from "./ChartHelpers";
 
-const candles = data.slice(0, 20);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "black",
   },
 });
-const getDomain = (rows: Candle[]): [number, number] => {
-  const values = rows.map(({ high, low }) => [high, low]).flat();
-  return [Math.min(...values), Math.max(...values)];
-};
-const domain = getDomain(candles);
+
 const Coinbase = () => {
-  const caliber = size / candles.length;
-  const translateX = 0;
-  const translateY = 0;
-  const opacity = 0;
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+  const opacity = useSharedValue(0);
+  const onGestureEvent = useAnimatedGestureHandler({
+    onActive: ({ x, y }) => {
+      translateX.value = x - (x % STEP) + STEP / 2;
+      translateY.value = clamp(y, 0, SIZE);
+      opacity.value = 1;
+    },
+    onEnd: () => {
+      opacity.value = 0;
+    },
+  });
+  const horizontal = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateX: translateX.value }],
+  }));
+  const vertical = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+    transform: [{ translateY: translateY.value }],
+  }));
   return (
     <View style={styles.container}>
       <View>
         <Header />
         <View pointerEvents="none">
-          <Values {...{ candles, translateX, caliber }} />
+          <Values {...{ translateX }} />
         </View>
       </View>
       <View>
-        <Chart {...{ candles, domain }} />
-        <PanGestureHandler minDist={0}>
-          <View style={StyleSheet.absoluteFill}>
-            <View
-              style={{
-                transform: [{ translateY }],
-                opacity,
-                ...StyleSheet.absoluteFillObject,
-              }}
-            >
-              <Line x={size} y={0} />
-            </View>
-            <View
-              style={{
-                transform: [{ translateX }],
-                opacity,
-                ...StyleSheet.absoluteFillObject,
-              }}
-            >
-              <Line x={0} y={size} />
-            </View>
-            <Label y={translateY} {...{ size, domain, opacity }} />
-          </View>
+        <Chart />
+        <PanGestureHandler minDist={0} {...{ onGestureEvent }}>
+          <Animated.View style={StyleSheet.absoluteFill}>
+            <Animated.View style={[StyleSheet.absoluteFill, vertical]}>
+              <Line x={SIZE} y={0} />
+            </Animated.View>
+            <Animated.View style={[StyleSheet.absoluteFill, horizontal]}>
+              <Line x={0} y={SIZE} />
+            </Animated.View>
+            <Label {...{ translateY, opacity }} />
+          </Animated.View>
         </PanGestureHandler>
       </View>
       <Content />

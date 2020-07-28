@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import moment from "moment";
+import Animated, {
+  useDerivedValue,
+  useSharedValue,
+} from "react-native-reanimated";
 
-import { round } from "../components/AnimatedHelpers";
+import { ReText } from "../components/AnimatedHelpers";
 
-import { Candle } from "./Candle";
 import Row from "./Row";
+import { CANDLES, STEP, formatDatetime } from "./ChartHelpers";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,44 +33,54 @@ const styles = StyleSheet.create({
   },
 });
 
-const formatValue = (value: number) => {
-  "worklet";
-  return `$ ${round(value, 2).toLocaleString("en-US", { currency: "USD" })}`;
-};
-
-interface HeaderProps {
-  caliber: number;
-  candles: Candle[];
+interface ValuesProps {
+  translateX: Animated.SharedValue<number>;
 }
 
-const Values = ({ caliber, candles }: HeaderProps) => {
-  const [{ date, open, close, high, low }, setCandle] = useState(candles[0]);
-  const diff = `${((close - open) * 100) / open}`;
-  const change = close - open < 0 ? diff.substring(0, 5) : diff.substring(0, 4);
+const Values = ({ translateX }: ValuesProps) => {
+  const values = useDerivedValue(() => {
+    const { open, close, low, high, date } = CANDLES[
+      Math.floor(translateX.value / STEP)
+    ];
+    const diff = `${((close - open) * 100) / open}`;
+    return {
+      date,
+      open,
+      close,
+      low,
+      high,
+      diff,
+      change: `${
+        close - open < 0 ? diff.substring(0, 5) : diff.substring(0, 4)
+      }%`,
+    };
+  });
+  const white = useSharedValue("#ffffff");
+  const color = useDerivedValue(() =>
+    values.value.close - values.value.open > 0 ? "#4AFA9A" : "#E33F64"
+  );
+  const date = useDerivedValue(() => formatDatetime(values.value.date));
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.table}>
         <View style={styles.column}>
-          <Row label="Open" value={formatValue(open)} />
-          <Row label="Close" value={formatValue(close)} />
-          <Row label="Volume" value="" />
+          <Row label="Open" value="open" color={white} {...{ values }} />
+          <Row label="Close" value="close" color={white} {...{ values }} />
         </View>
         <View style={styles.separator} />
         <View style={styles.column}>
-          <Row label="High" value={formatValue(high)} />
-          <Row label="Low" value={formatValue(low)} />
-          <Row
-            label="Change"
-            value={`${change}%`}
-            color={close - open > 0 ? "#4AFA9A" : "#E33F64"}
-          />
+          <Row label="High" value="high" color={white} {...{ values }} />
+          <Row label="Low" value="low" color={white} {...{ values }} />
+          <Row label="Change" value="change" {...{ values, color }} />
         </View>
       </View>
-      <Text style={styles.date}>
-        {moment(date).format("h:mm MMM Do, YYYY")}
-      </Text>
+      <ReText style={styles.date} text={date} />
     </SafeAreaView>
   );
 };
 
 export default Values;
+
+/*
+
+      */

@@ -5,7 +5,7 @@ import { TextInput } from "react-native-gesture-handler";
 
 interface TextProps {
   text: Animated.SharedValue<string>;
-  style?: TextStyle;
+  style?: Animated.AnimateStyle<TextStyle>;
 }
 
 const AnimatedTextInput = Animated.createAnimatedComponent(TextInput);

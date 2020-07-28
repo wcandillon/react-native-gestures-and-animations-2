@@ -1,6 +1,7 @@
 import React from "react";
-import { ScaleLinear } from "d3-scale";
 import { Line, Rect } from "react-native-svg";
+
+import { scaleY, scaleBody } from "./ChartHelpers";
 
 const MARGIN = 2;
 
@@ -17,11 +18,9 @@ interface CandleProps {
   candle: Candle;
   index: number;
   width: number;
-  scaleY: ScaleLinear<number, number>;
-  scaleBody: ScaleLinear<number, number>;
 }
 
-const Candle = ({ candle, index, width, scaleY, scaleBody }: CandleProps) => {
+const Candle = ({ candle, index, width }: CandleProps) => {
   const { close, open, high, low } = candle;
   const fill = close > open ? "#4AFA9A" : "#E33F64";
   const x = index * width;

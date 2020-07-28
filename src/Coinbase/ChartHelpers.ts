@@ -34,6 +34,21 @@ const getDomain = (rows: Candle[]): [number, number] => {
 
 export const DOMAIN = getDomain(CANDLES);
 
+export const scaleY = (value: number) => {
+  "worklet";
+  return interpolate(value, DOMAIN, [SIZE, 0], Extrapolate.CLAMP);
+};
+
+export const scaleBody = (value: number) => {
+  "worklet";
+  return interpolate(
+    value,
+    [0, Math.max(...DOMAIN) - Math.min(...DOMAIN)],
+    [0, SIZE],
+    Extrapolate.CLAMP
+  );
+};
+
 export const scaleYInvert = (y: number) => {
   "worklet";
   return interpolate(y, [0, SIZE], DOMAIN, Extrapolate.CLAMP);

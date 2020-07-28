@@ -28,6 +28,10 @@ export const examples = [
     screen: "Graph",
     title: "📈 Graph Interactions",
   },
+  {
+    screen: "Coinbase",
+    title: "📈 Coinbase Pro",
+  },
 ] as const;
 
 const styles = StyleSheet.create({

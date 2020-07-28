@@ -9,6 +9,7 @@ import Transitions from "./Transitions";
 import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
+import Coinbase from "./Coinbase";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
@@ -54,6 +55,13 @@ const AppNavigator = () => (
         component={Graph}
         options={{
           title: "Graph",
+        }}
+      />
+      <Stack.Screen
+        name="Coinbase"
+        component={Coinbase}
+        options={{
+          title: "Coinbase",
         }}
       />
     </Stack.Navigator>

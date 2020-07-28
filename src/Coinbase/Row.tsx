@@ -19,18 +19,8 @@ const styles = StyleSheet.create({
   value: {
     fontSize: 20,
     fontVariant: ["tabular-nums"],
-    color: "white",
   },
 });
-
-interface Value {
-  open: number;
-  close: number;
-  low: number;
-  high: number;
-  diff: string;
-  change: string;
-}
 
 interface RowProps {
   label: string;
@@ -39,11 +29,11 @@ interface RowProps {
 }
 
 const Row = ({ label, value, color }: RowProps) => {
-  // const style = useAnimatedStyle(() => ({ color: color.value }));
+  const style = useAnimatedStyle(() => ({ color: color.value }));
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <ReText style={styles.value} text={value} />
+      <ReText style={[styles.value, style]} text={value} />
     </View>
   );
 };

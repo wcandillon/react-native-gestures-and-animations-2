@@ -57,14 +57,10 @@ const Values = ({ translateX }: ValuesProps) => {
           : diff.value.substring(0, 4)
       }%`
   );
-  const white = "#fff";
-  const color = white;
-  /*
   const white = useSharedValue("#ffffff");
   const color = useDerivedValue(() =>
-    values.value.close - values.value.open > 0 ? "#4AFA9A" : "#E33F64"
+    candle.value.close - candle.value.open > 0 ? "#4AFA9A" : "#E33F64"
   );
-  */
   const date = useDerivedValue(() => formatDatetime(candle.value.date));
   return (
     <SafeAreaView style={styles.container}>
@@ -77,7 +73,7 @@ const Values = ({ translateX }: ValuesProps) => {
         <View style={styles.column}>
           <Row label="High" value={high} color={white} />
           <Row label="Low" value={low} color={white} />
-          <Row label="Change" value={change} />
+          <Row label="Change" value={change} color={color} />
         </View>
       </View>
       <ReText style={styles.date} text={date} />

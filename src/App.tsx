@@ -13,59 +13,58 @@ import Coinbase from "./Coinbase";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
-  <>
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Examples"
-        component={Examples}
-        options={{
-          title: "Learn Reanimated 2",
-        }}
-      />
-      <Stack.Screen
-        name="Worklets"
-        component={Worklets}
-        options={{
-          title: "Worklets",
-        }}
-      />
-      <Stack.Screen
-        name="PanGesture"
-        component={PanGesture}
-        options={{
-          title: "PanGesture",
-        }}
-      />
-      <Stack.Screen
-        name="Transitions"
-        component={Transitions}
-        options={{
-          title: "Transitions",
-        }}
-      />
-      <Stack.Screen
-        name="CircularSlider"
-        component={CircularSlider}
-        options={{
-          title: "Circular Slider",
-        }}
-      />
-      <Stack.Screen
-        name="Graph"
-        component={Graph}
-        options={{
-          title: "Graph",
-        }}
-      />
-      <Stack.Screen
-        name="Coinbase"
-        component={Coinbase}
-        options={{
-          title: "Coinbase",
-        }}
-      />
-    </Stack.Navigator>
-  </>
+  <Stack.Navigator>
+    <Stack.Screen
+      name="Examples"
+      component={Examples}
+      options={{
+        title: "Learn Reanimated 2",
+      }}
+    />
+    <Stack.Screen
+      name="Worklets"
+      component={Worklets}
+      options={{
+        title: "Worklets",
+      }}
+    />
+    <Stack.Screen
+      name="PanGesture"
+      component={PanGesture}
+      options={{
+        title: "PanGesture",
+      }}
+    />
+    <Stack.Screen
+      name="Transitions"
+      component={Transitions}
+      options={{
+        title: "Transitions",
+      }}
+    />
+    <Stack.Screen
+      name="CircularSlider"
+      component={CircularSlider}
+      options={{
+        title: "Circular Slider",
+      }}
+    />
+    <Stack.Screen
+      name="Graph"
+      component={Graph}
+      options={{
+        title: "Graph",
+      }}
+    />
+    <Stack.Screen
+      name="Coinbase"
+      component={Coinbase}
+      options={{
+        title: "Coinbase",
+        header: () => null,
+      }}
+    />
+  </Stack.Navigator>
 );
 
 const App = () => (

@@ -1,12 +1,5 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Animated, {
-  call,
-  divide,
-  floor,
-  onChange,
-  useCode,
-} from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
 import moment from "moment";
 
@@ -48,24 +41,12 @@ const formatValue = (value: number) => {
 };
 
 interface HeaderProps {
-  translateX: Animated.Node<number>;
   caliber: number;
   candles: Candle[];
 }
 
-const Values = ({ translateX, caliber, candles }: HeaderProps) => {
+const Values = ({ caliber, candles }: HeaderProps) => {
   const [{ date, open, close, high, low }, setCandle] = useState(candles[0]);
-  useCode(
-    () =>
-      onChange(
-        translateX,
-        call([floor(divide(translateX, caliber))], ([index]) => {
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-          setCandle(candles[index]);
-        })
-      ),
-    [caliber, candles, translateX]
-  );
   const diff = `${((close - open) * 100) / open}`;
   const change = close - open < 0 ? diff.substring(0, 5) : diff.substring(0, 4);
   return (

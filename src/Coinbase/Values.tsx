@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import moment from "moment";
 
+import { round } from "../components/AnimatedHelpers";
+
 import { Candle } from "./Candle";
 import Row from "./Row";
 
@@ -28,16 +30,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const formatInt = (value: number) => {
-  const t = Math.floor(value / 1000);
-  return t < 1 ? t : `${t}, ${value % 1000}`;
-};
-
 const formatValue = (value: number) => {
-  const int = Math.floor(value);
-  const dec = Math.floor((value - int) * 100);
-  const formattedDec = dec === 0 ? "00" : dec < 10 ? `0${dec}` : `${dec}`;
-  return `$ ${formatInt(int)}.${formattedDec}`;
+  "worklet";
+  return `$ ${round(value, 2).toLocaleString("en-US", { currency: "USD" })}`;
 };
 
 interface HeaderProps {

@@ -1,17 +1,5 @@
 import React from "react";
-import { Platform, StyleSheet } from "react-native";
-import Animated, {
-  concat,
-  cond,
-  divide,
-  eq,
-  floor,
-  interpolate,
-  lessThan,
-  modulo,
-  multiply,
-  sub,
-} from "react-native-reanimated";
+import { View, StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,39 +13,13 @@ const styles = StyleSheet.create({
   },
 });
 
-const formatInt = (value: Animated.Node<number>) => {
-  const t = floor(divide(value, 1000));
-  return cond(lessThan(t, 1), concat(t), concat(t, ",", modulo(value, 1000)));
-};
-
-const format = (value: Animated.Node<number>) => {
-  if (Platform.OS === "android") {
-    return concat("$ ", divide(floor(multiply(value, 100)), 100));
-  }
-  const int = floor(value);
-  const dec = floor(multiply(sub(value, int), 100));
-  const formattedDec = cond(
-    eq(dec, 0),
-    "00",
-    cond(lessThan(dec, 10), concat("0", dec), concat(dec))
-  );
-  return concat("$", formatInt(int), ".", formattedDec);
-};
-
 interface LabelProps {
   domain: [number, number];
   size: number;
-  y: Animated.Node<number>;
-  opacity: Animated.Node<number>;
 }
 
-const Label = ({ domain: [min, max], size, y, opacity }: LabelProps) => {
-  const value = interpolate(y, [0, size], [min, max]);
-  return (
-    <Animated.View
-      style={[styles.container, { transform: [{ translateY: y }], opacity }]}
-    />
-  );
+const Label = ({ domain: [min, max], size }: LabelProps) => {
+  return <View style={[styles.container]} />;
 };
 
 export default Label;

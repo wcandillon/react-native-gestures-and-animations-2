@@ -8,36 +8,35 @@ import { PanGestureHandler } from "react-native-gesture-handler";
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
 import { withDecay, clamp } from "../components/AnimatedHelpers";
 
+interface ValueVector {
+  x: Animated.SharedValue<number>;
+  y: Animated.SharedValue<number>;
+}
+
 interface DraggableCardProps {
-  translateX: Animated.SharedValue<number>;
-  translateY: Animated.SharedValue<number>;
+  translate: ValueVector;
   width: number;
   height: number;
 }
 
-const DraggableCard = ({
-  translateX,
-  translateY,
-  width,
-  height,
-}: DraggableCardProps) => {
+const DraggableCard = ({ translate, width, height }: DraggableCardProps) => {
   const boundX = width - CARD_WIDTH;
   const boundY = height - CARD_HEIGHT;
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
-      ctx.offsetX = translateX.value;
-      ctx.offsetY = translateY.value;
+      ctx.offsetX = translate.x.value;
+      ctx.offsetY = translate.y.value;
     },
     onActive: (event, ctx) => {
-      translateX.value = clamp(ctx.offsetX + event.translationX, 0, boundX);
-      translateY.value = clamp(ctx.offsetY + event.translationY, 0, boundY);
+      translate.x.value = clamp(ctx.offsetX + event.translationX, 0, boundX);
+      translate.y.value = clamp(ctx.offsetY + event.translationY, 0, boundY);
     },
     onEnd: ({ velocityX, velocityY }) => {
-      translateX.value = withDecay({
+      translate.x.value = withDecay({
         velocity: velocityX,
         clamp: [0, boundX],
       });
-      translateY.value = withDecay({
+      translate.y.value = withDecay({
         velocity: velocityY,
         clamp: [0, boundY],
       });
@@ -46,8 +45,8 @@ const DraggableCard = ({
   const style = useAnimatedStyle(() => {
     return {
       transform: [
-        { translateX: translateX.value },
-        { translateY: translateY.value },
+        { translateX: translate.x.value },
+        { translateY: translate.y.value },
       ],
     };
   });

@@ -8,6 +8,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
+import { useVector } from "../components/AnimatedHelpers/Vector";
 
 import DraggableCard from "./DraggableCard";
 
@@ -30,10 +31,9 @@ interface DynamicSpringProps {
 }
 
 const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
-  const t2X = useDerivedValue(() => withSpring(translateX.value));
-  const t2Y = useDerivedValue(() => withSpring(translateY.value));
+  const translate = useVector(0);
+  const t2X = useDerivedValue(() => withSpring(translate.x.value));
+  const t2Y = useDerivedValue(() => withSpring(translate.y.value));
   const style2 = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: t2X.value }, { translateY: t2Y.value }],
@@ -55,7 +55,7 @@ const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
       <Animated.View style={[styles.card, style2]}>
         <Card card={Cards.Card2} />
       </Animated.View>
-      <DraggableCard {...{ translateX, translateY, width, height }} />
+      <DraggableCard {...{ translate, width, height }} />
     </View>
   );
 };

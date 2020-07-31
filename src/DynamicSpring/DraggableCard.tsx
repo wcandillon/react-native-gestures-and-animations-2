@@ -6,7 +6,7 @@ import Animated, {
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { withDecay, clamp } from "../components/AnimatedHelpers";
+import { withDecay, clamp, useTranslate } from "../components/AnimatedHelpers";
 
 interface ValueVector {
   x: Animated.SharedValue<number>;
@@ -42,14 +42,7 @@ const DraggableCard = ({ translate, width, height }: DraggableCardProps) => {
       });
     },
   });
-  const style = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: translate.x.value },
-        { translateY: translate.y.value },
-      ],
-    };
-  });
+  const style = useTranslate(translate);
   return (
     <PanGestureHandler {...{ onGestureEvent }}>
       <Animated.View {...{ style }}>

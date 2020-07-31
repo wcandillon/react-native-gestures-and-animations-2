@@ -5,4 +5,5 @@ export * from "./Hooks";
 export * from "./SVG";
 export * from "./Transform";
 export * from "./Colors";
+export * from "./Vectors";
 export { default as ReText } from "./ReText";

@@ -1,14 +1,13 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
   withSpring,
   useDerivedValue,
 } from "react-native-reanimated";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { useVector } from "../components/AnimatedHelpers/Vector";
+import { useVector } from "../components/AnimatedHelpers/Vectors";
 
 import DraggableCard from "./DraggableCard";
 

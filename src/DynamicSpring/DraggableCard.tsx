@@ -6,40 +6,37 @@ import Animated, {
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { withDecay, clamp, useTranslate } from "../components/AnimatedHelpers";
-
-interface ValueVector {
-  x: Animated.SharedValue<number>;
-  y: Animated.SharedValue<number>;
-}
+import {
+  withDecay,
+  clamp,
+  useTranslate,
+  vec,
+  VectorValue,
+} from "../components/AnimatedHelpers";
 
 interface DraggableCardProps {
-  translate: ValueVector;
+  translate: VectorValue;
   width: number;
   height: number;
 }
 
 const DraggableCard = ({ translate, width, height }: DraggableCardProps) => {
-  const boundX = width - CARD_WIDTH;
-  const boundY = height - CARD_HEIGHT;
+  const lowerBound = { x: 0, y: 0 };
+  const upperBound = { x: width - CARD_WIDTH, y: height - CARD_HEIGHT };
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
-      ctx.offsetX = translate.x.value;
-      ctx.offsetY = translate.y.value;
+      ctx.offset = vec.project(translate);
     },
-    onActive: (event, ctx) => {
-      translate.x.value = clamp(ctx.offsetX + event.translationX, 0, boundX);
-      translate.y.value = clamp(ctx.offsetY + event.translationY, 0, boundY);
+    onActive: ({ translationX: x, translationY: y }, ctx) => {
+      const translation = { x, y };
+      vec.set(
+        translate,
+        vec.clamp(vec.add(ctx.offset, translation), lowerBound, upperBound)
+      );
     },
-    onEnd: ({ velocityX, velocityY }) => {
-      translate.x.value = withDecay({
-        velocity: velocityX,
-        clamp: [0, boundX],
-      });
-      translate.y.value = withDecay({
-        velocity: velocityY,
-        clamp: [0, boundY],
-      });
+    onEnd: ({ velocityX: x, velocityY: y }) => {
+      const velocity = { x, y };
+      vec.set(translate, vec.withDecay(velocity, lowerBound, upperBound));
     },
   });
   const style = useTranslate(translate);

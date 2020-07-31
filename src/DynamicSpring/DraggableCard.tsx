@@ -28,15 +28,13 @@ const DraggableCard = ({ translate, width, height }: DraggableCardProps) => {
       ctx.offset = vec.project(translate);
     },
     onActive: ({ translationX: x, translationY: y }, ctx) => {
-      const translation = { x, y };
       vec.set(
         translate,
-        vec.clamp(vec.add(ctx.offset, translation), lowerBound, upperBound)
+        vec.clamp(vec.add(ctx.offset, { x, y }), lowerBound, upperBound)
       );
     },
     onEnd: ({ velocityX: x, velocityY: y }) => {
-      const velocity = { x, y };
-      vec.set(translate, vec.withDecay(velocity, lowerBound, upperBound));
+      vec.withDecay(translate, { x, y }, lowerBound, upperBound);
     },
   });
   const style = useTranslate(translate);

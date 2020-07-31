@@ -1,6 +1,7 @@
 import Animated, {
   useSharedValue,
   withDecay as withDecayScalar,
+  withSpring as withSpringScalar,
 } from "react-native-reanimated";
 
 export type VectorValue = Vector<Animated.SharedValue<number>>;
@@ -27,6 +28,30 @@ const add = (v1: Vector, v2: Vector) => {
   return {
     x: v1.x + v2.x,
     y: v1.y + v2.y,
+  };
+};
+
+const sub = (v1: Vector, v2: Vector) => {
+  "worklet";
+  return {
+    x: v1.x - v2.x,
+    y: v1.y - v2.y,
+  };
+};
+
+const mul = (v1: Vector, v2: Vector) => {
+  "worklet";
+  return {
+    x: v1.x * v2.x,
+    y: v1.y * v2.y,
+  };
+};
+
+const div = (v1: Vector, v2: Vector) => {
+  "worklet";
+  return {
+    x: v1.x / v2.x,
+    y: v1.y / v2.y,
   };
 };
 
@@ -60,21 +85,26 @@ const project = (vector: VectorValue): Vector => {
 };
 
 const withDecay = (
+  value: VectorValue,
   velocity: Vector,
   lowerBound: Vector,
   upperBound: Vector
 ) => {
   "worklet";
-  return {
-    x: withDecayScalar({
-      velocity: velocity.x,
-      clamp: [lowerBound.x, upperBound.x],
-    }),
-    y: withDecayScalar({
-      velocity: velocity.y,
-      clamp: [lowerBound.y, upperBound.y],
-    }),
-  };
+  value.x.value = withDecayScalar({
+    velocity: velocity.x,
+    clamp: [lowerBound.x, upperBound.x],
+  });
+  value.y.value = withDecayScalar({
+    velocity: velocity.y,
+    clamp: [lowerBound.y, upperBound.y],
+  });
+};
+
+const withSpring = (value: VectorValue, target: Vector) => {
+  "worklet";
+  value.x.value = withSpringScalar(target.x);
+  value.y.value = withSpringScalar(target.y);
 };
 
 export const vec = {
@@ -84,5 +114,9 @@ export const vec = {
   max,
   clamp,
   add,
+  sub,
+  mul,
+  div,
   withDecay,
+  withSpring,
 };

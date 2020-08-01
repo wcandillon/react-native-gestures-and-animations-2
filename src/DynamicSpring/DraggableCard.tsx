@@ -25,7 +25,7 @@ const DraggableCard = ({ translate, width, height }: DraggableCardProps) => {
   const upperBound = { x: width - CARD_WIDTH, y: height - CARD_HEIGHT };
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: (_, ctx) => {
-      ctx.offset = vec.project(translate);
+      ctx.offset = vec.value(translate);
     },
     onActive: ({ translationX: x, translationY: y }, ctx) => {
       vec.set(

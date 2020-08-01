@@ -76,7 +76,7 @@ const clamp = (v1: Vector, lowerBound: Vector, upperBound: Vector) => {
   return max(min(v1, upperBound), lowerBound);
 };
 
-const project = (vector: VectorValue): Vector => {
+const value = (vector: VectorValue): Vector => {
   "worklet";
   return {
     x: vector.x.value,
@@ -85,30 +85,30 @@ const project = (vector: VectorValue): Vector => {
 };
 
 const withDecay = (
-  value: VectorValue,
+  v: VectorValue,
   velocity: Vector,
   lowerBound: Vector,
   upperBound: Vector
 ) => {
   "worklet";
-  value.x.value = withDecayScalar({
+  v.x.value = withDecayScalar({
     velocity: velocity.x,
     clamp: [lowerBound.x, upperBound.x],
   });
-  value.y.value = withDecayScalar({
+  v.y.value = withDecayScalar({
     velocity: velocity.y,
     clamp: [lowerBound.y, upperBound.y],
   });
 };
 
-const withSpring = (value: VectorValue, target: Vector) => {
+const withSpring = (v: VectorValue, target: Vector) => {
   "worklet";
-  value.x.value = withSpringScalar(target.x);
-  value.y.value = withSpringScalar(target.y);
+  v.x.value = withSpringScalar(target.x);
+  v.y.value = withSpringScalar(target.y);
 };
 
 export const vec = {
-  project,
+  value,
   set,
   min,
   max,

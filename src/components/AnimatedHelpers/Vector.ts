@@ -5,6 +5,8 @@ export interface Vector<T = number> {
   y: T;
 }
 
+export type SharedVector = Vector<Animated.SharedValue<number>>;
+
 export const useVector = (
   x1 = 0,
   y1?: number

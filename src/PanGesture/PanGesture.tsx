@@ -4,11 +4,12 @@ import Animated, {
   useAnimatedGestureHandler,
   useSharedValue,
   useAnimatedStyle,
+  withDecay,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { withDecay, clamp } from "../components/AnimatedHelpers";
+import { clamp } from "../components/AnimatedHelpers";
 
 const styles = StyleSheet.create({
   container: {

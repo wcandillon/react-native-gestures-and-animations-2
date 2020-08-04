@@ -1,6 +1,9 @@
 import React from "react";
 import { View } from "react-native";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import Animated, {
+  useAnimatedStyle,
+  useDerivedValue,
+} from "react-native-reanimated";
 
 import { SharedVector } from "../components/AnimatedHelpers";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Feather as Icon } from "@expo/vector-icons";
+import Svg, { Path } from "react-native-svg";
 
 const size = 30;
 const styles = StyleSheet.create({
@@ -29,7 +29,18 @@ const Chevron = ({ open }: ChevronProps) => {
         },
       ]}
     >
-      <Icon name="chevron-down" color="white" size={24} />
+      <Svg
+        width={24}
+        height={24}
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="white"
+        strokeWidth={2}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <Path d="M6 9l6 6 6-6" />
+      </Svg>
     </View>
   );
 };

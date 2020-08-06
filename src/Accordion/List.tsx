@@ -5,10 +5,10 @@ import Animated, {
   measure,
   useSharedValue,
   useAnimatedStyle,
-  runOnUI,
   useDerivedValue,
   withSpring,
   withTiming,
+  runOnUI,
 } from "react-native-reanimated";
 
 import Chevron from "./Chevron";
@@ -44,15 +44,12 @@ interface ListProps {
 }
 
 const List = ({ list }: ListProps) => {
-  const height = useSharedValue(270);
   const aref = useAnimatedRef();
-  const open = useSharedValue(false);
+  const open = useSharedValue(true);
+  const height = useDerivedValue(() => {
+    return 270;
+  });
   const style = useAnimatedStyle(() => {
-    if (height.value === 0) {
-      return {
-        opacity: 0,
-      };
-    }
     return {
       height: withTiming(open.value ? height.value : 0),
     };

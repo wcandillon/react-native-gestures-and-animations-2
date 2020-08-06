@@ -1,10 +1,7 @@
 /* eslint-disable no-bitwise */
 import { Platform } from "react-native";
-import {
-  interpolate,
-  Extrapolate,
-  processColor,
-} from "react-native-reanimated";
+import { interpolate, Extrapolate } from "react-native-reanimated";
+import processColor from "react-native-reanimated/src/reanimated2/Colors";
 
 import { clamp, fract, mix } from "./Math";
 

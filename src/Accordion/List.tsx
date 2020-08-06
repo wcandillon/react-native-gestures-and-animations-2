@@ -1,5 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
+import Animated, {
+  useAnimatedRef,
+  measure,
+  useSharedValue,
+  useAnimatedStyle,
+  runOnUI,
+  useDerivedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 
 import Chevron from "./Chevron";
 import Item, { LIST_ITEM_HEIGHT, ListItem } from "./ListItem";
@@ -34,26 +44,42 @@ interface ListProps {
 }
 
 const List = ({ list }: ListProps) => {
-  const [open, setOpen] = useState(false);
-  const height = open ? LIST_ITEM_HEIGHT * list.items.length : 0;
-
+  const height = useSharedValue(270);
+  const aref = useAnimatedRef();
+  const open = useSharedValue(false);
+  const style = useAnimatedStyle(() => {
+    if (height.value === 0) {
+      return {
+        opacity: 0,
+      };
+    }
+    return {
+      height: withTiming(open.value ? height.value : 0),
+    };
+  });
   return (
     <>
-      <TouchableWithoutFeedback onPress={() => setOpen((prev) => !prev)}>
+      <TouchableWithoutFeedback
+        onPress={() => {
+          open.value = !open.value;
+        }}
+      >
         <View style={[styles.container]}>
           <Text style={styles.title}>Total Points</Text>
           <Chevron {...{ open }} />
         </View>
       </TouchableWithoutFeedback>
-      <View style={[styles.items, { height }]}>
-        {list.items.map((item, key) => (
-          <Item
-            key={key}
-            isLast={key === list.items.length - 1}
-            {...{ item }}
-          />
-        ))}
-      </View>
+      <Animated.View style={[styles.items, style]}>
+        <View ref={aref}>
+          {list.items.map((item, key) => (
+            <Item
+              key={key}
+              isLast={key === list.items.length - 1}
+              {...{ item }}
+            />
+          ))}
+        </View>
+      </Animated.View>
     </>
   );
 };

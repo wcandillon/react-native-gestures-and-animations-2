@@ -1,6 +1,13 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, processColor } from "react-native";
 import Svg, { Path } from "react-native-svg";
+import Animated, {
+  useAnimatedStyle,
+  withSpring,
+  useDerivedValue,
+} from "react-native-reanimated";
+
+import { bin, mix, mixColor } from "../components/AnimatedHelpers";
 
 const size = 30;
 const styles = StyleSheet.create({
@@ -14,21 +21,17 @@ const styles = StyleSheet.create({
 });
 
 interface ChevronProps {
-  open: boolean;
+  open: Animated.SharedValue<boolean>;
 }
 
 const Chevron = ({ open }: ChevronProps) => {
-  const rotateZ = open ? "0rad" : `${Math.PI}rad`;
+  const progress = useDerivedValue(() => withSpring(bin(open.value)));
+  const style = useAnimatedStyle(() => ({
+    backgroundColor: "#525251",
+    transform: [{ rotateZ: mix(progress.value, 0, Math.PI) }],
+  }));
   return (
-    <View
-      style={[
-        styles.container,
-        {
-          transform: [{ rotateZ }],
-          backgroundColor: open ? "#e45645" : "#525251",
-        },
-      ]}
-    >
+    <Animated.View style={[styles.container, style]}>
       <Svg
         width={24}
         height={24}
@@ -41,7 +44,7 @@ const Chevron = ({ open }: ChevronProps) => {
       >
         <Path d="M6 9l6 6 6-6" />
       </Svg>
-    </View>
+    </Animated.View>
   );
 };
 

@@ -1,4 +1,7 @@
-export const bin = (value: boolean): 0 | 1 => (value ? 1 : 0);
+export const bin = (value: boolean): 0 | 1 => {
+  "worklet";
+  return value ? 1 : 0;
+};
 
 export const mix = (value: number, x: number, y: number) => {
   "worklet";

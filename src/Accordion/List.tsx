@@ -49,22 +49,22 @@ const List = ({ list }: ListProps) => {
   const progress = useDerivedValue(() =>
     open.value ? withSpring(1) : withTiming(0)
   );
+  const height = useSharedValue(0);
   const style = useAnimatedStyle(() => {
-    let height = 0;
-    try {
-      const m = measure(aref);
-      if (m.height) {
-        height = m.height;
-      }
-    } catch (e) {}
     return {
-      height: height ? height * progress.value : progress.value,
+      height: height.value * progress.value + 1,
     };
   });
   return (
     <>
       <TouchableWithoutFeedback
         onPress={() => {
+          runOnUI(() => {
+            "worklet";
+            if (height.value === 0) {
+              height.value = measure(aref).height;
+            }
+          })();
           open.value = !open.value;
         }}
       >

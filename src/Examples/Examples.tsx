@@ -31,12 +31,11 @@ export const examples = [
   {
     screen: "DragToSort",
     title: "📤 Drag To Sort",
-
   },
-      {
-        
+  {
     screen: "Accordion",
-    title: "🗺 Accordion",}
+    title: "🗺 Accordion",
+  },
 ] as const;
 
 const styles = StyleSheet.create({

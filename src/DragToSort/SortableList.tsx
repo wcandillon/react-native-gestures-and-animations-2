@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
 import SortableItem from "./SortableItem";

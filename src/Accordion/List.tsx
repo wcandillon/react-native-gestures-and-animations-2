@@ -12,7 +12,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 import Chevron from "./Chevron";
-import Item, { LIST_ITEM_HEIGHT, ListItem } from "./ListItem";
+import Item, { ListItem } from "./ListItem";
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +44,7 @@ interface ListProps {
 }
 
 const List = ({ list }: ListProps) => {
-  const aref = useAnimatedRef();
+  const aref = useAnimatedRef<View>();
   const open = useSharedValue(false);
   const progress = useDerivedValue(() =>
     open.value ? withSpring(1) : withTiming(0)

@@ -45,22 +45,22 @@ interface ListProps {
 
 const List = ({ list }: ListProps) => {
   const aref = useAnimatedRef();
-  const open = useSharedValue(true);
-  const height = useDerivedValue(() => {
-    let m;
-    try {
-      m = measure(aref).height;
-    } catch (e) {}
-    console.log(m);
-    return m;
-  });
+  const open = useSharedValue(false);
+  const progress = useDerivedValue(() =>
+    open.value ? withSpring(1) : withTiming(0)
+  );
   const style = useAnimatedStyle(() => {
-    if (height.value) {
-      return {
-        height: withTiming(open.value ? height.value : 0),
-      };
-    }
-    return {};
+    let height = 0;
+    try {
+      const m = measure(aref);
+      if (m.height) {
+        height = m.height;
+      }
+    } catch (e) {}
+    console.log({ height });
+    return {
+      height: height > 0 ? height * progress.value : `${progress.value * 100}%`,
+    };
   });
   return (
     <>
@@ -71,7 +71,7 @@ const List = ({ list }: ListProps) => {
       >
         <View style={[styles.container]}>
           <Text style={styles.title}>Total Points</Text>
-          <Chevron {...{ open }} />
+          <Chevron {...{ progress }} />
         </View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, style]}>

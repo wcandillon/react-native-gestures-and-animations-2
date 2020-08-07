@@ -1,13 +1,9 @@
 import React from "react";
-import { StyleSheet, processColor } from "react-native";
+import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import Animated, {
-  useAnimatedStyle,
-  withSpring,
-  useDerivedValue,
-} from "react-native-reanimated";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
 
-import { bin, mix, mixColor } from "../components/AnimatedHelpers";
+import { mix } from "../components/AnimatedHelpers";
 
 const size = 30;
 const styles = StyleSheet.create({
@@ -17,17 +13,16 @@ const styles = StyleSheet.create({
     borderRadius: size / 2,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "#525251",
   },
 });
 
 interface ChevronProps {
-  open: Animated.SharedValue<boolean>;
+  progress: Animated.SharedValue<number>;
 }
 
-const Chevron = ({ open }: ChevronProps) => {
-  const progress = useDerivedValue(() => withSpring(bin(open.value)));
+const Chevron = ({ progress }: ChevronProps) => {
   const style = useAnimatedStyle(() => ({
-    backgroundColor: "#525251",
     transform: [{ rotateZ: mix(progress.value, 0, Math.PI) }],
   }));
   return (

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import Animated, {
   useAnimatedRef,
@@ -59,12 +59,12 @@ const List = ({ list }: ListProps) => {
     <>
       <TouchableWithoutFeedback
         onPress={() => {
-          runOnUI(() => {
-            "worklet";
-            if (height.value === 0) {
+          if (height.value === 0) {
+            runOnUI(() => {
+              "worklet";
               height.value = measure(aref).height;
-            }
-          })();
+            })();
+          }
           open.value = !open.value;
         }}
       >

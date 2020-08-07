@@ -16,7 +16,7 @@ const SortableList = ({
     y: index * height,
   }));
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ height: height * children.length }}>
       {children.map((child, index) => (
         <SortableItem
           key={index}
@@ -25,7 +25,6 @@ const SortableList = ({
           {child}
         </SortableItem>
       ))}
-      <View style={{ height: height * children.length }} />
     </ScrollView>
   );
 };

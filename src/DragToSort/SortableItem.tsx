@@ -5,7 +5,7 @@ import Animated, {
   useAnimatedGestureHandler,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +25,7 @@ interface SortableItemProps {
   children: ReactElement;
   index: number;
   offsets: Offset[];
-  item: { height: number };
+  item: { height: number; width: number };
 }
 
 const SortableItem = ({
@@ -38,14 +38,15 @@ const SortableItem = ({
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(offset.y);
   const onGestureEvent = useAnimatedGestureHandler({
+    onStart: () => {
+      console.log("Start");
+    },
     onActive: (event) => {
       translateX.value = event.translationX;
       translateY.value = event.translationY;
     },
   });
   const style = useAnimatedStyle(() => ({
-    height,
-    width,
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },
@@ -53,7 +54,19 @@ const SortableItem = ({
   }));
   return (
     <PanGestureHandler {...{ onGestureEvent }}>
-      <Animated.View style={[styles.container, style]}>
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height,
+            width,
+          },
+          style,
+        ]}
+      >
         {children}
       </Animated.View>
     </PanGestureHandler>

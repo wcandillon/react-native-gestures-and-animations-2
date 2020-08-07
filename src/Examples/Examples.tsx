@@ -28,6 +28,10 @@ export const examples = [
     screen: "Graph",
     title: "📈 Graph Interactions",
   },
+  {
+    screen: "DragToSort",
+    title: "📤 Drag To Sort",
+  },
 ] as const;
 
 const styles = StyleSheet.create({

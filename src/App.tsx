@@ -9,6 +9,7 @@ import Transitions from "./Transitions";
 import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
+import DragToSort from "./DragToSort";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
@@ -54,6 +55,13 @@ const AppNavigator = () => (
         component={Graph}
         options={{
           title: "Graph",
+        }}
+      />
+      <Stack.Screen
+        name="DragToSort"
+        component={DragToSort}
+        options={{
+          title: "Drag to Sort",
         }}
       />
     </Stack.Navigator>

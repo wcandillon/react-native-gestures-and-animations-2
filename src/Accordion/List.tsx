@@ -47,12 +47,20 @@ const List = ({ list }: ListProps) => {
   const aref = useAnimatedRef();
   const open = useSharedValue(true);
   const height = useDerivedValue(() => {
-    return 270;
+    let m;
+    try {
+      m = measure(aref).height;
+    } catch (e) {}
+    console.log(m);
+    return m;
   });
   const style = useAnimatedStyle(() => {
-    return {
-      height: withTiming(open.value ? height.value : 0),
-    };
+    if (height.value) {
+      return {
+        height: withTiming(open.value ? height.value : 0),
+      };
+    }
+    return {};
   });
   return (
     <>

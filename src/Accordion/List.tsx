@@ -57,9 +57,8 @@ const List = ({ list }: ListProps) => {
         height = m.height;
       }
     } catch (e) {}
-    console.log({ height });
     return {
-      height: height > 0 ? height * progress.value : `${progress.value * 100}%`,
+      height: height ? height * progress.value : progress.value,
     };
   });
   return (

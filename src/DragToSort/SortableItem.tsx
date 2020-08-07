@@ -4,21 +4,12 @@ import Animated, {
   useAnimatedStyle,
   useAnimatedGestureHandler,
   withSpring,
+  useDerivedValue,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import { StyleSheet, View } from "react-native";
-
-const config = {
-  stiffness: 100,
-  mass: 1,
-  damping: 10,
-  overshootClamping: false,
-  restSpeedThreshold: 0.001,
-  restDisplacementThreshold: 0.001,
-};
 
 export interface Offset {
-  y: number;
+  y: Animated.SharedValue<number>;
 }
 
 interface SortableItemProps {
@@ -34,19 +25,31 @@ const SortableItem = ({
   children,
   item: { height, width },
 }: SortableItemProps) => {
+  const gestureActive = useSharedValue(false);
   const offset = offsets[index];
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(offset.y);
+  const safeOffsetY = useSharedValue(0);
+  const x = useSharedValue(0);
+  const y = useSharedValue(offset.y.value);
   const onGestureEvent = useAnimatedGestureHandler({
     onStart: () => {
-      console.log("Start");
+      gestureActive.value = true;
+      safeOffsetY.value = offset.y.value;
     },
     onActive: (event) => {
-      translateX.value = event.translationX;
-      translateY.value = offset.y + event.translationY;
+      x.value = event.translationX;
+      y.value = safeOffsetY.value + event.translationY;
+      const offsetY = Math.round(y.value / height) * height;
+      offsets.forEach((o, i) => {
+        if (o.y.value === offsetY && i !== index) {
+          const tmp = o.y.value;
+          o.y.value = offset.y.value;
+          offset.y.value = tmp;
+        }
+      });
     },
     onEnd: (event) => {
-      translateX.value = withSpring(0, {
+      gestureActive.value = false;
+      x.value = withSpring(0, {
         stiffness: 100,
         mass: 1,
         damping: 10,
@@ -55,7 +58,7 @@ const SortableItem = ({
         restDisplacementThreshold: 0.001,
         velocity: event.velocityX,
       });
-      translateY.value = withSpring(offset.y, {
+      y.value = withSpring(offset.y.value, {
         stiffness: 100,
         mass: 1,
         damping: 10,
@@ -66,7 +69,16 @@ const SortableItem = ({
       });
     },
   });
+  const translateX = useDerivedValue(() => x.value);
+  const translateY = useDerivedValue(() => {
+    if (gestureActive.value) {
+      return y.value;
+    } else {
+      return withSpring(offset.y.value);
+    }
+  });
   const style = useAnimatedStyle(() => ({
+    zIndex: gestureActive.value ? 100 : 0,
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },

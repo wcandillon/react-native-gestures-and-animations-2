@@ -1,5 +1,6 @@
 import React, { ReactElement } from "react";
 import { ScrollView, View } from "react-native";
+import { useSharedValue } from "react-native-reanimated";
 
 import SortableItem from "./SortableItem";
 
@@ -13,7 +14,8 @@ const SortableList = ({
   item: { height, width },
 }: SortableListProps) => {
   const offsets = children.map((_, index) => ({
-    y: index * height,
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    y: useSharedValue(index * height),
   }));
   return (
     <ScrollView contentContainerStyle={{ height: height * children.length }}>

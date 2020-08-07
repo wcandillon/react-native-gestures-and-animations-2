@@ -3,19 +3,19 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   useAnimatedGestureHandler,
+  withSpring,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 import { StyleSheet, View } from "react-native";
 
-const styles = StyleSheet.create({
-  container: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-});
+const config = {
+  stiffness: 100,
+  mass: 1,
+  damping: 10,
+  overshootClamping: false,
+  restSpeedThreshold: 0.001,
+  restDisplacementThreshold: 0.001,
+};
 
 export interface Offset {
   y: number;
@@ -43,7 +43,27 @@ const SortableItem = ({
     },
     onActive: (event) => {
       translateX.value = event.translationX;
-      translateY.value = event.translationY;
+      translateY.value = offset.y + event.translationY;
+    },
+    onEnd: (event) => {
+      translateX.value = withSpring(0, {
+        stiffness: 100,
+        mass: 1,
+        damping: 10,
+        overshootClamping: false,
+        restSpeedThreshold: 0.001,
+        restDisplacementThreshold: 0.001,
+        velocity: event.velocityX,
+      });
+      translateY.value = withSpring(offset.y, {
+        stiffness: 100,
+        mass: 1,
+        damping: 10,
+        overshootClamping: false,
+        restSpeedThreshold: 0.001,
+        restDisplacementThreshold: 0.001,
+        velocity: event.velocityY,
+      });
     },
   });
   const style = useAnimatedStyle(() => ({

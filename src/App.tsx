@@ -10,6 +10,7 @@ import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
 import DragToSort from "./DragToSort";
+import Accordion from "./Accordion";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
@@ -62,6 +63,13 @@ const AppNavigator = () => (
         component={DragToSort}
         options={{
           title: "Drag to Sort",
+        }}
+      />
+      <Stack.Screen
+        name="Accordion"
+        component={Accordion}
+        options={{
+          title: "Accordion",
         }}
       />
     </Stack.Navigator>

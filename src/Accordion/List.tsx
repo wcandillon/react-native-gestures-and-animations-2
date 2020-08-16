@@ -11,6 +11,8 @@ import Animated, {
   runOnUI,
 } from "react-native-reanimated";
 
+import { mix } from "../components/AnimatedHelpers";
+
 import Chevron from "./Chevron";
 import Item, { ListItem } from "./ListItem";
 
@@ -50,11 +52,14 @@ const List = ({ list }: ListProps) => {
     open.value ? withSpring(1) : withTiming(0)
   );
   const height = useSharedValue(0);
-  const style = useAnimatedStyle(() => {
-    return {
-      height: height.value * progress.value + 1,
-    };
-  });
+  const headerStyle = useAnimatedStyle(() => ({
+    borderBottomLeftRadius: progress.value === 0 ? 8 : 0,
+    borderBottomRightRadius: progress.value === 0 ? 8 : 0,
+  }));
+  const style = useAnimatedStyle(() => ({
+    height: height.value * progress.value + 1,
+    opacity: progress.value === 0 ? 0 : 1,
+  }));
   return (
     <>
       <TouchableWithoutFeedback
@@ -68,10 +73,10 @@ const List = ({ list }: ListProps) => {
           open.value = !open.value;
         }}
       >
-        <View style={[styles.container]}>
+        <Animated.View style={[styles.container, headerStyle]}>
           <Text style={styles.title}>Total Points</Text>
           <Chevron {...{ progress }} />
-        </View>
+        </Animated.View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, style]}>
         <View ref={aref}>

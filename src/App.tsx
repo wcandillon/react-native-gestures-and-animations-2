@@ -9,6 +9,8 @@ import Transitions from "./Transitions";
 import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
+import Animations from "./Animations";
+import Accordion from "./Accordion";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
@@ -26,6 +28,13 @@ const AppNavigator = () => (
         component={Worklets}
         options={{
           title: "Worklets",
+        }}
+      />
+      <Stack.Screen
+        name="Animations"
+        component={Animations}
+        options={{
+          title: "Animations",
         }}
       />
       <Stack.Screen
@@ -54,6 +63,13 @@ const AppNavigator = () => (
         component={Graph}
         options={{
           title: "Graph",
+        }}
+      />
+      <Stack.Screen
+        name="Accordion"
+        component={Accordion}
+        options={{
+          title: "Accordion",
         }}
       />
     </Stack.Navigator>

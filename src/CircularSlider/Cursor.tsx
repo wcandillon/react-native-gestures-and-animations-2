@@ -23,7 +23,9 @@ interface CursorProps {
 
 const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
   const center = { x: r, y: r };
-  const onGestureEvent = useAnimatedGestureHandler({
+  const onGestureEvent = useAnimatedGestureHandler<{
+    offset: { x: number; y: number };
+  }>({
     onStart: (_event, ctx) => {
       ctx.offset = polar2Canvas(
         {

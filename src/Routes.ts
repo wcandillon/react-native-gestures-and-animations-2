@@ -6,4 +6,5 @@ export type Routes = {
   Animations: undefined;
   CircularSlider: undefined;
   Graph: undefined;
+  Accordion: undefined;
 };

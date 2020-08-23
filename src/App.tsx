@@ -10,6 +10,7 @@ import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
 import Animations from "./Animations";
+import Accordion from "./Accordion";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
@@ -62,6 +63,13 @@ const AppNavigator = () => (
         component={Graph}
         options={{
           title: "Graph",
+        }}
+      />
+      <Stack.Screen
+        name="Accordion"
+        component={Accordion}
+        options={{
+          title: "Accordion",
         }}
       />
     </Stack.Navigator>

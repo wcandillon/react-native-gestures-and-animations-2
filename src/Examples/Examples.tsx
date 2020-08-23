@@ -32,6 +32,10 @@ export const examples = [
     screen: "Graph",
     title: "📈 Graph Interactions",
   },
+  {
+    screen: "Accordion",
+    title: "🗺 Accordion",
+  },
 ] as const;
 
 const styles = StyleSheet.create({

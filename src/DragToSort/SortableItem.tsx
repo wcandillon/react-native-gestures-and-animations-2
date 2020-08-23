@@ -26,6 +26,7 @@ const SortableItem = ({
   item: { height, width },
 }: SortableItemProps) => {
   const gestureActive = useSharedValue(false);
+  const gestureFinishing = useSharedValue(false);
   const offset = offsets[index];
   const safeOffsetY = useSharedValue(0);
   const x = useSharedValue(0);
@@ -49,6 +50,7 @@ const SortableItem = ({
     },
     onEnd: (event) => {
       gestureActive.value = false;
+      gestureFinishing.value = true;
       x.value = withSpring(0, {
         stiffness: 100,
         mass: 1,
@@ -58,15 +60,19 @@ const SortableItem = ({
         restDisplacementThreshold: 0.001,
         velocity: event.velocityX,
       });
-      y.value = withSpring(offset.y.value, {
-        stiffness: 100,
-        mass: 1,
-        damping: 10,
-        overshootClamping: false,
-        restSpeedThreshold: 0.001,
-        restDisplacementThreshold: 0.001,
-        velocity: event.velocityY,
-      });
+      y.value = withSpring(
+        offset.y.value,
+        {
+          stiffness: 100,
+          mass: 1,
+          damping: 10,
+          overshootClamping: false,
+          restSpeedThreshold: 0.001,
+          restDisplacementThreshold: 0.001,
+          velocity: event.velocityY,
+        },
+        () => (gestureFinishing.value = false)
+      );
     },
   });
   const translateX = useDerivedValue(() => x.value);
@@ -78,7 +84,7 @@ const SortableItem = ({
     }
   });
   const style = useAnimatedStyle(() => ({
-    zIndex: gestureActive.value ? 100 : 0,
+    zIndex: gestureActive.value || gestureFinishing.value ? 100 : 0,
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },

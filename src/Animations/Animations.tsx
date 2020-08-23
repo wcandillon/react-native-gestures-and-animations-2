@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
 const Timing = () => {
   const [play, setPlay] = useState(false);
   const progress = useSharedValue(0);
-  const offset = useSharedValue(0);
   return (
     <View style={styles.container}>
       <ChatBubble progress={progress} />
@@ -37,7 +36,7 @@ const Timing = () => {
         onPress={() => {
           setPlay((prev) => !prev);
           if (play) {
-            progress.value = progress.value;
+            cancelAnimation(progress);
           } else {
             progress.value = withTiming(
               1,

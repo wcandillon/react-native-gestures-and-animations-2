@@ -1,12 +1,12 @@
 import React from "react";
 import Animated, {
   useAnimatedGestureHandler,
-  useAnimatedStyle,
+  withDecay,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { withDecay, clamp, useTranslate } from "../components/AnimatedHelpers";
+import { clamp, useTranslate } from "../components/AnimatedHelpers";
 
 interface ValueVector {
   x: Animated.SharedValue<number>;
@@ -22,7 +22,10 @@ interface DraggableCardProps {
 const DraggableCard = ({ translate, width, height }: DraggableCardProps) => {
   const boundX = width - CARD_WIDTH;
   const boundY = height - CARD_HEIGHT;
-  const onGestureEvent = useAnimatedGestureHandler({
+  const onGestureEvent = useAnimatedGestureHandler<{
+    offsetX: number;
+    offsetY: number;
+  }>({
     onStart: (_, ctx) => {
       ctx.offsetX = translate.x.value;
       ctx.offsetY = translate.y.value;

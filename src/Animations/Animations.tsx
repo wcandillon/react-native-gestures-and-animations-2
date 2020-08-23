@@ -1,14 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   withTiming,
-  Easing,
   cancelAnimation,
-  runOnUI,
-  useDerivedValue,
   sequence,
   useSharedValue,
-  interpolate,
+  Easing,
 } from "react-native-reanimated";
 
 import { Button, StyleGuide } from "../components";

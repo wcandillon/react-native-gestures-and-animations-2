@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+declare let _WORKLET: boolean;
+
 const IN_STYLE_UPDATER = false;
 
-function defineAnimation(starting, factory) {
+function defineAnimation(starting: any, factory: any) {
   "worklet";
   if (IN_STYLE_UPDATER) {
     return starting;
@@ -12,10 +15,11 @@ function defineAnimation(starting, factory) {
 }
 
 export function repeat(
-  _nextAnimation,
+  _nextAnimation: any,
   numberOfReps = 2,
   reverse = false,
-  callback
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  callback = () => {}
 ) {
   "worklet";
   return defineAnimation(_nextAnimation, () => {
@@ -24,7 +28,7 @@ export function repeat(
     const nextAnimation =
       typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
 
-    function repeat(animation, now) {
+    function anim(animation: any, now: any) {
       const finished = nextAnimation.animation(nextAnimation, now);
       animation.current = nextAnimation.current;
       if (finished) {
@@ -47,14 +51,19 @@ export function repeat(
       return false;
     }
 
-    function start(animation, value, now, previousAnimation) {
+    function start(
+      animation: any,
+      value: any,
+      now: any,
+      previousAnimation: any
+    ) {
       animation.startValue = value;
       animation.reps = 0;
       nextAnimation.start(nextAnimation, value, now, previousAnimation);
     }
 
     return {
-      animation: repeat,
+      animation: anim,
       start,
       reps: 0,
       current: nextAnimation.current,

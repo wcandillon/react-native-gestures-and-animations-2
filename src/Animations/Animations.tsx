@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import {
-  useSharedValue,
   withTiming,
   Easing,
   repeat,
-  useDerivedValue,
   cancelAnimation,
   runOnUI,
+  useDerivedValue,
+  sequence,
+  useSharedValue,
+  interpolate,
 } from "react-native-reanimated";
 
 import { Button, StyleGuide } from "../components";
-import { bin } from "../components/AnimatedHelpers";
 
 import ChatBubble from "./ChatBubble";
 
@@ -25,31 +26,38 @@ const styles = StyleSheet.create({
 
 const Timing = () => {
   const [play, setPlay] = useState(false);
-  const dest = useSharedValue(0);
-  const progress = useDerivedValue(() => {
-    return repeat(
-      withTiming(dest.value, {
-        duration: 1000,
-        easing: Easing.linear,
-      }),
-      -1
-    );
-  });
-  useEffect(() => {
-    if (play) {
-      dest.value = 1;
-    } else {
-      dest.value = 0;
-      cancelAnimation(progress);
-    }
-  }, [dest, play, progress]);
+  const progress = useSharedValue(0);
+  const offset = useSharedValue(0);
   return (
     <View style={styles.container}>
-      <ChatBubble {...{ progress }} />
+      <ChatBubble progress={progress} />
       <Button
         label={play ? "Pause" : "Play"}
         primary
-        onPress={() => setPlay((prev) => !prev)}
+        onPress={() => {
+          setPlay((prev) => !prev);
+          if (play) {
+            progress.value = progress.value;
+          } else {
+            progress.value = withTiming(
+              1,
+              {
+                duration: 1000 - progress.value * 1000,
+                easing: Easing.inOut(Easing.ease),
+              },
+              () => {
+                progress.value = repeat(
+                  withTiming(0, {
+                    duration: 1000,
+                    easing: Easing.inOut(Easing.ease),
+                  }),
+                  -1,
+                  true
+                );
+              }
+            );
+          }
+        }}
       />
     </View>
   );

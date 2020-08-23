@@ -6,9 +6,10 @@ import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
+  withDecay,
 } from "react-native-reanimated";
 
-import { Path, withDecay } from "../components/AnimatedHelpers";
+import { Path } from "../components/AnimatedHelpers";
 
 import { DataPoint } from "./Label";
 
@@ -39,7 +40,10 @@ interface CursorProps {
 }
 
 const Cursor = ({ path, length, point }: CursorProps) => {
-  const onGestureEvent = useAnimatedGestureHandler({
+  const onGestureEvent = useAnimatedGestureHandler<{
+    offsetX: number;
+    offsetY: number;
+  }>({
     onStart: (_event, ctx) => {
       ctx.offsetX = interpolate(
         length.value,

@@ -21,12 +21,20 @@ export const examples = [
     title: "💳 PanGesture",
   },
   {
+    screen: "Animations",
+    title: "🐎 Animations",
+  },
+  {
     screen: "CircularSlider",
     title: "⭕️ Circular Slider",
   },
   {
     screen: "Graph",
     title: "📈 Graph Interactions",
+  },
+  {
+    screen: "DynamicSpring",
+    title: "👨‍🔬 Dynamic Spring",
   },
   {
     screen: "DragToSort",

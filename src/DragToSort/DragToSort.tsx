@@ -15,14 +15,7 @@ const styles = StyleSheet.create({
     marginTop: 32,
   },
 });
-const cards = [
-  Cards.Card1,
-  Cards.Card2,
-  Cards.Card3,
-  Cards.Card4,
-  Cards.Card5,
-  Cards.Card6,
-];
+const cards = [Cards.Card1, Cards.Card2, Cards.Card3];
 
 const DragToSort = () => {
   return (

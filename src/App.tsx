@@ -10,6 +10,8 @@ import CircularSlider from "./CircularSlider";
 import Graph from "./Graph";
 import Worklets from "./Worklets";
 import DragToSort from "./DragToSort";
+import DynamicSpring from "./DynamicSpring";
+import Animations from "./Animations";
 import Accordion from "./Accordion";
 
 const Stack = createStackNavigator<Routes>();
@@ -28,6 +30,13 @@ const AppNavigator = () => (
         component={Worklets}
         options={{
           title: "Worklets",
+        }}
+      />
+      <Stack.Screen
+        name="Animations"
+        component={Animations}
+        options={{
+          title: "Animations",
         }}
       />
       <Stack.Screen
@@ -56,6 +65,13 @@ const AppNavigator = () => (
         component={Graph}
         options={{
           title: "Graph",
+        }}
+      />
+      <Stack.Screen
+        name="DynamicSpring"
+        component={DynamicSpring}
+        options={{
+          title: "Dynamic Spring",
         }}
       />
       <Stack.Screen

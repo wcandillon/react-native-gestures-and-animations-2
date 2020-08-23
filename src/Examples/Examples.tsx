@@ -21,6 +21,10 @@ export const examples = [
     title: "💳 PanGesture",
   },
   {
+    screen: "Animations",
+    title: "🐎 Animations",
+  },
+  {
     screen: "CircularSlider",
     title: "⭕️ Circular Slider",
   },
@@ -31,6 +35,10 @@ export const examples = [
   {
     screen: "DynamicSpring",
     title: "👨‍🔬 Dynamic Spring",
+  },
+  {
+    screen: "Accordion",
+    title: "🗺 Accordion",
   },
 ] as const;
 

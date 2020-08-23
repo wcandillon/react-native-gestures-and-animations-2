@@ -1,13 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  useSharedValue,
-  useDerivedValue,
-  withSpring,
-} from "react-native-reanimated";
 
 import { Button, StyleGuide, cards } from "../../components";
-import { bin } from "../../components/AnimatedHelpers";
 
 import AnimatedCard from "./AnimatedCard";
 
@@ -20,19 +14,16 @@ const styles = StyleSheet.create({
 });
 
 const UseTransition = () => {
-  const toggled = useSharedValue(false);
-  const transition = useDerivedValue(() => {
-    return withSpring(bin(toggled.value));
-  });
+  const [toggled, setToggle] = useState(false);
   return (
     <View style={styles.container}>
       {cards.slice(0, 3).map((card, index) => (
-        <AnimatedCard key={card} {...{ index, card, transition }} />
+        <AnimatedCard key={card} {...{ index, card, toggled }} />
       ))}
       <Button
-        label={toggled.value ? "Reset" : "Start"}
+        label={toggled ? "Reset" : "Start"}
         primary
-        onPress={() => (toggled.value = !toggled.value)}
+        onPress={() => setToggle((prev) => !prev)}
       />
     </View>
   );

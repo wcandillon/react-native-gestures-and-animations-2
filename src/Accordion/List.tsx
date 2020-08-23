@@ -11,8 +11,6 @@ import Animated, {
   runOnUI,
 } from "react-native-reanimated";
 
-import { mix } from "../components/AnimatedHelpers";
-
 import Chevron from "./Chevron";
 import Item, { ListItem } from "./ListItem";
 

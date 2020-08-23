@@ -1,7 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, {
-  useSharedValue,
   useAnimatedStyle,
   withSpring,
   useDerivedValue,

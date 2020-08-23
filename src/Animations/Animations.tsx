@@ -3,7 +3,6 @@ import { StyleSheet, View } from "react-native";
 import {
   withTiming,
   Easing,
-  repeat,
   cancelAnimation,
   runOnUI,
   useDerivedValue,
@@ -13,6 +12,7 @@ import {
 } from "react-native-reanimated";
 
 import { Button, StyleGuide } from "../components";
+import { repeat } from "../components/AnimatedHelpers";
 
 import ChatBubble from "./ChatBubble";
 
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
 const Timing = () => {
   const [play, setPlay] = useState(false);
   const progress = useSharedValue(0);
+  const dest = useSharedValue(1);
   return (
     <View style={styles.container}>
       <ChatBubble progress={progress} />
@@ -38,19 +39,24 @@ const Timing = () => {
           setPlay((prev) => !prev);
           if (play) {
             cancelAnimation(progress);
+            dest.value = 1 - dest.value;
           } else {
             progress.value = sequence(
-              withTiming(1, {
-                duration: 1000 - progress.value * 1000,
+              withTiming(dest.value, {
+                duration:
+                  dest.value === 1
+                    ? 1000 - progress.value * 1000
+                    : progress.value * 1000,
                 easing,
               }),
               repeat(
-                withTiming(0, {
+                withTiming(1 - dest.value, {
                   duration: 1000,
                   easing,
                 }),
                 -1,
-                true
+                true,
+                () => (dest.value = 1 - dest.value)
               )
             );
           }

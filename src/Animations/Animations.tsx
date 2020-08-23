@@ -16,6 +16,7 @@ import { Button, StyleGuide } from "../components";
 
 import ChatBubble from "./ChatBubble";
 
+const easing = Easing.inOut(Easing.ease);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -38,22 +39,19 @@ const Timing = () => {
           if (play) {
             cancelAnimation(progress);
           } else {
-            progress.value = withTiming(
-              1,
-              {
+            progress.value = sequence(
+              withTiming(1, {
                 duration: 1000 - progress.value * 1000,
-                easing: Easing.inOut(Easing.ease),
-              },
-              () => {
-                progress.value = repeat(
-                  withTiming(0, {
-                    duration: 1000,
-                    easing: Easing.inOut(Easing.ease),
-                  }),
-                  -1,
-                  true
-                );
-              }
+                easing,
+              }),
+              repeat(
+                withTiming(0, {
+                  duration: 1000,
+                  easing,
+                }),
+                -1,
+                true
+              )
             );
           }
         }}

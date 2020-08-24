@@ -96,13 +96,16 @@ interface PausableAnimation extends Animation<PausableAnimation> {
 }
 
 export const withPause = (
-  _nextAnimation: Animation | (() => Animation),
+  _nextAnimation: Animation | (() => Animation) | number,
   paused: Animated.SharedValue<boolean>
 ) => {
   "worklet";
   return defineAnimation(_nextAnimation, () => {
     "worklet";
 
+    if (typeof _nextAnimation === "number") {
+      throw new Error("Expected Animation as parameter");
+    }
     const nextAnimation =
       typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
 
@@ -142,7 +145,7 @@ interface PhysicAnimation extends Animation<PhysicAnimation> {
 type BouncingAnimation = Animation<BouncingAnimation>;
 
 export const withBouncing = (
-  _nextAnimation: PhysicAnimation | (() => PhysicAnimation),
+  _nextAnimation: PhysicAnimation | (() => PhysicAnimation) | number,
   lowerBound: number,
   upperBound: number
 ) => {
@@ -150,6 +153,9 @@ export const withBouncing = (
   return defineAnimation(_nextAnimation, () => {
     "worklet";
 
+    if (typeof _nextAnimation === "number") {
+      throw new Error("Expected Animation as parameter");
+    }
     const nextAnimation =
       typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
 

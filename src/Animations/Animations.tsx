@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import { withTiming, useSharedValue, Easing } from "react-native-reanimated";
+import {
+  withTiming,
+  repeat,
+  useSharedValue,
+  Easing,
+} from "react-native-reanimated";
 
 import { Button, StyleGuide } from "../components";
-import { repeat, withPause } from "../components/AnimatedHelpers";
+import { withPause } from "../components/AnimatedHelpers";
 
 import ChatBubble from "./ChatBubble";
 

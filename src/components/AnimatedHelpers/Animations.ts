@@ -16,63 +16,6 @@ function defineAnimation(starting: any, factory: any) {
   return factory;
 }
 
-export function repeat(
-  _nextAnimation: any,
-  numberOfReps = 2,
-  reverse = false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  callback = () => {}
-) {
-  "worklet";
-  return defineAnimation(_nextAnimation, () => {
-    "worklet";
-
-    const nextAnimation =
-      typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
-
-    function anim(animation: any, now: any) {
-      const finished = nextAnimation.animation(nextAnimation, now);
-      animation.current = nextAnimation.current;
-      if (finished) {
-        animation.reps += 1;
-        callback();
-        if (numberOfReps > 0 && animation.reps >= numberOfReps) {
-          return true;
-        }
-
-        const startValue = reverse
-          ? nextAnimation.current
-          : animation.startValue;
-        if (reverse) {
-          nextAnimation.toValue = animation.startValue;
-          animation.startValue = startValue;
-        }
-        nextAnimation.start(nextAnimation, startValue, now, nextAnimation);
-        return false;
-      }
-      return false;
-    }
-
-    function start(
-      animation: any,
-      value: any,
-      now: any,
-      previousAnimation: any
-    ) {
-      animation.startValue = value;
-      animation.reps = 0;
-      nextAnimation.start(nextAnimation, value, now, previousAnimation);
-    }
-
-    return {
-      animation: anim,
-      start,
-      reps: 0,
-      current: nextAnimation.current,
-    };
-  });
-}
-
 interface Animation<State = Record<string, unknown>, PrevState = State> {
   animation: (animation: Animation<State>, now: number) => boolean;
   current: number;
@@ -155,7 +98,7 @@ interface PausableAnimation extends Animation<PausableAnimation> {
 export const withPause = (
   _nextAnimation: Animation | (() => Animation),
   paused: Animated.SharedValue<boolean>
-): number => {
+) => {
   "worklet";
   return defineAnimation(_nextAnimation, () => {
     "worklet";
@@ -185,8 +128,6 @@ export const withPause = (
       animation.elapsed = 0;
       nextAnimation.start(nextAnimation, value, now, previousAnimation);
     };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     return {
       animation: pausable,
       start,
@@ -204,7 +145,7 @@ export const withBouncing = (
   _nextAnimation: PhysicAnimation | (() => PhysicAnimation),
   lowerBound: number,
   upperBound: number
-): number => {
+) => {
   "worklet";
   return defineAnimation(_nextAnimation, () => {
     "worklet";
@@ -233,8 +174,6 @@ export const withBouncing = (
     ) => {
       nextAnimation.start(nextAnimation, value, now, previousAnimation);
     };
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     return {
       animation: bouncing,
       start,

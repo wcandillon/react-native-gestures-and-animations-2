@@ -73,14 +73,14 @@ export function repeat(
   });
 }
 
-interface Animation<State, PrevState = State> {
-  animation: (animation: State, now: number) => boolean;
+interface Animation<State = Record<string, unknown>, PrevState = State> {
+  animation: (animation: Animation<State>, now: number) => boolean;
   current: number;
   start: (
-    animation: State,
+    animation: Animation<State>,
     value: number,
     now: number,
-    lastAnimation: PrevState
+    lastAnimation: Animation<PrevState>
   ) => void;
 }
 
@@ -153,7 +153,7 @@ interface PausableAnimation extends Animation<PausableAnimation> {
 }
 
 export const withPause = (
-  _nextAnimation: Animation<Record<string, unknown>>,
+  _nextAnimation: Animation | (() => Animation),
   paused: Animated.SharedValue<boolean>
 ): number => {
   "worklet";
@@ -179,7 +179,7 @@ export const withPause = (
       animation: PausableAnimation,
       value: number,
       now: number,
-      previousAnimation
+      previousAnimation: Animation<Record<string, unknown>>
     ) => {
       animation.lastTimestamp = now;
       animation.elapsed = 0;

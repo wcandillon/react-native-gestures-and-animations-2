@@ -1,11 +1,6 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  withTiming,
-  useSharedValue,
-  Easing,
-  useDerivedValue,
-} from "react-native-reanimated";
+import { withTiming, useSharedValue, Easing } from "react-native-reanimated";
 
 import { Button, StyleGuide } from "../components";
 import { repeat, withPause } from "../components/AnimatedHelpers";

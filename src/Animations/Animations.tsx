@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   withTiming,
-  cancelAnimation,
-  sequence,
   useSharedValue,
   Easing,
+  useDerivedValue,
 } from "react-native-reanimated";
 
 import { Button, StyleGuide } from "../components";
-import { repeat } from "../components/AnimatedHelpers";
+import { repeat, withPause } from "../components/AnimatedHelpers";
 
 import ChatBubble from "./ChatBubble";
 
@@ -24,8 +23,8 @@ const styles = StyleSheet.create({
 
 const Timing = () => {
   const [play, setPlay] = useState(false);
-  const progress = useSharedValue(0);
-  const dest = useSharedValue(1);
+  const paused = useSharedValue(false);
+  const progress = useSharedValue<number | null>(null);
   return (
     <View style={styles.container}>
       <ChatBubble progress={progress} />
@@ -34,28 +33,9 @@ const Timing = () => {
         primary
         onPress={() => {
           setPlay((prev) => !prev);
-          if (play) {
-            cancelAnimation(progress);
-            dest.value = 1 - dest.value;
-          } else {
-            progress.value = sequence(
-              withTiming(dest.value, {
-                duration:
-                  dest.value === 1
-                    ? 1000 - progress.value * 1000
-                    : progress.value * 1000,
-                easing,
-              }),
-              repeat(
-                withTiming(1 - dest.value, {
-                  duration: 1000,
-                  easing,
-                }),
-                -1,
-                true,
-                () => (dest.value = 1 - dest.value)
-              )
-            );
+          paused.value = !paused.value;
+          if (progress.value === null) {
+            progress.value = withPause(repeat(withTiming(1), -1, true), paused);
           }
         }}
       />

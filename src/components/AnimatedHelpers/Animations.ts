@@ -1,3 +1,5 @@
+import Animated from "react-native-reanimated";
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare let _WORKLET: boolean;
 
@@ -143,4 +145,44 @@ export const withBouncingDecay = ({
     animation: decay,
     start,
   };
+};
+
+type PausableAnimation = Animation<PausableAnimation>;
+
+export const withPause = (
+  _nextAnimation: Animation<Record<string, unknown>>,
+  paused: Animated.SharedValue<boolean>
+): number => {
+  "worklet";
+  return defineAnimation(_nextAnimation, () => {
+    "worklet";
+
+    const nextAnimation =
+      typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
+
+    const pausable = (animation: PausableAnimation, now: number) => {
+      // if (!animation.paused) {
+      // const finished = pausableAnimation.animation(pausableAnimation, now);
+      // animation.current = pausableAnimation.current;
+      //  return finished;
+      // }
+      const finished = nextAnimation.animation(nextAnimation, now);
+      animation.current = nextAnimation.current;
+      return finished;
+    };
+    const start = (
+      animation: PausableAnimation,
+      value: number,
+      now: number,
+      previousAnimation
+    ) => {
+      nextAnimation.start(nextAnimation, value, now, previousAnimation);
+    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return {
+      animation: pausable,
+      start,
+    };
+  });
 };

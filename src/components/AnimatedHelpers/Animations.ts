@@ -117,21 +117,21 @@ export const withBouncingDecay = ({
     animation.current = x;
     animation.velocity = v;
 
-    let toValueIsReached = null;
+    const toValueIsReached = null;
 
-    if (Array.isArray(clamp)) {
-      if (direction < 0 && animation.current <= clamp[0]) {
-        toValueIsReached = clamp[0];
-      } else if (direction > 0 && animation.current >= clamp[1]) {
-        toValueIsReached = clamp[1];
-      }
+    if (
+      (direction < 0 && animation.current <= clamp[0]) ||
+      (direction > 0 && animation.current >= clamp[1])
+    ) {
+      animation.current = clamp[direction < 0 ? 0 : 1];
+      animation.velocity *= -0.5;
+      animation.direction *= -1;
     }
 
     if (Math.abs(v) < VELOCITY_EPS || toValueIsReached !== null) {
       if (toValueIsReached !== null) {
         animation.current = toValueIsReached;
       }
-
       return true;
     }
     return false;
@@ -140,7 +140,7 @@ export const withBouncingDecay = ({
     animation.current = value;
     animation.lastTimestamp = now;
     animation.velocity = initialVelocity;
-    animation.direction = initialVelocity;
+    animation.direction = Math.sign(initialVelocity);
   };
   return {
     animation: decay,

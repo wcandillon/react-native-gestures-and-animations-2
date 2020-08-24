@@ -75,7 +75,7 @@ interface Animation<State> {
   animation: (animation: Animation<State>, now: number) => boolean;
   current: number;
   start: (
-    animation: T,
+    animation: State,
     value: number,
     now: number,
     lastAnimation: Animation<State>
@@ -95,7 +95,7 @@ interface WithBouncingDecayParams {
 }
 
 export const withBouncingDecay = ({
-  velocity,
+  velocity: initialVelocity,
   deceleration: userDeceleration,
   clamp,
 }: WithBouncingDecayParams) => {
@@ -103,7 +103,7 @@ export const withBouncingDecay = ({
   const deceleration = userDeceleration ?? 0.998;
   const VELOCITY_EPS = 5;
   const decay = (animation: DecayAnimation, now: number) => {
-    const { lastTimestamp, current, direction } = animation;
+    const { lastTimestamp, current, direction, velocity } = animation;
     const dt = Math.min(now - lastTimestamp, 64);
     animation.lastTimestamp = now;
 
@@ -139,7 +139,8 @@ export const withBouncingDecay = ({
   const start = (animation: DecayAnimation, value: number, now: number) => {
     animation.current = value;
     animation.lastTimestamp = now;
-    animation.direction = Math.sign(velocity);
+    animation.velocity = initialVelocity;
+    animation.direction = initialVelocity;
   };
   return {
     animation: decay,

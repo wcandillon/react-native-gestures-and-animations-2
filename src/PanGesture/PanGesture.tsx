@@ -4,11 +4,12 @@ import Animated, {
   useAnimatedGestureHandler,
   useSharedValue,
   useAnimatedStyle,
+  withDecay,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { clamp, withBouncingDecay } from "../components/AnimatedHelpers";
+import { clamp, withBouncing } from "../components/AnimatedHelpers";
 
 const styles = StyleSheet.create({
   container: {
@@ -39,14 +40,20 @@ const Gesture = ({ width, height }: GestureProps) => {
       translateY.value = clamp(ctx.offsetY + event.translationY, 0, boundY);
     },
     onEnd: ({ velocityX, velocityY }) => {
-      translateX.value = withBouncingDecay({
-        velocity: velocityX,
-        clamp: [0, boundX],
-      });
-      translateY.value = withBouncingDecay({
-        velocity: velocityY,
-        clamp: [0, boundY],
-      });
+      translateX.value = withBouncing(
+        withDecay({
+          velocity: velocityX,
+        }),
+        0,
+        boundX
+      );
+      translateY.value = withBouncing(
+        withDecay({
+          velocity: velocityY,
+        }),
+        0,
+        boundY
+      );
     },
   });
   const style = useAnimatedStyle(() => {

@@ -193,3 +193,51 @@ export const withPause = (
     };
   });
 };
+
+interface PhysicAnimation extends Animation<PhysicAnimation> {
+  velocity: number;
+}
+
+type BouncingAnimation = Animation<BouncingAnimation>;
+
+export const withBouncing = (
+  _nextAnimation: PhysicAnimation | (() => PhysicAnimation),
+  lowerBound: number,
+  upperBound: number
+): number => {
+  "worklet";
+  return defineAnimation(_nextAnimation, () => {
+    "worklet";
+
+    const nextAnimation =
+      typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
+
+    const bouncing = (animation: BouncingAnimation, now: number) => {
+      const finished = nextAnimation.animation(nextAnimation, now);
+      const { velocity, current } = nextAnimation;
+      animation.current = current;
+      if (
+        (velocity < 0 && animation.current <= lowerBound) ||
+        (velocity > 0 && animation.current >= upperBound)
+      ) {
+        animation.current = velocity < 0 ? lowerBound : upperBound;
+        nextAnimation.velocity *= -0.5;
+      }
+      return finished;
+    };
+    const start = (
+      _animation: BouncingAnimation,
+      value: number,
+      now: number,
+      previousAnimation: Animation<PhysicAnimation>
+    ) => {
+      nextAnimation.start(nextAnimation, value, now, previousAnimation);
+    };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return {
+      animation: bouncing,
+      start,
+    };
+  });
+};

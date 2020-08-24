@@ -72,13 +72,13 @@ export function repeat(
 }
 
 interface Animation<State, PrevState = State> {
-  animation: (animation: Animation<State>, now: number) => boolean;
+  animation: (animation: State, now: number) => boolean;
   current: number;
   start: (
-    animation: Animation<State>,
+    animation: State,
     value: number,
     now: number,
-    lastAnimation: Animation<PrevState>
+    lastAnimation: PrevState
   ) => void;
 }
 
@@ -97,7 +97,7 @@ export const withBouncingDecay = ({
   velocity: initialVelocity,
   deceleration: userDeceleration,
   clamp,
-}: WithBouncingDecayParams) => {
+}: WithBouncingDecayParams): number => {
   "worklet";
 
   const deceleration = userDeceleration ?? 0.998;
@@ -137,6 +137,8 @@ export const withBouncingDecay = ({
     animation.velocity = initialVelocity;
   };
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   return {
     animation: decay,
     start,

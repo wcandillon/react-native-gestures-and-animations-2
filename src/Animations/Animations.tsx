@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
 
 const Timing = () => {
   const [play, setPlay] = useState(false);
-  const paused = useSharedValue(false);
+  const paused = useSharedValue(!play);
   const progress = useSharedValue<number | null>(null);
   return (
     <View style={styles.container}>
@@ -35,7 +35,10 @@ const Timing = () => {
           setPlay((prev) => !prev);
           paused.value = !paused.value;
           if (progress.value === null) {
-            progress.value = withPause(repeat(withTiming(1), -1, true), paused);
+            progress.value = withPause(
+              repeat(withTiming(1, { duration: 1000, easing }), -1, true),
+              paused
+            );
           }
         }}
       />

@@ -106,7 +106,7 @@ export const withBouncingDecay = ({
   const VELOCITY_EPS = 5;
   const decay = (animation: DecayAnimation, now: number) => {
     const { lastTimestamp, current, velocity } = animation;
-    const dt = Math.min(now - lastTimestamp, 1000 / 16);
+    const dt = Math.min(now - lastTimestamp, 1000 / 60);
 
     const kv = Math.pow(deceleration, dt);
     const kx = (deceleration * (1 - kv)) / (1 - deceleration);
@@ -147,7 +147,10 @@ export const withBouncingDecay = ({
   };
 };
 
-type PausableAnimation = Animation<PausableAnimation>;
+interface PausableAnimation extends Animation<PausableAnimation> {
+  lastTimestamp: number;
+  elapsed: number;
+}
 
 export const withPause = (
   _nextAnimation: Animation<Record<string, unknown>>,
@@ -161,13 +164,15 @@ export const withPause = (
       typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
 
     const pausable = (animation: PausableAnimation, now: number) => {
-      // if (!animation.paused) {
-      // const finished = pausableAnimation.animation(pausableAnimation, now);
-      // animation.current = pausableAnimation.current;
-      //  return finished;
-      // }
-      const finished = nextAnimation.animation(nextAnimation, now);
+      const { lastTimestamp, elapsed } = animation;
+      if (paused.value) {
+        animation.elapsed = now - lastTimestamp;
+        return false;
+      }
+      const dt = now - elapsed;
+      const finished = nextAnimation.animation(nextAnimation, dt);
       animation.current = nextAnimation.current;
+      animation.lastTimestamp = dt;
       return finished;
     };
     const start = (
@@ -176,6 +181,8 @@ export const withPause = (
       now: number,
       previousAnimation
     ) => {
+      animation.lastTimestamp = now;
+      animation.elapsed = 0;
       nextAnimation.start(nextAnimation, value, now, previousAnimation);
     };
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -71,20 +71,19 @@ export function repeat(
   });
 }
 
-interface Animation<State> {
+interface Animation<State, PrevState = State> {
   animation: (animation: Animation<State>, now: number) => boolean;
   current: number;
   start: (
-    animation: State,
+    animation: Animation<State>,
     value: number,
     now: number,
-    lastAnimation: Animation<State>
+    lastAnimation: Animation<PrevState>
   ) => void;
 }
 
 interface DecayAnimation extends Animation<DecayAnimation> {
   lastTimestamp: number;
-  direction: number;
   velocity: number;
 }
 
@@ -100,12 +99,12 @@ export const withBouncingDecay = ({
   clamp,
 }: WithBouncingDecayParams) => {
   "worklet";
+
   const deceleration = userDeceleration ?? 0.998;
   const VELOCITY_EPS = 5;
   const decay = (animation: DecayAnimation, now: number) => {
-    const { lastTimestamp, current, direction, velocity } = animation;
-    const dt = Math.min(now - lastTimestamp, 64);
-    animation.lastTimestamp = now;
+    const { lastTimestamp, current, velocity } = animation;
+    const dt = Math.min(now - lastTimestamp, 1000 / 16);
 
     const kv = Math.pow(deceleration, dt);
     const kx = (deceleration * (1 - kv)) / (1 - deceleration);
@@ -114,34 +113,30 @@ export const withBouncingDecay = ({
     const v = v0 * kv * 1000;
     const x = current + v0 * kx;
 
+    animation.lastTimestamp = now;
     animation.current = x;
     animation.velocity = v;
 
-    const toValueIsReached = null;
-
     if (
-      (direction < 0 && animation.current <= clamp[0]) ||
-      (direction > 0 && animation.current >= clamp[1])
+      (velocity < 0 && animation.current <= clamp[0]) ||
+      (velocity > 0 && animation.current >= clamp[1])
     ) {
-      animation.current = clamp[direction < 0 ? 0 : 1];
+      animation.current = clamp[velocity < 0 ? 0 : 1];
       animation.velocity *= -0.5;
-      animation.direction *= -1;
     }
 
-    if (Math.abs(v) < VELOCITY_EPS || toValueIsReached !== null) {
-      if (toValueIsReached !== null) {
-        animation.current = toValueIsReached;
-      }
+    if (Math.abs(v) < VELOCITY_EPS) {
       return true;
     }
     return false;
   };
+
   const start = (animation: DecayAnimation, value: number, now: number) => {
     animation.current = value;
     animation.lastTimestamp = now;
     animation.velocity = initialVelocity;
-    animation.direction = Math.sign(initialVelocity);
   };
+
   return {
     animation: decay,
     start,

@@ -88,6 +88,7 @@ const SortableItem = ({
     transform: [
       { translateX: translateX.value },
       { translateY: translateY.value },
+      { scale: withSpring(gestureActive.value ? 1.1 : 1) },
     ],
   }));
   return (

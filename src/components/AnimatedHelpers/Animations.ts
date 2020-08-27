@@ -16,18 +16,25 @@ function defineAnimation(starting: any, factory: any) {
   return factory;
 }
 
-interface Animation<State = Record<string, unknown>, PrevState = State> {
-  animation: (animation: Animation<State>, now: number) => boolean;
+interface AnimationState {
   current: number;
-  start: (
-    animation: Animation<State>,
-    value: number,
-    now: number,
-    lastAnimation: Animation<PrevState>
-  ) => void;
 }
 
-interface DecayAnimation extends Animation<DecayAnimation> {
+type Animation<
+  State extends AnimationState = AnimationState,
+  PrevState = State
+> = {
+  animation: (animation: State, now: number) => boolean;
+  current: number;
+  start: (
+    animation: State,
+    value: number,
+    now: number,
+    lastAnimation: PrevState
+  ) => void;
+} & State;
+
+interface DecayAnimation extends AnimationState {
   lastTimestamp: number;
   velocity: number;
 }
@@ -90,7 +97,7 @@ export const withBouncingDecay = ({
   };
 };
 
-interface PausableAnimation extends Animation<PausableAnimation> {
+interface PausableAnimation extends AnimationState {
   lastTimestamp: number;
   elapsed: number;
 }
@@ -125,7 +132,7 @@ export const withPause = (
       animation: PausableAnimation,
       value: number,
       now: number,
-      previousAnimation: Animation<Record<string, unknown>>
+      previousAnimation: Animation
     ) => {
       animation.lastTimestamp = now;
       animation.elapsed = 0;
@@ -138,14 +145,17 @@ export const withPause = (
   });
 };
 
-interface PhysicAnimation extends Animation<PhysicAnimation> {
+interface PhysicAnimationState extends AnimationState {
   velocity: number;
 }
 
-type BouncingAnimation = Animation<BouncingAnimation>;
+type BouncingAnimation = Animation<PhysicAnimationState>;
 
 export const withBouncing = (
-  _nextAnimation: PhysicAnimation | (() => PhysicAnimation) | number,
+  _nextAnimation:
+    | Animation<PhysicAnimationState>
+    | (() => Animation<PhysicAnimationState>)
+    | number,
   lowerBound: number,
   upperBound: number
 ) => {
@@ -176,7 +186,7 @@ export const withBouncing = (
       _animation: BouncingAnimation,
       value: number,
       now: number,
-      previousAnimation: Animation<PhysicAnimation>
+      previousAnimation: Animation<PhysicAnimationState>
     ) => {
       nextAnimation.start(nextAnimation, value, now, previousAnimation);
     };

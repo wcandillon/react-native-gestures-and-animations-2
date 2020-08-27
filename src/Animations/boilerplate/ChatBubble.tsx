@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 interface SimpleActivityIndicatorProps {
-  progress: number;
+  progress: Animated.SharedValue<number>;
 }
 
 const SimpleActivityIndicator = ({

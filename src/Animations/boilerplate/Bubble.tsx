@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 interface BubbleProps {
-  progress: number;
+  progress: Animated.SharedValue<number>;
   start: number;
   end: number;
 }
@@ -27,13 +27,13 @@ interface BubbleProps {
 const Bubble = ({ progress, start, end }: BubbleProps) => {
   const style = useAnimatedStyle(() => {
     const opacity = interpolate(
-      progress,
+      progress.value,
       [start, end],
       [0.5, 1],
       Extrapolate.CLAMP
     );
     const scale = interpolate(
-      progress,
+      progress.value,
       [start, end],
       [1, 1.5],
       Extrapolate.CLAMP

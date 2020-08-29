@@ -24,6 +24,23 @@ type Animation<
   ) => void;
 } & State;
 
+type AnimationParameter<State extends AnimationState = AnimationState> =
+  | Animation<State>
+  | (() => Animation<State>)
+  | number;
+
+const animationParameter = <State extends AnimationState = AnimationState>(
+  animationParam: AnimationParameter<State>
+) => {
+  "worklet";
+  if (typeof animationParam === "number") {
+    throw new Error("Expected Animation as parameter");
+  }
+  return typeof animationParam === "function"
+    ? animationParam()
+    : animationParam;
+};
+
 interface PausableAnimation extends AnimationState {
   lastTimestamp: number;
   elapsed: number;
@@ -33,7 +50,7 @@ const defineAnimation = <
   S extends AnimationState = AnimationState,
   Prev extends AnimationState = AnimationState
 >(
-  factory: () => Animation<S, Prev>
+  factory: () => Omit<Animation<S, Prev>, keyof S>
 ) => {
   "worklet";
   if (_WORKLET) {
@@ -43,49 +60,39 @@ const defineAnimation = <
 };
 
 export const withPause = (
-  _nextAnimation: Animation | (() => Animation) | number,
+  animationParam: AnimationParameter,
   paused: Animated.SharedValue<boolean>
-) => {
-  "worklet";
-  return defineAnimation<PausableAnimation>(() => {
+) =>
+  defineAnimation<PausableAnimation>(() => {
     "worklet";
-    if (typeof _nextAnimation === "number") {
-      throw new Error("Expected Animation as parameter");
-    }
-    const nextAnimation =
-      typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
-
-    const pausable = (animation: PausableAnimation, now: number) => {
-      const { lastTimestamp, elapsed } = animation;
+    const nextAnimation = animationParameter(animationParam);
+    const pausable = (state: PausableAnimation, now: number) => {
+      const { lastTimestamp, elapsed } = state;
       if (paused.value) {
-        animation.elapsed = now - lastTimestamp;
+        state.elapsed = now - lastTimestamp;
         return false;
       }
       const dt = now - elapsed;
       const finished = nextAnimation.animation(nextAnimation, dt);
-      animation.current = nextAnimation.current;
-      animation.lastTimestamp = dt;
+      state.current = nextAnimation.current;
+      state.lastTimestamp = dt;
       return finished;
     };
     const start = (
-      animation: PausableAnimation,
+      state: PausableAnimation,
       value: number,
       now: number,
-      previousAnimation: AnimationState
+      previousState: AnimationState
     ) => {
-      animation.lastTimestamp = now;
-      animation.elapsed = 0;
-      nextAnimation.start(nextAnimation, value, now, previousAnimation);
+      state.lastTimestamp = now;
+      state.elapsed = 0;
+      nextAnimation.start(nextAnimation, value, now, previousState);
     };
     return {
-      current: 0,
-      lastTimestamp: 0,
-      elapsed: 0,
       animation: pausable,
       start,
     };
   });
-};
 
 export const withBouncing = (
   _nextAnimation:

@@ -15,7 +15,6 @@ type Animation<
   PrevState = State
 > = {
   animation: (animation: State, now: number) => boolean;
-  current: number;
   start: (
     animation: State,
     value: number,

@@ -41,11 +41,6 @@ const animationParameter = <State extends AnimationState = AnimationState>(
     : animationParam;
 };
 
-interface PausableAnimation extends AnimationState {
-  lastTimestamp: number;
-  elapsed: number;
-}
-
 const defineAnimation = <
   S extends AnimationState = AnimationState,
   Prev extends AnimationState = AnimationState
@@ -59,14 +54,20 @@ const defineAnimation = <
   return (factory as unknown) as number;
 };
 
+interface PausableAnimation extends AnimationState {
+  lastTimestamp: number;
+  elapsed: number;
+}
+
 export const withPause = (
   animationParam: AnimationParameter,
   paused: Animated.SharedValue<boolean>
-) =>
-  defineAnimation<PausableAnimation>(() => {
+) => {
+  "worklet";
+  return defineAnimation<PausableAnimation>(() => {
     "worklet";
     const nextAnimation = animationParameter(animationParam);
-    const pausable = (state: PausableAnimation, now: number) => {
+    const animation = (state: PausableAnimation, now: number) => {
       const { lastTimestamp, elapsed } = state;
       if (paused.value) {
         state.elapsed = now - lastTimestamp;
@@ -89,53 +90,45 @@ export const withPause = (
       nextAnimation.start(nextAnimation, value, now, previousState);
     };
     return {
-      animation: pausable,
+      animation,
       start,
     };
   });
+};
 
 export const withBouncing = (
-  _nextAnimation:
-    | Animation<PhysicsAnimationState>
-    | (() => Animation<PhysicsAnimationState>)
-    | number,
+  animationParam: AnimationParameter<PhysicsAnimationState>,
   lowerBound: number,
   upperBound: number
 ): number => {
   "worklet";
-
-  if (typeof _nextAnimation === "number") {
-    throw new Error("Expected Animation as parameter");
-  }
-
-  const nextAnimation =
-    typeof _nextAnimation === "function" ? _nextAnimation() : _nextAnimation;
-
-  const bouncing = (animation: PhysicsAnimationState, now: number) => {
-    const finished = nextAnimation.animation(nextAnimation, now);
-    const { velocity, current } = nextAnimation;
-    animation.current = current;
-    if (
-      (velocity < 0 && animation.current <= lowerBound) ||
-      (velocity > 0 && animation.current >= upperBound)
-    ) {
-      animation.current = velocity < 0 ? lowerBound : upperBound;
-      nextAnimation.velocity *= -0.5;
-    }
-    return finished;
-  };
-  const start = (
-    _animation: PhysicsAnimationState,
-    value: number,
-    now: number,
-    previousAnimation: Animation<PhysicsAnimationState>
-  ) => {
-    nextAnimation.start(nextAnimation, value, now, previousAnimation);
-  };
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  return {
-    animation: bouncing,
-    start,
-  };
+  return defineAnimation<PhysicsAnimationState, PhysicsAnimationState>(() => {
+    "worklet";
+    const nextAnimation = animationParameter(animationParam);
+    const animation = (state: PhysicsAnimationState, now: number) => {
+      const finished = nextAnimation.animation(nextAnimation, now);
+      const { velocity, current } = nextAnimation;
+      state.current = current;
+      if (
+        (velocity < 0 && state.current <= lowerBound) ||
+        (velocity > 0 && state.current >= upperBound)
+      ) {
+        state.current = velocity < 0 ? lowerBound : upperBound;
+        nextAnimation.velocity *= -0.5;
+      }
+      return finished;
+    };
+    const start = (
+      _state: PhysicsAnimationState,
+      value: number,
+      now: number,
+      previousState: PhysicsAnimationState
+    ) => {
+      nextAnimation.start(nextAnimation, value, now, previousState);
+    };
+    return {
+      animation,
+      start,
+    };
+  });
 };

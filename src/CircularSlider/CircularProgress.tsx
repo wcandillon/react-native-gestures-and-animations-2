@@ -12,13 +12,20 @@ interface CircularProgressProps {
   theta: Animated.SharedValue<number>;
   r: number;
   strokeWidth: number;
+  backgroundColor: Animated.SharedValue<number>;
 }
 
-const CircularProgress = ({ theta, r, strokeWidth }: CircularProgressProps) => {
+const CircularProgress = ({
+  theta,
+  r,
+  strokeWidth,
+  backgroundColor,
+}: CircularProgressProps) => {
   const radius = r - strokeWidth / 2;
   const circumference = radius * 2 * PI;
   const props = useAnimatedProps(() => {
     return {
+      stroke: backgroundColor.value,
       strokeDashoffset: theta.value * radius,
     };
   });

@@ -1,7 +1,13 @@
 import React from "react";
 import { Dimensions, PixelRatio, StyleSheet, View } from "react-native";
-import Animated, { useSharedValue } from "react-native-reanimated";
+import Animated, {
+  useSharedValue,
+  useDerivedValue,
+} from "react-native-reanimated";
 import { canvas2Polar } from "react-native-redash";
+
+import { interpolateColor } from "../components/AnimatedHelpers";
+import { StyleGuide } from "../components";
 
 import Cursor from "./Cursor";
 import CircularProgress from "./CircularProgress";
@@ -25,11 +31,19 @@ const styles = StyleSheet.create({
 
 const CircularSlider = () => {
   const theta = useSharedValue(defaultTheta);
+  const backgroundColor = useDerivedValue(() =>
+    interpolateColor(
+      theta.value,
+      [0, Math.PI, Math.PI * 2],
+      ["#ff3884", StyleGuide.palette.primary, "#38ffb3"]
+    )
+  );
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Animated.View style={StyleSheet.absoluteFill}>
           <CircularProgress
+            backgroundColor={backgroundColor}
             strokeWidth={STROKE_WIDTH}
             {...{ r }}
             {...{ theta }}
@@ -38,6 +52,7 @@ const CircularSlider = () => {
         <Cursor
           strokeWidth={STROKE_WIDTH}
           r={r - STROKE_WIDTH / 2}
+          backgroundColor={backgroundColor}
           {...{ theta }}
         />
       </View>

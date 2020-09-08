@@ -1,10 +1,9 @@
-/* eslint-disable no-bitwise */
-// eslint-disable-next-line @typescript-eslint/triple-slash-reference
-/// <reference path="Colors.d.ts"/>
-
 import { Platform } from "react-native";
-import { interpolate, Extrapolate } from "react-native-reanimated";
-import processColor from "react-native-reanimated/src/reanimated2/Colors";
+import {
+  interpolate,
+  Extrapolate,
+  processColor,
+} from "react-native-reanimated";
 import { clamp, mix } from "react-native-redash";
 
 export type Color = string | number;
@@ -38,22 +37,26 @@ export const blue = (c: number) => {
   return c & 255;
 };
 
-const color = (r: number, g: number, b: number, alpha = 1) => {
+export const color = (r: number, g: number, b: number, alpha = 1) => {
   "worklet";
-  const a = Math.round(alpha * 255);
-  const result =
-    ((a * 1) << 24) +
-    ((Math.round(r) * 1) << 16) +
-    ((Math.round(g) * 1) << 8) +
+  if (Platform.OS === "web") {
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  const a = alpha * 255;
+  const c =
+    a * (1 << 24) +
+    Math.round(r) * (1 << 16) +
+    Math.round(g) * (1 << 8) +
     Math.round(b);
   if (Platform.OS === "android") {
     // on Android color is represented as signed 32 bit int
-    return result < (1 << 31) >>> 0 ? color : result - Math.pow(2, 32);
+    return c < (1 << 31) >>> 0 ? c : c - Math.pow(2, 32);
   }
-  return result;
+  return c;
 };
 
 export const hsv2rgb = (h: number, s: number, v: number) => {
+  "worklet";
   // vec4 K = vec4(1.0, 2.0 / 3.0, 1.0 / 3.0, 3.0);
   const K = {
     x: 1,
@@ -81,6 +84,7 @@ export const hsv2rgb = (h: number, s: number, v: number) => {
 };
 
 export const hsv2color = (h: number, s: number, v: number) => {
+  "worklet";
   const { r, g, b } = hsv2rgb(h, s, v);
   return color(r, g, b);
 };
@@ -92,6 +96,7 @@ export const colorForBackground = (r: number, g: number, b: number) => {
 };
 
 const rgbToHsv = (c: number) => {
+  "worklet";
   const r = red(c) / 255;
   const g = green(c) / 255;
   const b = blue(c) / 255;
@@ -165,7 +170,6 @@ const interpolateColorsRGB = (
       Extrapolate.CLAMP
     )
   );
-
   const g = Math.round(
     interpolate(
       value,
@@ -188,7 +192,6 @@ const interpolateColorsRGB = (
     colors.map((c) => opacity(c)),
     Extrapolate.CLAMP
   );
-  console.log({ r, g, b, a });
   return color(r, g, b, a);
 };
 
@@ -205,7 +208,8 @@ export const interpolateColor = (
   if (colorSpace === ColorSpace.HSV) {
     return interpolateColorsHSV(value, inputRange, outputRange);
   }
-  return interpolateColorsRGB(value, inputRange, outputRange);
+  const result = interpolateColorsRGB(value, inputRange, outputRange);
+  return result;
 };
 
 export const mixColor = (

@@ -15,9 +15,10 @@ interface CursorProps {
   r: number;
   strokeWidth: number;
   theta: Animated.SharedValue<number>;
+  backgroundColor: Animated.SharedValue<number>;
 }
 
-const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
+const Cursor = ({ r, strokeWidth, theta, backgroundColor }: CursorProps) => {
   const center = { x: r, y: r };
   const onGestureEvent = useAnimatedGestureHandler<{
     offset: { x: number; y: number };
@@ -55,6 +56,7 @@ const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
       center
     );
     return {
+      backgroundColor: backgroundColor.value,
       transform: [{ translateX: translation.x }, { translateY: translation.y }],
     };
   });
@@ -69,7 +71,6 @@ const Cursor = ({ r, strokeWidth, theta }: CursorProps) => {
             borderRadius: strokeWidth / 2,
             borderColor: "white",
             borderWidth: 5,
-            backgroundColor: StyleGuide.palette.primary,
           },
           style,
         ]}

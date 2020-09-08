@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, { useDerivedValue } from "react-native-reanimated";
+import { ReText, round } from "react-native-redash";
 
-import { ReText, round } from "../components/AnimatedHelpers";
 import { StyleGuide } from "../components";
 
 const styles = StyleSheet.create({

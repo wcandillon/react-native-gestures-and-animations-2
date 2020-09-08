@@ -1,6 +1,8 @@
 # Learn Reanimated 2
 
-## Install
+## Installation
+
+⚠️ Node >= v12 is required starting alpha6 ⚠️
 
 ```shell
 git clone git@github.com:wcandillon/react-native-gestures-and-animations-2.git

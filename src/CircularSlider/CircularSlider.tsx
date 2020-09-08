@@ -1,8 +1,7 @@
 import React from "react";
 import { Dimensions, PixelRatio, StyleSheet, View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
-
-import { canvas2Polar } from "../components/AnimatedHelpers/Coordinates";
+import { canvas2Polar } from "react-native-redash";
 
 import Cursor from "./Cursor";
 import CircularProgress from "./CircularProgress";

@@ -7,9 +7,9 @@ import Animated, {
   withDecay,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import { clamp, withBouncing } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { clamp, withBouncing } from "../components/AnimatedHelpers";
 
 const styles = StyleSheet.create({
   container: {

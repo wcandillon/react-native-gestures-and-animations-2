@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
+import { useSpring } from "react-native-redash";
 
 import { Button, StyleGuide, cards } from "../components";
-import { useSpring } from "../components/AnimatedHelpers";
 
 import AnimatedCard from "./AnimatedCard";
 

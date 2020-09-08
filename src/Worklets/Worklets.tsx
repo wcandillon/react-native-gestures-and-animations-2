@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Platform } from "react-native";
 import Animated, { useSharedValue, runOnUI } from "react-native-reanimated";
+import { ReText } from "react-native-redash";
 
 import { Button } from "../components";
-import { ReText } from "../components/AnimatedHelpers";
 
 const styles = StyleSheet.create({
   container: {

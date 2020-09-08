@@ -4,10 +4,10 @@ import Animated, {
   useAnimatedStyle,
   withSpring,
   useDerivedValue,
+  useSharedValue,
 } from "react-native-reanimated";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
-import { useVector } from "../components/AnimatedHelpers/Vector";
 
 import DraggableCard from "./DraggableCard";
 
@@ -30,7 +30,7 @@ interface DynamicSpringProps {
 }
 
 const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
-  const translate = useVector(0);
+  const translate = { x: useSharedValue(0), y: useSharedValue(0) };
   const t2X = useDerivedValue(() => withSpring(translate.x.value));
   const t2Y = useDerivedValue(() => withSpring(translate.y.value));
   const style2 = useAnimatedStyle(() => {

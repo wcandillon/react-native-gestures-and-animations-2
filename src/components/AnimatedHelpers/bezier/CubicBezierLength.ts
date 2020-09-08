@@ -1,4 +1,4 @@
-import { Vector } from "../Vector";
+import { Vector } from "react-native-redash";
 
 type CtrlPoint = [number, number, number, number];
 

@@ -1,1 +1,1 @@
-export { default } from "./boilerplate/Animations";
+export { default } from "./Animations";

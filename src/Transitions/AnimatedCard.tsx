@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { mix } from "react-native-redash";
 
-import { mix } from "../components/AnimatedHelpers";
 import { Card, Cards, StyleGuide } from "../components";
 
 const { width } = Dimensions.get("window");

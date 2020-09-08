@@ -6,9 +6,9 @@ import {
   repeat,
   Easing,
 } from "react-native-reanimated";
+import { withPause } from "react-native-redash";
 
 import { Button, StyleGuide } from "../../components";
-import { withPause } from "../../components/AnimatedHelpers";
 
 import ChatBubble from "./ChatBubble";
 

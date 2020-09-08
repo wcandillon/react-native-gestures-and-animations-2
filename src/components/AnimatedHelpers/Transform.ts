@@ -1,6 +1,5 @@
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
-
-import { Vector } from "./Vector";
+import { Vector } from "react-native-redash";
 
 export const useTranslate = (vector: Vector<Animated.SharedValue<number>>) =>
   useAnimatedStyle(() => {

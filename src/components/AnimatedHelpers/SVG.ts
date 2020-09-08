@@ -4,9 +4,8 @@
 import parseSVG from "parse-svg-path";
 import absSVG from "abs-svg-path";
 import normalizeSVG from "normalize-svg-path";
+import { Vector, cubicBezier } from "react-native-redash";
 
-import { Vector } from "./Vector";
-import { cubicBezier } from "./Math";
 import { cubicBezierLength } from "./bezier";
 
 type SVGMove = ["M", number, number];

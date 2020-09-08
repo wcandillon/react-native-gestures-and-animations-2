@@ -5,9 +5,10 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
+import { clamp } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../../components";
-import { clamp, useTranslate } from "../../components/AnimatedHelpers";
+import { useTranslate } from "../../components/AnimatedHelpers";
 
 interface DraggableCardProps {
   width: number;

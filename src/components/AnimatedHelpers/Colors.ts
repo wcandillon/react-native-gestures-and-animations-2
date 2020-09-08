@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 import { interpolate, Extrapolate } from "react-native-reanimated";
 //import processColor from "react-native-reanimated/src/reanimated2/Colors";
 
-import { clamp, fract, mix } from "./Math";
+import { clamp, mix } from "react-native-redash";
 
 export type Color = string | number;
 export enum ColorSpace {
@@ -12,6 +12,11 @@ export enum ColorSpace {
 }
 
 const processColor = (_: string) => 0x000000ff;
+
+const fract = (v: number) => {
+  "worklet";
+  return v - Math.floor(v);
+};
 
 export const opacity = (c: number) => {
   "worklet";

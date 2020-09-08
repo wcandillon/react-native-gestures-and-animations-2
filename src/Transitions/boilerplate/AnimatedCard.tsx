@@ -1,32 +1,37 @@
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
+import React from "react";
+import { StyleSheet, Dimensions } from "react-native";
+import Animated, { useAnimatedStyle } from "react-native-reanimated";
+import { mix } from "react-native-redash";
 
-import { Button, StyleGuide, cards } from "../../components";
+import { Card, Cards, StyleGuide } from "../../components";
 
-import AnimatedCard from "./AnimatedCard";
-
+const { width } = Dimensions.get("window");
+const origin = -(width / 2 - StyleGuide.spacing * 2);
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: StyleGuide.palette.background,
-    justifyContent: "flex-end",
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: StyleGuide.spacing * 4,
   },
 });
 
-const UseTransition = () => {
-  const [toggled, setToggle] = useState(false);
+interface AnimatedCardProps {
+  toggled: boolean;
+  index: number;
+  card: Cards;
+}
+
+const AnimatedCard = ({ card, toggled }: AnimatedCardProps) => {
+  const rotate = toggled ? Math.PI / 6 : 0;
+  const style = {
+    transform: [{ translateX: origin }, { rotate }, { translateX: -origin }],
+  };
   return (
-    <View style={styles.container}>
-      {cards.slice(0, 3).map((card, index) => (
-        <AnimatedCard key={card} {...{ index, card, toggled }} />
-      ))}
-      <Button
-        label={toggled ? "Reset" : "Start"}
-        primary
-        onPress={() => setToggle((prev) => !prev)}
-      />
-    </View>
+    <Animated.View key={card} style={[styles.overlay, style]}>
+      <Card {...{ card }} />
+    </Animated.View>
   );
 };
 
-export default UseTransition;
+export default AnimatedCard;

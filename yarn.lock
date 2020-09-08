@@ -6195,10 +6195,10 @@ react-native-reanimated@^2.0.0-alpha.6:
     fbjs "^1.0.0"
     string-hash-64 "^1.0.3"
 
-react-native-redash@^15.0.0:
-  version "15.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-15.0.0.tgz#f8fd2de0c226825fd4a227e23e697e01aac059fc"
-  integrity sha512-vf6vmv1Oewxq+UVcToNqg3im7HOPWnZfifl31iS0Oc10gUOvNog4s+WqWsRRg7sr9I1PAZa8jtRmZEjZ/bIcwA==
+react-native-redash@15.0.2:
+  version "15.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-redash/-/react-native-redash-15.0.2.tgz#d57daf66fb4cfba4424559946b59a62b2f7a63a8"
+  integrity sha512-hHdYp2KuEKWax7ddmqH39WTUYmYYrHQo+gKw49oQU+TnScHWeJKax6tVXS9Gc1Ll7FfnU+6Dj18VXMVXKaoniw==
   dependencies:
     abs-svg-path "^0.1.1"
     normalize-svg-path "^1.0.1"

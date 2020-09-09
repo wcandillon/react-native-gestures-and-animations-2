@@ -5,9 +5,7 @@ import Animated, {
   useAnimatedStyle,
 } from "react-native-reanimated";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import { canvas2Polar, polar2Canvas, clamp } from "react-native-redash";
-
-import { Color } from "../components/AnimatedHelpers";
+import { canvas2Polar, polar2Canvas, clamp, Color } from "react-native-redash";
 
 const THRESHOLD = 0.001;
 

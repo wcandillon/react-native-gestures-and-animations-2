@@ -2,9 +2,9 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
+import { Color } from "react-native-redash";
 
 import { StyleGuide } from "../components";
-import { Color } from "../components/AnimatedHelpers";
 
 const { PI } = Math;
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);

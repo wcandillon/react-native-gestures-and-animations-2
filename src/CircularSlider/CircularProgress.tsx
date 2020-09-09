@@ -4,6 +4,7 @@ import Animated, { useAnimatedProps } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
 import { StyleGuide } from "../components";
+import { Color } from "../components/AnimatedHelpers";
 
 const { PI } = Math;
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
@@ -12,7 +13,7 @@ interface CircularProgressProps {
   theta: Animated.SharedValue<number>;
   r: number;
   strokeWidth: number;
-  backgroundColor: Animated.SharedValue<number>;
+  backgroundColor: Animated.SharedValue<Color>;
 }
 
 const CircularProgress = ({

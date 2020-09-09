@@ -31,13 +31,13 @@ const styles = StyleSheet.create({
 
 const CircularSlider = () => {
   const theta = useSharedValue(defaultTheta);
-  const backgroundColor = useDerivedValue(() =>
-    interpolateColor(
+  const backgroundColor = useDerivedValue(() => {
+    return interpolateColor(
       theta.value,
       [0, Math.PI, Math.PI * 2],
       ["#ff3884", StyleGuide.palette.primary, "#38ffb3"]
-    )
-  );
+    );
+  });
   return (
     <View style={styles.container}>
       <View style={styles.content}>

@@ -1,3 +1,4 @@
+/* eslint-disable no-bitwise */
 import { Platform } from "react-native";
 import {
   interpolate,
@@ -5,6 +6,8 @@ import {
   processColor,
 } from "react-native-reanimated";
 import { clamp, mix } from "react-native-redash";
+
+declare let _WORKLET: boolean;
 
 export type Color = string | number;
 export enum ColorSpace {
@@ -39,7 +42,7 @@ export const blue = (c: number) => {
 
 export const color = (r: number, g: number, b: number, alpha = 1) => {
   "worklet";
-  if (Platform.OS === "web") {
+  if (Platform.OS === "web" || !_WORKLET) {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
   }
   const a = alpha * 255;

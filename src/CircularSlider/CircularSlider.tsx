@@ -4,9 +4,8 @@ import Animated, {
   useSharedValue,
   useDerivedValue,
 } from "react-native-reanimated";
-import { canvas2Polar } from "react-native-redash";
+import { canvas2Polar, interpolateColor } from "react-native-redash";
 
-import { interpolateColor } from "../components/AnimatedHelpers";
 import { StyleGuide } from "../components";
 
 import Cursor from "./Cursor";

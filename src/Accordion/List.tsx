@@ -77,7 +77,14 @@ const List = ({ list }: ListProps) => {
         </Animated.View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, style]}>
-        <View ref={aref}>
+        <View
+          ref={aref}
+          onLayout={({
+            nativeEvent: {
+              layout: { height: h },
+            },
+          }) => console.log({ h })}
+        >
           {list.items.map((item, key) => (
             <Item
               key={key}

@@ -1,17 +1,21 @@
 diff --git a/node_modules/react-native-reanimated/react-native-reanimated.d.ts b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
-index 70ebafa..23af3df 100644
+index 70ebafa..630d3ef 100644
 --- a/node_modules/react-native-reanimated/react-native-reanimated.d.ts
 +++ b/node_modules/react-native-reanimated/react-native-reanimated.d.ts
-@@ -186,7 +186,8 @@ declare module 'react-native-reanimated' {
+@@ -186,10 +186,11 @@ declare module 'react-native-reanimated' {
          : S[K] extends object
            ? AnimateStyle<S[K]>
-           :   
+           :
 -              | S[K]
 +              // allow `number` where `string` normally is to support colors    
-+                S[K] extends (string | undefined) ? S[K] | number : S[K]
++                S[K] extends (ColorValue | undefined) ? S[K] | number : S[K]
                | AnimatedNode<
                    // allow `number` where `string` normally is to support colors
-                   S[K] extends (string | undefined) ? S[K] | number : S[K]
+-                  S[K] extends (string | undefined) ? S[K] | number : S[K]
++                  S[K] extends (ColorValue | undefined) ? S[K] | number : S[K]
+                 >)
+     };
+ 
 @@ -387,16 +388,16 @@ declare module 'react-native-reanimated' {
      export function withTiming(
        toValue: number,

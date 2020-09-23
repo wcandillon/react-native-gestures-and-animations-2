@@ -1,4 +1,29 @@
 {
-  "name": "Reanimated2Examples",
-  "displayName": "Reanimated2Examples"
+  "expo": {
+    "name": "react-native-gestures-and-animations-2",
+    "slug": "react-native-gestures-and-animations-2",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "experiments": {
+      "turboModules": true
+    }
+  }
 }

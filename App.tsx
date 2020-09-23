@@ -2,17 +2,17 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Routes } from "./Routes";
-import Examples from "./Examples";
-import PanGesture from "./PanGesture";
-import Transitions from "./Transitions";
-import CircularSlider from "./CircularSlider";
-import Graph from "./Graph";
-import Worklets from "./Worklets";
-import DragToSort from "./DragToSort";
-import DynamicSpring from "./DynamicSpring";
-import Animations from "./Animations";
-import Accordion from "./Accordion";
+import { Routes } from "./src/Routes";
+import Examples from "./src/Examples";
+import PanGesture from "./src/PanGesture";
+import Transitions from "./src/Transitions";
+import CircularSlider from "./src/CircularSlider";
+import Graph from "./src/Graph";
+import Worklets from "./src/Worklets";
+import DragToSort from "./src/DragToSort";
+import DynamicSpring from "./src/DynamicSpring";
+import Animations from "./src/Animations";
+import Accordion from "./src/Accordion";
 
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (

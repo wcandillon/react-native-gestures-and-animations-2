@@ -9,4 +9,5 @@ export type Routes = {
   DragToSort: undefined;
   DynamicSpring: undefined;
   Accordion: undefined;
+  Swipping: undefined;
 };

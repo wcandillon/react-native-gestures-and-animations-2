@@ -1,8 +1,10 @@
 import React from "react";
 import { View } from "react-native";
 
-const SortableItem = () => {
+interface SwippingProps {}
+
+const Swipping = () => {
   return <View />;
 };
 
-export default SortableItem;
+export default Swipping;

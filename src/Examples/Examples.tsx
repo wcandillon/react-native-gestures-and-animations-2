@@ -41,6 +41,10 @@ export const examples = [
     title: "📤 Drag To Sort",
   },
   {
+    screen: "Swipping",
+    title: "↔️ Swipping",
+  },
+  {
     screen: "Accordion",
     title: "🗺 Accordion",
   },

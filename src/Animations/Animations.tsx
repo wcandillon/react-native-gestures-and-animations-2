@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   withTiming,
-  repeat,
+  withRepeat,
   useSharedValue,
   Easing,
 } from "react-native-reanimated";
@@ -36,7 +36,7 @@ const Timing = () => {
           paused.value = !paused.value;
           if (progress.value === null) {
             progress.value = withPause(
-              repeat(withTiming(1, { duration: 1000, easing }), -1, true),
+              withRepeat(withTiming(1, { duration: 1000, easing }), -1, true),
               paused
             );
           }

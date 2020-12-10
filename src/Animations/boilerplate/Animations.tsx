@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 import {
   useSharedValue,
   withTiming,
-  repeat,
+  withRepeat,
   Easing,
 } from "react-native-reanimated";
 import { withPause } from "react-native-redash";
@@ -35,7 +35,7 @@ const Timing = () => {
           paused.value = !paused.value;
           if (progress.value === null) {
             progress.value = withPause(
-              repeat(
+              withRepeat(
                 withTiming(1, {
                   duration: 1000,
                   easing: Easing.inOut(Easing.ease),

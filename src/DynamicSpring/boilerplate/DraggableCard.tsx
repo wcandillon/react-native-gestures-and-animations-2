@@ -4,7 +4,10 @@ import Animated, {
   withDecay,
   useSharedValue,
 } from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
 import { clamp } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../../components";
@@ -22,10 +25,13 @@ const DraggableCard = ({ width, height }: DraggableCardProps) => {
   };
   const boundX = width - CARD_WIDTH;
   const boundY = height - CARD_HEIGHT;
-  const onGestureEvent = useAnimatedGestureHandler<{
-    offsetX: number;
-    offsetY: number;
-  }>({
+  const onGestureEvent = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    {
+      offsetX: number;
+      offsetY: number;
+    }
+  >({
     onStart: (_, ctx) => {
       ctx.offsetX = translate.x.value;
       ctx.offsetY = translate.y.value;

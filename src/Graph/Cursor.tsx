@@ -1,6 +1,9 @@
 import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
   Extrapolate,
@@ -40,10 +43,13 @@ interface CursorProps {
 }
 
 const Cursor = ({ path, length, point }: CursorProps) => {
-  const onGestureEvent = useAnimatedGestureHandler<{
-    offsetX: number;
-    offsetY: number;
-  }>({
+  const onGestureEvent = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    {
+      offsetX: number;
+      offsetY: number;
+    }
+  >({
     onStart: (_event, ctx) => {
       ctx.offsetX = interpolate(
         length.value,

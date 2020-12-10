@@ -6,7 +6,10 @@ import Animated, {
   useAnimatedStyle,
   withDecay,
 } from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import {
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
 import { clamp, withBouncing } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
@@ -27,10 +30,13 @@ const Gesture = ({ width, height }: GestureProps) => {
   const boundY = height - CARD_HEIGHT;
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-  const onGestureEvent = useAnimatedGestureHandler<{
-    offsetX: number;
-    offsetY: number;
-  }>({
+  const onGestureEvent = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    {
+      offsetX: number;
+      offsetY: number;
+    }
+  >({
     onStart: (_, ctx) => {
       ctx.offsetX = translateX.value;
       ctx.offsetY = translateY.value;
@@ -66,7 +72,7 @@ const Gesture = ({ width, height }: GestureProps) => {
   });
   return (
     <View style={styles.container}>
-      <PanGestureHandler {...{ onGestureEvent }}>
+      <PanGestureHandler onGestureEvent={onGestureEvent}>
         <Animated.View {...{ style }}>
           <Card card={Cards.Card1} />
         </Animated.View>

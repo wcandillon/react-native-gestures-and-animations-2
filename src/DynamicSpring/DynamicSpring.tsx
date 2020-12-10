@@ -30,20 +30,23 @@ interface DynamicSpringProps {
 }
 
 const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
-  const translate = { x: useSharedValue(0), y: useSharedValue(0) };
-  const t2X = useDerivedValue(() => withSpring(translate.x.value));
-  const t2Y = useDerivedValue(() => withSpring(translate.y.value));
+  const t1 = { x: useSharedValue(0), y: useSharedValue(0) };
+  const t2 = {
+    x: useDerivedValue(() => withSpring(t1.x.value)),
+    y: useDerivedValue(() => withSpring(t1.y.value)),
+  };
+  const t3 = {
+    x: useDerivedValue(() => withSpring(t2.x.value)),
+    y: useDerivedValue(() => withSpring(t2.y.value)),
+  };
   const style2 = useAnimatedStyle(() => {
     return {
-      transform: [{ translateX: t2X.value }, { translateY: t2Y.value }],
+      transform: [{ translateX: t2.x.value }, { translateY: t2.y.value }],
     };
   });
   const style3 = useAnimatedStyle(() => {
     return {
-      transform: [
-        { translateX: withSpring(t2X.value) },
-        { translateY: withSpring(t2Y.value) },
-      ],
+      transform: [{ translateX: t3.x.value }, { translateY: t3.y.value }],
     };
   });
   return (
@@ -54,7 +57,7 @@ const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
       <Animated.View style={[styles.card, style2]}>
         <Card card={Cards.Card2} />
       </Animated.View>
-      <DraggableCard {...{ translate, width, height }} />
+      <DraggableCard translate={t1} width={width} height={height} />
     </View>
   );
 };

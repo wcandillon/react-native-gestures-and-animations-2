@@ -22,7 +22,7 @@ interface ChevronProps {
 
 const Chevron = ({ progress }: ChevronProps) => {
   const style = useAnimatedStyle(() => ({
-    backgroundColor: mixColor(progress.value, "#525251", "#e45645"),
+    backgroundColor: mixColor(progress.value, "#525251", "#e45645") as string,
     transform: [{ rotateZ: `${mix(progress.value, 0, Math.PI)}rad` }],
   }));
   return (

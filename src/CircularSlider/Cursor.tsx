@@ -8,7 +8,7 @@ import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
-import { canvas2Polar, polar2Canvas, clamp, Color } from "react-native-redash";
+import { canvas2Polar, polar2Canvas, clamp } from "react-native-redash";
 
 const THRESHOLD = 0.001;
 
@@ -16,7 +16,7 @@ interface CursorProps {
   r: number;
   strokeWidth: number;
   theta: Animated.SharedValue<number>;
-  backgroundColor: Animated.SharedValue<Color>;
+  backgroundColor: Animated.SharedValue<string | number>;
 }
 
 const Cursor = ({ r, strokeWidth, theta, backgroundColor }: CursorProps) => {

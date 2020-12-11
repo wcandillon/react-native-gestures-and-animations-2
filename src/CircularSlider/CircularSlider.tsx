@@ -3,8 +3,9 @@ import { Dimensions, PixelRatio, StyleSheet, View } from "react-native";
 import Animated, {
   useSharedValue,
   useDerivedValue,
+  interpolateColor,
 } from "react-native-reanimated";
-import { canvas2Polar, interpolateColor } from "react-native-redash";
+import { canvas2Polar } from "react-native-redash";
 
 import { StyleGuide } from "../components";
 

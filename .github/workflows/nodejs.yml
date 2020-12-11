@@ -27,5 +27,3 @@ jobs:
         yarn tsc
       env:
         CI: true
-      with:
-        node-version: ${{ matrix.node-version }}

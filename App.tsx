@@ -12,6 +12,7 @@ import Worklets from "./src/Worklets";
 import DragToSort from "./src/DragToSort";
 import DynamicSpring from "./src/DynamicSpring";
 import Animations from "./src/Animations";
+import Swiping from "./src/Swiping";
 import Accordion from "./src/Accordion";
 
 const Stack = createStackNavigator<Routes>();
@@ -79,6 +80,13 @@ const AppNavigator = () => (
         component={DragToSort}
         options={{
           title: "Drag to Sort",
+        }}
+      />
+      <Stack.Screen
+        name="Swiping"
+        component={Swiping}
+        options={{
+          title: "Swiping",
         }}
       />
       <Stack.Screen

@@ -1,17 +1,20 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import {
   PanGestureHandler,
   PanGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import Animated, {
+  Extrapolate,
+  interpolate,
   runOnJS,
   useAnimatedGestureHandler,
+  useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { snapPoint } from "react-native-redash";
 
-import { α } from "./Profile";
+import Profile, { ProfileModel, α } from "./Profile";
 
 const { width, height } = Dimensions.get("window");
 
@@ -20,11 +23,15 @@ const snapPoints = [-A, 0, A];
 
 interface SwiperProps {
   onSwipe: () => void;
-  translateX: Animated.SharedValue<number>;
-  translateY: Animated.SharedValue<number>;
+  children: ReactNode;
+  profile: ProfileModel;
+  scale: Animated.SharedValue<number>;
+  onTop: boolean;
 }
 
-const Swiper = ({ onSwipe, translateX, translateY }: SwiperProps) => {
+const Swiper = ({ onSwipe, profile, scale, onTop }: SwiperProps) => {
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     { x: number; y: number }
@@ -36,6 +43,12 @@ const Swiper = ({ onSwipe, translateX, translateY }: SwiperProps) => {
     onActive: ({ translationX, translationY }, { x, y }) => {
       translateX.value = x + translationX;
       translateY.value = y + translationY;
+      scale.value = interpolate(
+        translateX.value,
+        [-width / 4, 0, width / 4],
+        [1, 0.95, 1],
+        Extrapolate.CLAMP
+      );
     },
     onEnd: ({ velocityX, velocityY }) => {
       const dest = snapPoint(translateX.value, velocityX, snapPoints);
@@ -58,7 +71,15 @@ const Swiper = ({ onSwipe, translateX, translateY }: SwiperProps) => {
   });
   return (
     <PanGestureHandler onGestureEvent={onGestureEvent}>
-      <Animated.View style={StyleSheet.absoluteFill} />
+      <Animated.View style={StyleSheet.absoluteFill}>
+        <Profile
+          profile={profile}
+          translateX={translateX}
+          translateY={translateY}
+          scale={scale}
+          onTop={onTop}
+        />
+      </Animated.View>
     </PanGestureHandler>
   );
 };

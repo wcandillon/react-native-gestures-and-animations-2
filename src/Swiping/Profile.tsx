@@ -6,8 +6,6 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
-  withSpring,
-  withTiming,
 } from "react-native-reanimated";
 
 export interface ProfileModel {
@@ -68,18 +66,24 @@ const styles = StyleSheet.create({
 
 interface CardProps {
   profile: ProfileModel;
-  onTop: boolean;
   translateX: Animated.SharedValue<number>;
   translateY: Animated.SharedValue<number>;
+  scale: Animated.SharedValue<number>;
+  onTop: boolean;
 }
 
-const Profile = ({ profile, translateX, translateY, onTop }: CardProps) => {
+const Profile = ({
+  profile,
+  translateX,
+  translateY,
+  onTop,
+  scale,
+}: CardProps) => {
   const x = useDerivedValue(() => (onTop ? translateX.value : 0));
-  const y = useDerivedValue(() => (onTop ? translateY.value : 0));
   const container = useAnimatedStyle(() => ({
     transform: [
-      { translateX: x.value },
-      { translateY: y.value },
+      { translateX: translateX.value },
+      { translateY: translateY.value },
       {
         rotate: interpolate(
           x.value,
@@ -88,16 +92,7 @@ const Profile = ({ profile, translateX, translateY, onTop }: CardProps) => {
           Extrapolate.CLAMP
         ),
       },
-      {
-        scale: onTop
-          ? 1
-          : interpolate(
-              translateX.value,
-              [-width / 4, 0, width / 4],
-              [1, 0.95, 1],
-              Extrapolate.CLAMP
-            ),
-      },
+      { scale: onTop ? 1 : scale.value },
     ],
   }));
   const nope = useAnimatedStyle(() => ({

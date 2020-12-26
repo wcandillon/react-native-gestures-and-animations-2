@@ -56,8 +56,7 @@ interface ProfilesProps {
 }
 
 const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
+  const scale = useSharedValue(0);
   const [profiles, setProfiles] = useState(defaultProfiles);
   const onSwipe = useCallback(() => {
     setProfiles(profiles.slice(0, profiles.length - 1));
@@ -70,19 +69,14 @@ const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
       </View>
       <View style={styles.cards}>
         {profiles.map((profile, index) => (
-          <Profile
+          <Swiper
             key={profile.id}
             profile={profile}
+            scale={scale}
+            onSwipe={onSwipe}
             onTop={index === profiles.length - 1}
-            translateX={translateX}
-            translateY={translateY}
           />
         ))}
-        <Swiper
-          translateX={translateX}
-          translateY={translateY}
-          onSwipe={onSwipe}
-        />
       </View>
       <View style={styles.footer}>
         <RectButton style={styles.circle} onPress={() => {}}>

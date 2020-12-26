@@ -1,15 +1,21 @@
 // @flow
 import * as React from "react";
-import { Image, StyleSheet, Text, View } from "react-native";
-import Animated from "react-native-reanimated";
+import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
+import Animated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedStyle,
+} from "react-native-reanimated";
 
-export interface Profile {
+export interface ProfileModel {
   id: string;
   name: string;
   age: number;
   profile: number;
 }
 
+const { width } = Dimensions.get("window");
+export const α = Math.PI / 12;
 const styles = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
@@ -58,26 +64,45 @@ const styles = StyleSheet.create({
 });
 
 interface CardProps {
-  profile: Profile;
-  likeOpacity?: Animated.Node<number>;
-  nopeOpacity?: Animated.Node<number>;
+  profile: ProfileModel;
+  onTop: boolean;
+  translateX: Animated.SharedValue<number>;
 }
 
-const Profile = (props: CardProps) => {
-  const { profile, likeOpacity, nopeOpacity } = {
-    likeOpacity: 0,
-    nopeOpacity: 0,
-    ...props,
-  };
+const Profile = ({ profile, translateX }: CardProps) => {
+  const container = useAnimatedStyle(() => ({
+    transform: [
+      {
+        rotate: interpolate(
+          translateX.value,
+          [-width / 2, 0, width / 2],
+          [-α, 0, α],
+          Extrapolate.CLAMP
+        ),
+      },
+    ],
+  }));
+  const nope = useAnimatedStyle(() => ({
+    opacity: interpolate(translateX.value, [-width / 4, 0], [1, 0]),
+  }));
+  const like = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      translateX.value,
+      [0, width / 4],
+      [0, 1],
+      Extrapolate.CLAMP
+    ),
+  }));
+
   return (
-    <View style={StyleSheet.absoluteFill}>
+    <Animated.View style={[StyleSheet.absoluteFill, container]}>
       <Image style={styles.image} source={profile.profile} />
       <View style={styles.overlay}>
         <View style={styles.header}>
-          <Animated.View style={[styles.like, { opacity: likeOpacity }]}>
+          <Animated.View style={[styles.like, like]}>
             <Text style={styles.likeLabel}>LIKE</Text>
           </Animated.View>
-          <Animated.View style={[styles.nope, { opacity: nopeOpacity }]}>
+          <Animated.View style={[styles.nope, nope]}>
             <Text style={styles.nopeLabel}>NOPE</Text>
           </Animated.View>
         </View>
@@ -85,7 +110,7 @@ const Profile = (props: CardProps) => {
           <Text style={styles.name}>{profile.name}</Text>
         </View>
       </View>
-    </View>
+    </Animated.View>
   );
 };
 

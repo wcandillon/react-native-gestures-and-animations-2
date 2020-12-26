@@ -1,18 +1,13 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 import { RectButton } from "react-native-gesture-handler";
+import { useSharedValue } from "react-native-reanimated";
 
 import { StyleGuide } from "../components";
 
-import Card, { Profile } from "./Profile";
-import Swipeable from "./Swipeable";
-
-const { width, height } = Dimensions.get("window");
-const deltaX = width / 2;
-const α = Math.PI / 12;
-const A = Math.round(width * Math.cos(α) + height * Math.sin(α));
-const snapPoints = [-A, 0, A];
+import Profile, { ProfileModel } from "./Profile";
+import Swiper from "./Swiper";
 
 const styles = StyleSheet.create({
   container: {
@@ -51,14 +46,12 @@ const styles = StyleSheet.create({
 });
 
 interface ProfilesProps {
-  profiles: Profile[];
+  profiles: ProfileModel[];
 }
 
 const Profiles = ({ profiles }: ProfilesProps) => {
-  const [index, setIndex] = useState(0);
-
-  const profile = profiles[index];
-
+  const [currentIndex, setCurrentIndex] = useState(profiles.length - 1);
+  const onSwipe = useCallback(() => setCurrentIndex((prev) => prev - 1), []);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -66,7 +59,14 @@ const Profiles = ({ profiles }: ProfilesProps) => {
         <Icon name="message-circle" size={32} color="gray" />
       </View>
       <View style={styles.cards}>
-        <Card {...{ profile, likeOpacity: 0, nopeOpacity: 0 }} />
+        {profiles.map((profile, index) => (
+          <Swiper
+            key={profile.id}
+            profile={profile}
+            onTop={currentIndex === index}
+            onSwipe={onSwipe}
+          />
+        ))}
       </View>
       <View style={styles.footer}>
         <RectButton style={styles.circle} onPress={() => {}}>

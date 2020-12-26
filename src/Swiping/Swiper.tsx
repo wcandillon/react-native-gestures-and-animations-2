@@ -5,17 +5,13 @@ import {
   PanGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import Animated, {
-  Extrapolate,
-  interpolate,
   runOnJS,
   useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
   withSpring,
 } from "react-native-reanimated";
 import { snapPoint } from "react-native-redash";
 
-import Profile, { ProfileModel, α } from "./Profile";
+import { α } from "./Profile";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,14 +20,11 @@ const snapPoints = [-A, 0, A];
 
 interface SwiperProps {
   onSwipe: () => void;
-  profile: ProfileModel;
-  onTop: boolean;
-  scale: Animated.SharedValue<number>;
+  translateX: Animated.SharedValue<number>;
+  translateY: Animated.SharedValue<number>;
 }
 
-const Swiper = ({ onSwipe, profile, onTop, scale }: SwiperProps) => {
-  const translateX = useSharedValue(0);
-  const translateY = useSharedValue(0);
+const Swiper = ({ onSwipe, translateX, translateY }: SwiperProps) => {
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     { x: number; y: number }
@@ -43,37 +36,29 @@ const Swiper = ({ onSwipe, profile, onTop, scale }: SwiperProps) => {
     onActive: ({ translationX, translationY }, { x, y }) => {
       translateX.value = x + translationX;
       translateY.value = y + translationY;
-      scale.value = interpolate(
-        translateX.value,
-        [-width / 4, 0, width / 4],
-        [1, 0.95, 1],
-        Extrapolate.CLAMP
-      );
     },
     onEnd: ({ velocityX, velocityY }) => {
       const dest = snapPoint(translateX.value, velocityX, snapPoints);
-      translateX.value = withSpring(dest, { velocity: velocityX }, () => {
-        if (dest !== 0) {
-          runOnJS(onSwipe)();
+      translateX.value = withSpring(
+        dest,
+        {
+          velocity: velocityX,
+          overshootClamping: dest === 0 ? false : true,
+          restSpeedThreshold: dest === 0 ? 0.01 : 100,
+          restDisplacementThreshold: dest === 0 ? 0.01 : 100,
+        },
+        () => {
+          if (dest !== 0) {
+            runOnJS(onSwipe)();
+          }
         }
-      });
+      );
       translateY.value = withSpring(0, { velocity: velocityY });
     },
   });
-  const style = useAnimatedStyle(() => {
-    return {
-      transform: [
-        { translateX: translateX.value },
-        { translateY: translateY.value },
-        { scale: onTop ? 1 : scale.value },
-      ],
-    };
-  });
   return (
     <PanGestureHandler onGestureEvent={onGestureEvent}>
-      <Animated.View style={[StyleSheet.absoluteFill, style]}>
-        <Profile profile={profile} onTop={onTop} translateX={translateX} />
-      </Animated.View>
+      <Animated.View style={StyleSheet.absoluteFill} />
     </PanGestureHandler>
   );
 };

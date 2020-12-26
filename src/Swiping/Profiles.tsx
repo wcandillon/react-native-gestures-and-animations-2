@@ -2,13 +2,19 @@ import React, { useCallback, useState } from "react";
 import { Dimensions, SafeAreaView, StyleSheet, View } from "react-native";
 import { Feather as Icon } from "@expo/vector-icons";
 import { RectButton } from "react-native-gesture-handler";
-import { useSharedValue } from "react-native-reanimated";
+import {
+  Extrapolate,
+  interpolate,
+  useDerivedValue,
+  useSharedValue,
+} from "react-native-reanimated";
 
 import { StyleGuide } from "../components";
 
 import Profile, { ProfileModel } from "./Profile";
 import Swiper from "./Swiper";
 
+const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -49,10 +55,13 @@ interface ProfilesProps {
   profiles: ProfileModel[];
 }
 
-const Profiles = ({ profiles }: ProfilesProps) => {
-  const [currentIndex, setCurrentIndex] = useState(profiles.length - 1);
-  const onSwipe = useCallback(() => setCurrentIndex((prev) => prev - 1), []);
-  const scale = useSharedValue(0);
+const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
+  const translateX = useSharedValue(0);
+  const translateY = useSharedValue(0);
+  const [profiles, setProfiles] = useState(defaultProfiles);
+  const onSwipe = useCallback(() => {
+    setProfiles(profiles.slice(0, profiles.length - 1));
+  }, [profiles]);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -61,14 +70,19 @@ const Profiles = ({ profiles }: ProfilesProps) => {
       </View>
       <View style={styles.cards}>
         {profiles.map((profile, index) => (
-          <Swiper
+          <Profile
             key={profile.id}
             profile={profile}
-            onTop={currentIndex === index}
-            onSwipe={onSwipe}
-            scale={scale}
+            onTop={index === profiles.length - 1}
+            translateX={translateX}
+            translateY={translateY}
           />
         ))}
+        <Swiper
+          translateX={translateX}
+          translateY={translateY}
+          onSwipe={onSwipe}
+        />
       </View>
       <View style={styles.footer}>
         <RectButton style={styles.circle} onPress={() => {}}>

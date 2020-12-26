@@ -5,6 +5,9 @@ import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
+  useDerivedValue,
+  withSpring,
+  withTiming,
 } from "react-native-reanimated";
 
 export interface ProfileModel {
@@ -67,31 +70,41 @@ interface CardProps {
   profile: ProfileModel;
   onTop: boolean;
   translateX: Animated.SharedValue<number>;
+  translateY: Animated.SharedValue<number>;
 }
 
-const Profile = ({ profile, translateX }: CardProps) => {
+const Profile = ({ profile, translateX, translateY, onTop }: CardProps) => {
+  const x = useDerivedValue(() => (onTop ? translateX.value : 0));
+  const y = useDerivedValue(() => (onTop ? translateY.value : 0));
   const container = useAnimatedStyle(() => ({
     transform: [
+      { translateX: x.value },
+      { translateY: y.value },
       {
         rotate: interpolate(
-          translateX.value,
+          x.value,
           [-width / 2, 0, width / 2],
           [α, 0, -α],
           Extrapolate.CLAMP
         ),
       },
+      {
+        scale: onTop
+          ? 1
+          : interpolate(
+              translateX.value,
+              [-width / 4, 0, width / 4],
+              [1, 0.95, 1],
+              Extrapolate.CLAMP
+            ),
+      },
     ],
   }));
   const nope = useAnimatedStyle(() => ({
-    opacity: interpolate(translateX.value, [-width / 4, 0], [1, 0]),
+    opacity: interpolate(x.value, [-width / 4, 0], [1, 0]),
   }));
   const like = useAnimatedStyle(() => ({
-    opacity: interpolate(
-      translateX.value,
-      [0, width / 4],
-      [0, 1],
-      Extrapolate.CLAMP
-    ),
+    opacity: interpolate(x.value, [0, width / 4], [0, 1], Extrapolate.CLAMP),
   }));
 
   return (

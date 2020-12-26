@@ -5,14 +5,16 @@ import { RectButton } from "react-native-gesture-handler";
 import {
   Extrapolate,
   interpolate,
+  runOnJS,
   useDerivedValue,
   useSharedValue,
+  withSpring,
 } from "react-native-reanimated";
 
 import { StyleGuide } from "../components";
 
 import { ProfileModel } from "./Profile";
-import Swipeable from "./Swipeable";
+import Swipeable, { A } from "./Swipeable";
 
 const styles = StyleSheet.create({
   container: {
@@ -55,6 +57,7 @@ interface ProfilesProps {
 }
 
 const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
+  const translateX = useSharedValue(0);
   const scale = useSharedValue(0);
   const [profiles, setProfiles] = useState(defaultProfiles);
   const onSwipe = useCallback(() => {
@@ -78,10 +81,20 @@ const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
         ))}
       </View>
       <View style={styles.footer}>
-        <RectButton style={styles.circle} onPress={() => {}}>
+        <RectButton
+          style={styles.circle}
+          onPress={() => {
+            translateX.value = withSpring(-A, {}, () => runOnJS(onSwipe)());
+          }}
+        >
           <Icon name="x" size={32} color="#ec5288" />
         </RectButton>
-        <RectButton style={styles.circle} onPress={() => {}}>
+        <RectButton
+          style={styles.circle}
+          onPress={() => {
+            translateX.value = withSpring(A, {}, () => runOnJS(onSwipe)());
+          }}
+        >
           <Icon name="heart" size={32} color="#6ee3b4" />
         </RectButton>
       </View>

@@ -52,6 +52,7 @@ interface ProfilesProps {
 const Profiles = ({ profiles }: ProfilesProps) => {
   const [currentIndex, setCurrentIndex] = useState(profiles.length - 1);
   const onSwipe = useCallback(() => setCurrentIndex((prev) => prev - 1), []);
+  const scale = useSharedValue(0);
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -65,6 +66,7 @@ const Profiles = ({ profiles }: ProfilesProps) => {
             profile={profile}
             onTop={currentIndex === index}
             onSwipe={onSwipe}
+            scale={scale}
           />
         ))}
       </View>

@@ -76,7 +76,7 @@ const Profile = ({ profile, translateX }: CardProps) => {
         rotate: interpolate(
           translateX.value,
           [-width / 2, 0, width / 2],
-          [-α, 0, α],
+          [α, 0, -α],
           Extrapolate.CLAMP
         ),
       },

@@ -5,6 +5,8 @@ import {
   PanGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import Animated, {
+  Extrapolate,
+  interpolate,
   runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
@@ -24,9 +26,10 @@ interface SwiperProps {
   onSwipe: () => void;
   profile: ProfileModel;
   onTop: boolean;
+  scale: Animated.SharedValue<number>;
 }
 
-const Swiper = ({ onSwipe, profile, onTop }: SwiperProps) => {
+const Swiper = ({ onSwipe, profile, onTop, scale }: SwiperProps) => {
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
   const onGestureEvent = useAnimatedGestureHandler<
@@ -40,6 +43,12 @@ const Swiper = ({ onSwipe, profile, onTop }: SwiperProps) => {
     onActive: ({ translationX, translationY }, { x, y }) => {
       translateX.value = x + translationX;
       translateY.value = y + translationY;
+      scale.value = interpolate(
+        translateX.value,
+        [-width / 4, 0, width / 4],
+        [1, 0.95, 1],
+        Extrapolate.CLAMP
+      );
     },
     onEnd: ({ velocityX, velocityY }) => {
       const dest = snapPoint(translateX.value, velocityX, snapPoints);
@@ -56,6 +65,7 @@ const Swiper = ({ onSwipe, profile, onTop }: SwiperProps) => {
       transform: [
         { translateX: translateX.value },
         { translateY: translateY.value },
+        { scale: onTop ? 1 : scale.value },
       ],
     };
   });

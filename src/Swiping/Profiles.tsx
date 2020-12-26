@@ -11,10 +11,9 @@ import {
 
 import { StyleGuide } from "../components";
 
-import Profile, { ProfileModel } from "./Profile";
-import Swiper from "./Swiper";
+import { ProfileModel } from "./Profile";
+import Swipeable from "./Swipeable";
 
-const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -69,7 +68,7 @@ const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
       </View>
       <View style={styles.cards}>
         {profiles.map((profile, index) => (
-          <Swiper
+          <Swipeable
             key={profile.id}
             profile={profile}
             scale={scale}

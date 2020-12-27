@@ -96,6 +96,7 @@ const AppNavigator = () => (
         component={Bezier}
         options={{
           title: "Bézier",
+          gestureEnabled: false,
         }}
       />
       <Stack.Screen

@@ -9,10 +9,11 @@ import Animated, {
 import ControlPoint, { CONTROL_POINT_RADIUS } from "./ControlPoint";
 
 const { width } = Dimensions.get("window");
-const size = width - 48;
+const PADDING = 24;
+const SIZE = width;
 const STROKE_WIDTH = 4;
-const min = STROKE_WIDTH / 2;
-const max = min + size;
+const min = PADDING;
+const max = SIZE - PADDING;
 const start = {
   x: min,
   y: max,
@@ -28,8 +29,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   content: {
-    width: size + STROKE_WIDTH,
-    height: size + STROKE_WIDTH,
+    width: SIZE + STROKE_WIDTH,
+    height: SIZE + STROKE_WIDTH,
   },
 });
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -98,8 +99,8 @@ const BezierCurves = () => {
             r={CONTROL_POINT_RADIUS}
           />
         </Svg>
-        <ControlPoint point={{ x: c1x, y: c1y }} min={min} max={max} />
-        <ControlPoint point={{ x: c2x, y: c2y }} min={min} max={max} />
+        <ControlPoint x={c1x} y={c1y} min={min} max={max} />
+        <ControlPoint x={c2x} y={c2y} min={min} max={max} />
       </View>
     </View>
   );

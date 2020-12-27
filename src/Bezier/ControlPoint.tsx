@@ -1,5 +1,4 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
@@ -14,14 +13,8 @@ export const CONTROL_POINT_RADIUS = 20;
 
 type Offset = { x: number; y: number };
 
-interface Point {
-  x: number;
-  y: number;
-}
-
 interface ControlPointProps {
   point: Vector<Animated.SharedValue<number>>;
-  defaultPoint: Point;
   backgroundColor: string;
   min: number;
   max: number;
@@ -57,7 +50,7 @@ const ControlPoint = ({
       <Animated.View
         style={[
           {
-            ...StyleSheet.absoluteFillObject,
+            position: "absolute",
             width: CONTROL_POINT_RADIUS * 2,
             height: CONTROL_POINT_RADIUS * 2,
             borderRadius: CONTROL_POINT_RADIUS,

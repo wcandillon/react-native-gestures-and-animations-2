@@ -1,12 +1,12 @@
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import Svg, { Line, Path } from "react-native-svg";
+import Svg, { Line, Path, Circle } from "react-native-svg";
 import Animated, {
   useSharedValue,
   useAnimatedProps,
 } from "react-native-reanimated";
 
-import ControlPoint from "./ControlPoint";
+import ControlPoint, { CONTROL_POINT_RADIUS } from "./ControlPoint";
 
 const { width } = Dimensions.get("window");
 const size = width - 48;
@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
 });
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedLine = Animated.createAnimatedComponent(Line);
+const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const BezierCurves = () => {
   const c1x = useSharedValue(min);
   const c1y = useSharedValue(min);
@@ -49,6 +50,14 @@ const BezierCurves = () => {
   const line2 = useAnimatedProps(() => ({
     x2: c2x.value,
     y2: c2y.value,
+  }));
+  const circle1 = useAnimatedProps(() => ({
+    cx: c1x.value,
+    cy: c1y.value,
+  }));
+  const circle2 = useAnimatedProps(() => ({
+    cx: c2x.value,
+    cy: c2y.value,
   }));
   return (
     <View style={styles.container}>
@@ -74,19 +83,23 @@ const BezierCurves = () => {
             stroke="black"
             strokeWidth={STROKE_WIDTH / 2}
           />
+          <AnimatedCircle
+            animatedProps={circle1}
+            fill="#38ffb3"
+            stroke="black"
+            strokeWidth={STROKE_WIDTH}
+            r={CONTROL_POINT_RADIUS}
+          />
+          <AnimatedCircle
+            animatedProps={circle2}
+            fill="#FF6584"
+            stroke="black"
+            strokeWidth={STROKE_WIDTH}
+            r={CONTROL_POINT_RADIUS}
+          />
         </Svg>
-        <ControlPoint
-          point={{ x: c1x, y: c1y }}
-          backgroundColor="#38ffb3"
-          min={min}
-          max={max}
-        />
-        <ControlPoint
-          point={{ x: c2x, y: c2y }}
-          backgroundColor="#FF6584"
-          min={min}
-          max={max}
-        />
+        <ControlPoint point={{ x: c1x, y: c1y }} min={min} max={max} />
+        <ControlPoint point={{ x: c2x, y: c2y }} min={min} max={max} />
       </View>
     </View>
   );

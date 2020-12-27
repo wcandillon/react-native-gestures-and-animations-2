@@ -15,17 +15,11 @@ type Offset = { x: number; y: number };
 
 interface ControlPointProps {
   point: Vector<Animated.SharedValue<number>>;
-  backgroundColor: string;
   min: number;
   max: number;
 }
 
-const ControlPoint = ({
-  point: { x, y },
-  min,
-  max,
-  backgroundColor,
-}: ControlPointProps) => {
+const ControlPoint = ({ point: { x, y }, min, max }: ControlPointProps) => {
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     Offset
@@ -53,9 +47,6 @@ const ControlPoint = ({
             position: "absolute",
             width: CONTROL_POINT_RADIUS * 2,
             height: CONTROL_POINT_RADIUS * 2,
-            borderRadius: CONTROL_POINT_RADIUS,
-            borderWidth: 4,
-            backgroundColor,
           },
           style,
         ]}

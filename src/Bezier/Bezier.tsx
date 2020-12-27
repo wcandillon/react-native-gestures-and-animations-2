@@ -2,8 +2,6 @@ import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Svg, { Line, Path } from "react-native-svg";
 import Animated, {
-  Value,
-  concat,
   useSharedValue,
   useAnimatedProps,
 } from "react-native-reanimated";
@@ -37,10 +35,10 @@ const styles = StyleSheet.create({
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedLine = Animated.createAnimatedComponent(Line);
 const BezierCurves = () => {
-  const c1x = useSharedValue(0);
-  const c1y = useSharedValue(0);
-  const c2x = useSharedValue(0);
-  const c2y = useSharedValue(0);
+  const c1x = useSharedValue(min);
+  const c1y = useSharedValue(min);
+  const c2x = useSharedValue(max);
+  const c2y = useSharedValue(max);
   const path = useAnimatedProps(() => ({
     d: `M ${start.x} ${start.y} C ${c1x.value} ${c1y.value}, ${c2x.value} ${c2y.value}, ${end.x} ${end.y}`,
   }));
@@ -79,15 +77,15 @@ const BezierCurves = () => {
         </Svg>
         <ControlPoint
           point={{ x: c1x, y: c1y }}
-          defaultPoint={{ x: min, y: min }}
           backgroundColor="#38ffb3"
-          {...{ min, max }}
+          min={min}
+          max={max}
         />
         <ControlPoint
           point={{ x: c2x, y: c2y }}
-          defaultPoint={{ x: max, y: max }}
           backgroundColor="#FF6584"
-          {...{ min, max }}
+          min={min}
+          max={max}
         />
       </View>
     </View>

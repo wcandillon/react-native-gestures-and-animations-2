@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
-  useSharedValue,
 } from "react-native-reanimated";
 import {
   PanGestureHandler,
@@ -11,7 +10,6 @@ import {
 } from "react-native-gesture-handler";
 import { clamp, Vector } from "react-native-redash";
 
-const { useCode, set, sub } = Animated;
 export const CONTROL_POINT_RADIUS = 20;
 
 type Offset = { x: number; y: number };
@@ -31,30 +29,10 @@ interface ControlPointProps {
 
 const ControlPoint = ({
   point: { x, y },
-  defaultPoint,
   min,
   max,
   backgroundColor,
 }: ControlPointProps) => {
-  /*
-  const offset = vec.createValue(defaultPoint.x, defaultPoint.y);
-  const translateX = diffClamp(
-    withOffset(translation.x, state, offset.x),
-    min,
-    max
-  );
-  const translateY = diffClamp(
-    withOffset(translation.y, state, offset.y),
-    min,
-    max
-  );
-  useCode(() => [set(x, translateX), set(y, translateY)], [
-    translateX,
-    translateY,
-    x,
-    y,
-  ]);
-  */
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     Offset

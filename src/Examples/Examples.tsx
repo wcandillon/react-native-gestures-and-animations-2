@@ -49,6 +49,10 @@ export const examples = [
     title: "⤴️ Bézier",
   },
   {
+    screen: "ShapeMorphing",
+    title: "☺️ Shape Morphing",
+  },
+  {
     screen: "Accordion",
     title: "🗺 Accordion",
   },

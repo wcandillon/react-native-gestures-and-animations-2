@@ -13,6 +13,7 @@ import DynamicSpring from "./src/DynamicSpring";
 import Animations from "./src/Animations";
 import Swiping, { swipingAssets } from "./src/Swiping";
 import Bezier from "./src/Bezier";
+import ShapeMorphing from "./src/ShapeMorphing";
 import Accordion from "./src/Accordion";
 import { LoadAssets } from "./src/components";
 
@@ -97,6 +98,13 @@ const AppNavigator = () => (
         options={{
           title: "Bézier",
           gestureEnabled: false,
+        }}
+      />
+      <Stack.Screen
+        name="ShapeMorphing"
+        component={ShapeMorphing}
+        options={{
+          title: "Shape Morphing",
         }}
       />
       <Stack.Screen

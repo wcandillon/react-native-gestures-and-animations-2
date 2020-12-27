@@ -10,5 +10,6 @@ export type Routes = {
   DynamicSpring: undefined;
   Swiping: undefined;
   Bezier: undefined;
+  ShapeMorphing: undefined;
   Accordion: undefined;
 };

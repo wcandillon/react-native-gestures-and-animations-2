@@ -1,5 +1,4 @@
 import React from "react";
-import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { Routes } from "./src/Routes";
@@ -12,9 +11,11 @@ import Worklets from "./src/Worklets";
 import DragToSort from "./src/DragToSort";
 import DynamicSpring from "./src/DynamicSpring";
 import Animations from "./src/Animations";
-import Swiping from "./src/Swiping";
+import Swiping, { swipingAssets } from "./src/Swiping";
 import Accordion from "./src/Accordion";
+import { LoadAssets } from "./src/components";
 
+const assets = [...swipingAssets];
 const Stack = createStackNavigator<Routes>();
 const AppNavigator = () => (
   <>
@@ -101,9 +102,9 @@ const AppNavigator = () => (
 );
 
 const App = () => (
-  <NavigationContainer>
+  <LoadAssets assets={assets}>
     <AppNavigator />
-  </NavigationContainer>
+  </LoadAssets>
 );
 
 export default App;

@@ -1,13 +1,28 @@
 import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Svg, { Line, Path } from "react-native-svg";
-import Animated, { Value, concat } from "react-native-reanimated";
+import Animated, {
+  Value,
+  concat,
+  useSharedValue,
+  useAnimatedProps,
+} from "react-native-reanimated";
 
 import ControlPoint from "./ControlPoint";
 
 const { width } = Dimensions.get("window");
 const size = width - 48;
 const STROKE_WIDTH = 4;
+const min = STROKE_WIDTH / 2;
+const max = min + size;
+const start = {
+  x: min,
+  y: max,
+};
+const end = {
+  x: max,
+  y: min,
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -22,31 +37,21 @@ const styles = StyleSheet.create({
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedLine = Animated.createAnimatedComponent(Line);
 const BezierCurves = () => {
-  const min = STROKE_WIDTH / 2;
-  const max = min + size;
-  const start = {
-    x: min,
-    y: max,
-  };
-  const end = {
-    x: max,
-    y: min,
-  };
-  const c1x = new Value(0);
-  const c1y = new Value(0);
-  const c2x = new Value(0);
-  const c2y = new Value(0);
-  const d = concat(
-    `M ${start.x} ${start.y} C `,
-    c1x,
-    " ",
-    c1y,
-    ", ",
-    c2x,
-    " ",
-    c2y,
-    `, ${end.x} ${end.y}`
-  );
+  const c1x = useSharedValue(0);
+  const c1y = useSharedValue(0);
+  const c2x = useSharedValue(0);
+  const c2y = useSharedValue(0);
+  const path = useAnimatedProps(() => ({
+    d: `M ${start.x} ${start.y} C ${c1x.value} ${c1y.value}, ${c2x.value} ${c2y.value}, ${end.x} ${end.y}`,
+  }));
+  const line1 = useAnimatedProps(() => ({
+    x2: c1x.value,
+    y2: c1y.value,
+  }));
+  const line2 = useAnimatedProps(() => ({
+    x2: c2x.value,
+    y2: c2y.value,
+  }));
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -55,21 +60,19 @@ const BezierCurves = () => {
             fill="transparent"
             stroke="black"
             strokeWidth={STROKE_WIDTH}
-            {...{ d }}
+            animatedProps={path}
           />
           <AnimatedLine
             x1={start.x}
             y1={start.y}
-            x2={c1x}
-            y2={c1y}
+            animatedProps={line1}
             stroke="black"
             strokeWidth={STROKE_WIDTH / 2}
           />
           <AnimatedLine
             x1={end.x}
             y1={end.y}
-            x2={c2x}
-            y2={c2y}
+            animatedProps={line2}
             stroke="black"
             strokeWidth={STROKE_WIDTH / 2}
           />

@@ -1,21 +1,20 @@
 import React from "react";
 import { StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated, {
+  useAnimatedGestureHandler,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 import {
-  diffClamp,
-  panGestureHandler,
-  vec,
-  withOffset,
-} from "react-native-redash/lib/module/v1";
+  PanGestureHandler,
+  PanGestureHandlerGestureEvent,
+} from "react-native-gesture-handler";
+import { clamp, Vector } from "react-native-redash";
 
 const { useCode, set, sub } = Animated;
 export const CONTROL_POINT_RADIUS = 20;
 
-interface AnimatedPoint {
-  x: Animated.Value<number>;
-  y: Animated.Value<number>;
-}
+type Offset = { x: number; y: number };
 
 interface Point {
   x: number;
@@ -23,7 +22,7 @@ interface Point {
 }
 
 interface ControlPointProps {
-  point: AnimatedPoint;
+  point: Vector<Animated.SharedValue<number>>;
   defaultPoint: Point;
   backgroundColor: string;
   min: number;
@@ -37,7 +36,7 @@ const ControlPoint = ({
   max,
   backgroundColor,
 }: ControlPointProps) => {
-  const { translation, gestureHandler, state } = panGestureHandler();
+  /*
   const offset = vec.createValue(defaultPoint.x, defaultPoint.y);
   const translateX = diffClamp(
     withOffset(translation.x, state, offset.x),
@@ -55,21 +54,40 @@ const ControlPoint = ({
     x,
     y,
   ]);
+  */
+  const onGestureEvent = useAnimatedGestureHandler<
+    PanGestureHandlerGestureEvent,
+    Offset
+  >({
+    onStart: (_, ctx) => {
+      ctx.x = x.value;
+      ctx.y = y.value;
+    },
+    onActive: ({ translationX, translationY }, ctx) => {
+      x.value = clamp(ctx.x + translationX, min, max);
+      y.value = clamp(ctx.y + translationY, min, max);
+    },
+  });
+  const style = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: x.value - CONTROL_POINT_RADIUS },
+      { translateY: y.value - CONTROL_POINT_RADIUS },
+    ],
+  }));
   return (
-    <PanGestureHandler {...gestureHandler}>
+    <PanGestureHandler onGestureEvent={onGestureEvent}>
       <Animated.View
-        style={{
-          ...StyleSheet.absoluteFillObject,
-          width: CONTROL_POINT_RADIUS * 2,
-          height: CONTROL_POINT_RADIUS * 2,
-          borderRadius: CONTROL_POINT_RADIUS,
-          borderWidth: 4,
-          backgroundColor,
-          transform: [
-            { translateX: sub(x, CONTROL_POINT_RADIUS) },
-            { translateY: sub(y, CONTROL_POINT_RADIUS) },
-          ],
-        }}
+        style={[
+          {
+            ...StyleSheet.absoluteFillObject,
+            width: CONTROL_POINT_RADIUS * 2,
+            height: CONTROL_POINT_RADIUS * 2,
+            borderRadius: CONTROL_POINT_RADIUS,
+            borderWidth: 4,
+            backgroundColor,
+          },
+          style,
+        ]}
       />
     </PanGestureHandler>
   );

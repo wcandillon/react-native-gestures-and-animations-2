@@ -12,6 +12,7 @@ import DragToSort from "./src/DragToSort";
 import DynamicSpring from "./src/DynamicSpring";
 import Animations from "./src/Animations";
 import Swiping, { swipingAssets } from "./src/Swiping";
+import Bezier from "./src/Bezier";
 import Accordion from "./src/Accordion";
 import { LoadAssets } from "./src/components";
 
@@ -88,6 +89,13 @@ const AppNavigator = () => (
         component={Swiping}
         options={{
           title: "Swiping",
+        }}
+      />
+      <Stack.Screen
+        name="Bezier"
+        component={Bezier}
+        options={{
+          title: "Bézier",
         }}
       />
       <Stack.Screen

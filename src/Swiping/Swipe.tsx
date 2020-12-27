@@ -1,9 +1,9 @@
 import * as React from "react";
 
-import { Profile } from "./Profile";
+import { ProfileModel } from "./Profile";
 import Profiles from "./Profiles";
 
-export const profiles: Profile[] = [
+export const profiles: ProfileModel[] = [
   {
     id: "1",
     name: "Caroline",

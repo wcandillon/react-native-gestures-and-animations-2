@@ -19,8 +19,8 @@ import { LoadAssets } from "./src/components";
 
 const assets = [...swipingAssets];
 const Stack = createStackNavigator<Routes>();
-const AppNavigator = () => (
-  <>
+const App = () => (
+  <LoadAssets assets={assets}>
     <Stack.Navigator>
       <Stack.Screen
         name="Examples"
@@ -115,12 +115,6 @@ const AppNavigator = () => (
         }}
       />
     </Stack.Navigator>
-  </>
-);
-
-const App = () => (
-  <LoadAssets assets={assets}>
-    <AppNavigator />
   </LoadAssets>
 );
 

@@ -1,1 +1,1 @@
-export { default } from "./boilerplate/ShapeMorphing";
+export { default } from "./ShapeMorphing";

@@ -1,1 +1,1 @@
-export { default } from "./boilerplate/Bezier";
+export { default } from "./Bezier";

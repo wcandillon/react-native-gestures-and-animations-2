@@ -1,13 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import {
-  addCurve,
-  close,
-  createPath,
-  interpolatePath,
-  serialize,
-} from "react-native-redash";
+import { addCurve, close, createPath, serialize } from "react-native-redash";
 
 interface EyeProps {
   progress: number;

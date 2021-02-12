@@ -1,121 +1,129 @@
-import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
 
-import { Routes } from "./src/Routes";
-import Examples from "./src/Examples";
-import PanGesture from "./src/PanGesture";
-import Transitions from "./src/Transitions";
-import CircularSlider from "./src/CircularSlider";
-import Graph from "./src/Graph";
-import Worklets from "./src/Worklets";
-import DragToSort from "./src/DragToSort";
-import DynamicSpring from "./src/DynamicSpring";
-import Animations from "./src/Animations";
-import Swiping, { swipingAssets } from "./src/Swiping";
-import Bezier from "./src/Bezier";
-import ShapeMorphing from "./src/ShapeMorphing";
-import Accordion from "./src/Accordion";
-import { LoadAssets } from "./src/components";
+import { Routes } from './src/Routes'
+import Examples from './src/Examples'
+import PanGesture from './src/PanGesture'
+import Transitions from './src/Transitions'
+import CircularSlider from './src/CircularSlider'
+import Graph from './src/Graph'
+import Worklets from './src/Worklets'
+import DragToSort from './src/DragToSort'
+import DynamicSpring from './src/DynamicSpring'
+import Animations from './src/Animations'
+import Swiping, { swipingAssets } from './src/Swiping'
+import Bezier from './src/Bezier'
+import ShapeMorphing from './src/ShapeMorphing'
+import Accordion from './src/Accordion'
+import { LoadAssets } from './src/components'
+import Rainbow from './src/Rainbow'
 
-const assets = [...swipingAssets];
-const Stack = createStackNavigator<Routes>();
+const assets = [...swipingAssets]
+const Stack = createStackNavigator<Routes>()
 const App = () => (
   <LoadAssets assets={assets}>
     <Stack.Navigator>
       <Stack.Screen
-        name="Examples"
+        name='Examples'
         component={Examples}
         options={{
-          title: "Learn Reanimated 2",
+          title: 'Learn Reanimated 2',
         }}
       />
       <Stack.Screen
-        name="Worklets"
+        name='Worklets'
         component={Worklets}
         options={{
-          title: "Worklets",
+          title: 'Worklets',
         }}
       />
       <Stack.Screen
-        name="Animations"
+        name='Animations'
         component={Animations}
         options={{
-          title: "Animations",
+          title: 'Animations',
         }}
       />
       <Stack.Screen
-        name="PanGesture"
+        name='PanGesture'
         component={PanGesture}
         options={{
-          title: "PanGesture",
+          title: 'PanGesture',
         }}
       />
       <Stack.Screen
-        name="Transitions"
+        name='Transitions'
         component={Transitions}
         options={{
-          title: "Transitions",
+          title: 'Transitions',
         }}
       />
       <Stack.Screen
-        name="CircularSlider"
+        name='CircularSlider'
         component={CircularSlider}
         options={{
-          title: "Circular Slider",
+          title: 'Circular Slider',
         }}
       />
       <Stack.Screen
-        name="Graph"
+        name='Graph'
         component={Graph}
         options={{
-          title: "Graph",
+          title: 'Graph',
         }}
       />
       <Stack.Screen
-        name="DynamicSpring"
+        name='DynamicSpring'
         component={DynamicSpring}
         options={{
-          title: "Dynamic Spring",
+          title: 'Dynamic Spring',
         }}
       />
       <Stack.Screen
-        name="DragToSort"
+        name='DragToSort'
         component={DragToSort}
         options={{
-          title: "Drag to Sort",
+          title: 'Drag to Sort',
         }}
       />
       <Stack.Screen
-        name="Swiping"
+        name='Swiping'
         component={Swiping}
         options={{
-          title: "Swiping",
+          title: 'Swiping',
         }}
       />
       <Stack.Screen
-        name="Bezier"
+        name='Bezier'
         component={Bezier}
         options={{
-          title: "Bézier",
+          title: 'Bézier',
           gestureEnabled: false,
         }}
       />
       <Stack.Screen
-        name="ShapeMorphing"
+        name='ShapeMorphing'
         component={ShapeMorphing}
         options={{
-          title: "Shape Morphing",
+          title: 'Shape Morphing',
         }}
       />
       <Stack.Screen
-        name="Accordion"
+        name='Accordion'
         component={Accordion}
         options={{
-          title: "Accordion",
+          title: 'Accordion',
+        }}
+      />
+      <Stack.Screen
+        name='Rainbow'
+        component={Rainbow}
+        options={{
+          title: 'Rainbow',
         }}
       />
     </Stack.Navigator>
   </LoadAssets>
-);
+)
 
-export default App;
+export default App

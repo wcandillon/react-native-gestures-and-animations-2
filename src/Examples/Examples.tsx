@@ -1,62 +1,66 @@
-import * as React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { StackNavigationProp } from "@react-navigation/stack";
-import { useNavigation } from "@react-navigation/native";
-import { RectButton } from "react-native-gesture-handler";
+import * as React from 'react'
+import { ScrollView, StyleSheet, Text, View } from 'react-native'
+import { StackNavigationProp } from '@react-navigation/stack'
+import { useNavigation } from '@react-navigation/native'
+import { RectButton } from 'react-native-gesture-handler'
 
-import { Routes } from "../Routes";
-import { StyleGuide } from "../components";
+import { Routes } from '../Routes'
+import { StyleGuide } from '../components'
 
 export const examples = [
   {
-    screen: "Worklets",
-    title: "👩‍🏭 Worklets",
+    screen: 'Worklets',
+    title: '👩‍🏭 Worklets',
   },
   {
-    screen: "Transitions",
-    title: "🔁 Transitions",
+    screen: 'Transitions',
+    title: '🔁 Transitions',
   },
   {
-    screen: "PanGesture",
-    title: "💳 PanGesture",
+    screen: 'PanGesture',
+    title: '💳 PanGesture',
   },
   {
-    screen: "Animations",
-    title: "🐎 Animations",
+    screen: 'Animations',
+    title: '🐎 Animations',
   },
   {
-    screen: "CircularSlider",
-    title: "⭕️ Circular Slider",
+    screen: 'CircularSlider',
+    title: '⭕️ Circular Slider',
   },
   {
-    screen: "Graph",
-    title: "📈 Graph Interactions",
+    screen: 'Graph',
+    title: '📈 Graph Interactions',
   },
   {
-    screen: "DynamicSpring",
-    title: "👨‍🔬 Dynamic Spring",
+    screen: 'DynamicSpring',
+    title: '👨‍🔬 Dynamic Spring',
   },
   {
-    screen: "DragToSort",
-    title: "📤 Drag To Sort",
+    screen: 'DragToSort',
+    title: '📤 Drag To Sort',
   },
   {
-    screen: "Swiping",
-    title: "💚❌ Swiping",
+    screen: 'Swiping',
+    title: '💚❌ Swiping',
   },
   {
-    screen: "Bezier",
-    title: "⤴️ Bézier",
+    screen: 'Bezier',
+    title: '⤴️ Bézier',
   },
   {
-    screen: "ShapeMorphing",
-    title: "☺️ Shape Morphing",
+    screen: 'ShapeMorphing',
+    title: '☺️ Shape Morphing',
   },
   {
-    screen: "Accordion",
-    title: "🗺 Accordion",
+    screen: 'Accordion',
+    title: '🗺 Accordion',
   },
-] as const;
+  {
+    screen: 'Rainbow',
+    title: '🌈 Rainbow',
+  },
+] as const
 
 const styles = StyleSheet.create({
   container: {
@@ -66,7 +70,7 @@ const styles = StyleSheet.create({
     paddingBottom: 32,
   },
   thumbnail: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     padding: StyleGuide.spacing * 2,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderColor: StyleGuide.palette.background,
@@ -74,16 +78,19 @@ const styles = StyleSheet.create({
   title: {
     ...StyleGuide.typography.headline,
   },
-});
+})
 
 const Examples = () => {
-  const { navigate } = useNavigation<StackNavigationProp<Routes, "Examples">>();
+  const { navigate } = useNavigation<StackNavigationProp<Routes, 'Examples'>>()
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.content}>
       {examples.map((thumbnail) => (
         <RectButton
           key={thumbnail.screen}
-          onPress={() => navigate(thumbnail.screen)}
+          onPress={() => {
+            console.log(thumbnail.screen)
+            navigate(thumbnail.screen)
+          }}
         >
           <View style={styles.thumbnail}>
             <Text style={styles.title}>{thumbnail.title}</Text>
@@ -91,7 +98,7 @@ const Examples = () => {
         </RectButton>
       ))}
     </ScrollView>
-  );
-};
+  )
+}
 
-export default Examples;
+export default Examples

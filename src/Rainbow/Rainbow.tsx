@@ -1,16 +1,16 @@
-import React from 'react'
-import { StyleSheet, View } from 'react-native'
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
-import Graph from './Graph'
-import Footer from './components/Footer'
+import Graph from "./Graph";
+import Footer from "./components/Footer";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
-    justifyContent: 'space-between',
+    backgroundColor: "white",
+    justifyContent: "space-between",
   },
-})
+});
 
 const Rainbow = () => {
   return (
@@ -18,7 +18,7 @@ const Rainbow = () => {
       <Graph />
       <Footer />
     </View>
-  )
-}
+  );
+};
 
-export default Rainbow
+export default Rainbow;

@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignSelf: "center",
-    borderRadius: 16,
+    borderRadius: 32,
     width: width,
   },
   icon: {

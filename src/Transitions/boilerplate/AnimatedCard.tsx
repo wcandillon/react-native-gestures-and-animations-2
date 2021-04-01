@@ -22,7 +22,7 @@ interface AnimatedCardProps {
 }
 
 const AnimatedCard = ({ card, toggled }: AnimatedCardProps) => {
-  const rotate = toggled ? Math.PI / 6 : 0;
+  const rotate = toggled ? ((index - 1) * Math.PI) / 6 : 0
   const style = {
     transform: [{ translateX: origin }, { rotate }, { translateX: -origin }],
   };

@@ -85,12 +85,12 @@ const Profile = ({
       { translateX: translateX.value },
       { translateY: translateY.value },
       {
-        rotate: interpolate(
+        rotate: `${interpolate(
           x.value,
           [-width / 2, 0, width / 2],
           [α, 0, -α],
           Extrapolate.CLAMP
-        ),
+        )}rad`,
       },
       { scale: onTop ? 1 : scale.value },
     ],

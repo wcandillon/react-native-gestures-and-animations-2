@@ -22,9 +22,13 @@ interface AnimatedCardProps {
 }
 
 const AnimatedCard = ({ card, toggled, index }: AnimatedCardProps) => {
-  const rotate = toggled ? ((index - 1) * Math.PI) / 6 : 0;
+  const alpha = toggled ? ((index - 1) * Math.PI) / 6 : 0;
   const style = {
-    transform: [{ translateX: origin }, { rotate }, { translateX: -origin }],
+    transform: [
+      { translateX: origin },
+      { rotate: `${alpha}rad` },
+      { translateX: -origin },
+    ],
   };
   return (
     <Animated.View key={card} style={[styles.overlay, style]}>

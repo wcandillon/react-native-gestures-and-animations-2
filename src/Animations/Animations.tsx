@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import {
   withTiming,
@@ -24,7 +24,13 @@ const styles = StyleSheet.create({
 const Timing = () => {
   const [play, setPlay] = useState(false);
   const paused = useSharedValue(!play);
-  const progress = useSharedValue<number | null>(null);
+  const progress = useSharedValue(0);
+  useEffect(() => {
+    progress.value = withPause(
+      withRepeat(withTiming(1, { duration: 1000, easing }), -1, true),
+      paused
+    );
+  }, [paused, progress]);
   return (
     <View style={styles.container}>
       <ChatBubble progress={progress} />
@@ -34,12 +40,6 @@ const Timing = () => {
         onPress={() => {
           setPlay((prev) => !prev);
           paused.value = !paused.value;
-          if (progress.value === null) {
-            progress.value = withPause(
-              withRepeat(withTiming(1, { duration: 1000, easing }), -1, true),
-              paused
-            );
-          }
         }}
       />
     </View>

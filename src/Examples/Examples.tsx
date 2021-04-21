@@ -42,7 +42,7 @@ export const examples = [
   },
   {
     screen: "Swiping",
-    title: "💚❌ Swiping",
+    title: "💚 Swiping",
   },
   {
     screen: "Bezier",

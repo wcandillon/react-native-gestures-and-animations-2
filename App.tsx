@@ -3,6 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import { Routes } from "./src/Routes";
 import Examples from "./src/Examples";
+import HeartOfTheMatter from "./src/HeartOfTheMatter";
 import PanGesture from "./src/PanGesture";
 import Transitions from "./src/Transitions";
 import CircularSlider from "./src/CircularSlider";
@@ -27,6 +28,13 @@ const App = () => (
         component={Examples}
         options={{
           title: "Learn Reanimated 2",
+        }}
+      />
+      <Stack.Screen
+        name="TheHeartOfTheMatter"
+        component={HeartOfTheMatter}
+        options={{
+          title: "The Heart of the Matter",
         }}
       />
       <Stack.Screen

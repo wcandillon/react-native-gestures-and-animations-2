@@ -1,6 +1,5 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { runOnJS, runOnUI } from "react-native-reanimated";
 
 import { Button } from "../../components";
 
@@ -12,22 +11,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const sayHello = (cb: () => void) => {
-  "worklet";
-  console.log("Hello from the UI thread");
-  runOnJS(cb)();
+
+const sayHello = () => {
+  console.log("Hello from the JS thread!");
 };
 
 const Worklets = () => {
   return (
     <View style={styles.container}>
-      <Button
-        label="Say Hello"
-        primary
-        onPress={() =>
-          runOnUI(sayHello)(() => console.log("We called back to JS thread"))
-        }
-      />
+      <Button label="Say Hello" primary onPress={() => sayHello()} />
     </View>
   );
 };

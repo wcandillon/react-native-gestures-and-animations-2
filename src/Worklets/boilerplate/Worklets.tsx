@@ -11,7 +11,6 @@ const styles = StyleSheet.create({
   },
 });
 
-
 const sayHello = () => {
   console.log("Hello from the JS thread!");
 };

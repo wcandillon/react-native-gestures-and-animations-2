@@ -22,5 +22,5 @@ export const useMakeJsThreadBusy = () =>
       while (true) {
         fibonacci(10000);
       }
-    }, 5000);
+    }, 2000);
   }, []);

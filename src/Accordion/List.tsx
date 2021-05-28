@@ -65,7 +65,8 @@ const List = ({ list }: ListProps) => {
           if (height.value === 0) {
             runOnUI(() => {
               "worklet";
-              height.value = measure(aref).height;
+              const m = measure(aref);
+              height.value = m.height;
             })();
           }
           open.value = !open.value;
@@ -77,7 +78,7 @@ const List = ({ list }: ListProps) => {
         </Animated.View>
       </TouchableWithoutFeedback>
       <Animated.View style={[styles.items, style]}>
-        <View ref={aref}>
+        <View ref={aref} collapsable={false}>
           {list.items.map((item, key) => (
             <Item
               key={key}

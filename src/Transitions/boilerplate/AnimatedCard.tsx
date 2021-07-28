@@ -1,6 +1,13 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 import { StyleSheet, Dimensions } from "react-native";
-import Animated from "react-native-reanimated";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
+import { mix } from "react-native-redash";
 
 import { Card, Cards, StyleGuide } from "../../components";
 
@@ -16,20 +23,34 @@ const styles = StyleSheet.create({
 });
 
 interface AnimatedCardProps {
-  toggled: boolean;
+  transition: any;
   index: number;
   card: Cards;
 }
 
-const AnimatedCard = ({ card, toggled, index }: AnimatedCardProps) => {
-  const alpha = toggled ? ((index - 1) * Math.PI) / 6 : 0;
-  const style = {
-    transform: [
-      { translateX: origin },
-      { rotate: `${alpha}rad` },
-      { translateX: -origin },
-    ],
-  };
+interface AnimatedTextProps {
+  transition: any;
+}
+
+export const AnimatedText = ({ transition }: AnimatedTextProps) => {
+  const style = useAnimatedStyle(() => {
+    const value = mix(transition.value, 1, 800);
+    return {
+      fontWeight: `${Math.round(value)}`,
+      fontSize: Math.round(value / 10),
+    };
+  });
+  return (
+    <Animated.Text style={[style]}>Hey this will get bolder</Animated.Text>
+  );
+};
+
+const AnimatedCard = ({ card, transition, index }: AnimatedCardProps) => {
+  const style = useAnimatedStyle(() => {
+    const rotate = mix(transition.value, 0.5 * Math.PI, 0);
+    return {};
+  });
+
   return (
     <Animated.View key={card} style={[styles.overlay, style]}>
       <Card {...{ card }} />

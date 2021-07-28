@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { StyleSheet, View, LayoutRectangle } from "react-native";
 
-import PanGesture from "./PanGesture";
+import PanGesture from "./boilerplate/PanGesture";
 
 const styles = StyleSheet.create({
   container: {

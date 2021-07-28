@@ -26,7 +26,11 @@ const AnimatedCard = ({ card, transition, index }: AnimatedCardProps) => {
   const style = useAnimatedStyle(() => {
     const rotate = (index - 1) * mix(transition.value, 0, Math.PI / 6);
     return {
-      transform: [{ translateY: 0 }, { translateX: 100 }],
+      transform: [
+        { translateY: 0 },
+        { rotate: `${rotate}rad` },
+        { translateX: 100 },
+      ],
     };
   });
   return (

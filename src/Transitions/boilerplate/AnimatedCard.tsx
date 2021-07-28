@@ -47,10 +47,15 @@ export const AnimatedText = ({ transition }: AnimatedTextProps) => {
 
 const AnimatedCard = ({ card, transition, index }: AnimatedCardProps) => {
   const style = useAnimatedStyle(() => {
-    const rotate = mix(transition.value, 0.5 * Math.PI, 0);
-    return {};
+    const rotate = (index - 1) * mix(transition.value, 0, Math.PI / 6);
+    return {
+      transform: [
+        { translateX: origin },
+        { rotate: `${rotate}rad` },
+        { translateX: -origin },
+      ],
+    };
   });
-
   return (
     <Animated.View key={card} style={[styles.overlay, style]}>
       <Card {...{ card }} />

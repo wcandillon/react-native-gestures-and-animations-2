@@ -13,7 +13,7 @@ interface GestureProps {
   height: number;
 }
 
-export const Gesture = ({ width, height }: GestureProps) => {
+export const PanGesture = ({ width, height }: GestureProps) => {
   console.log({ width, height });
   return (
     <View style={styles.container}>

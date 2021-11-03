@@ -1,9 +1,9 @@
-import React from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
 import { mix } from "react-native-redash";
 
-import { Card, Cards, StyleGuide } from "../components";
+import type { Cards } from "../components";
+import { Card, StyleGuide } from "../components";
 
 const { width } = Dimensions.get("window");
 const origin = -(width / 2 - StyleGuide.spacing * 2);
@@ -22,7 +22,11 @@ interface AnimatedCardProps {
   card: Cards;
 }
 
-const AnimatedCard = ({ card, transition, index }: AnimatedCardProps) => {
+export const AnimatedCard = ({
+  card,
+  transition,
+  index,
+}: AnimatedCardProps) => {
   const style = useAnimatedStyle(() => {
     const rotate = (index - 1) * mix(transition.value, 0, Math.PI / 6);
     return {
@@ -39,5 +43,3 @@ const AnimatedCard = ({ card, transition, index }: AnimatedCardProps) => {
     </Animated.View>
   );
 };
-
-export default AnimatedCard;

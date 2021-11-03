@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
 
 import { Button } from "../../components";
@@ -15,12 +14,10 @@ const sayHello = () => {
   console.log("Hello from the JS thread!");
 };
 
-const Worklets = () => {
+export const Worklets = () => {
   return (
     <View style={styles.container}>
       <Button label="Say Hello" primary onPress={() => sayHello()} />
     </View>
   );
 };
-
-export default Worklets;

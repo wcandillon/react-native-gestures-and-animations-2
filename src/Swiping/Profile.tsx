@@ -72,7 +72,7 @@ interface CardProps {
   onTop: boolean;
 }
 
-const Profile = ({
+export const Profile = ({
   profile,
   translateX,
   translateY,
@@ -121,5 +121,3 @@ const Profile = ({
     </Animated.View>
   );
 };
-
-export default Profile;

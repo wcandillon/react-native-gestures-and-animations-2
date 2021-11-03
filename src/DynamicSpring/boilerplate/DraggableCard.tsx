@@ -1,13 +1,10 @@
-import React from "react";
 import Animated, {
   useAnimatedGestureHandler,
   withDecay,
   useSharedValue,
 } from "react-native-reanimated";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import { clamp } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../../components";
@@ -18,7 +15,7 @@ interface DraggableCardProps {
   height: number;
 }
 
-const DraggableCard = ({ width, height }: DraggableCardProps) => {
+export const DraggableCard = ({ width, height }: DraggableCardProps) => {
   const translate = {
     x: useSharedValue(0),
     y: useSharedValue(0),
@@ -60,5 +57,3 @@ const DraggableCard = ({ width, height }: DraggableCardProps) => {
     </PanGestureHandler>
   );
 };
-
-export default DraggableCard;

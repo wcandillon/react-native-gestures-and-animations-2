@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -9,7 +8,7 @@ import Animated, {
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
 
-import DraggableCard from "./DraggableCard";
+import { DraggableCard } from "./DraggableCard";
 
 const styles = StyleSheet.create({
   container: {
@@ -29,7 +28,7 @@ interface DynamicSpringProps {
   height: number;
 }
 
-const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
+export const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
   const t1 = { x: useSharedValue(0), y: useSharedValue(0) };
   const t2 = {
     x: useDerivedValue(() => withSpring(t1.x.value)),
@@ -61,5 +60,3 @@ const DynamicSpring = ({ width, height }: DynamicSpringProps) => {
     </View>
   );
 };
-
-export default DynamicSpring;

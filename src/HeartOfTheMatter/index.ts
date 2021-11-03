@@ -1,1 +1,1 @@
-export { default } from "./Reanimated";
+export { Reanimated as HeartOfTheMatter } from "./Reanimated";

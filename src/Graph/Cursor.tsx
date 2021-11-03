@@ -1,9 +1,6 @@
-import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
   Extrapolate,
@@ -12,9 +9,9 @@ import Animated, {
   withDecay,
 } from "react-native-reanimated";
 
-import { Path } from "../components/AnimatedHelpers";
+import type { Path } from "../components/AnimatedHelpers";
 
-import { DataPoint } from "./Label";
+import type { DataPoint } from "./Label";
 
 const { width } = Dimensions.get("window");
 const CURSOR = 100;
@@ -42,7 +39,7 @@ interface CursorProps {
   point: Animated.SharedValue<DataPoint>;
 }
 
-const Cursor = ({ path, length, point }: CursorProps) => {
+export const Cursor = ({ path, length, point }: CursorProps) => {
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     {
@@ -93,5 +90,3 @@ const Cursor = ({ path, length, point }: CursorProps) => {
     </View>
   );
 };
-
-export default Cursor;

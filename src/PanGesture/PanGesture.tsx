@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
 import Animated, {
   useAnimatedGestureHandler,
@@ -6,10 +5,8 @@ import Animated, {
   useAnimatedStyle,
   withDecay,
 } from "react-native-reanimated";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import { clamp, withBouncing } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
@@ -25,7 +22,7 @@ interface GestureProps {
   height: number;
 }
 
-const Gesture = ({ width, height }: GestureProps) => {
+export const PanGesture = ({ width, height }: GestureProps) => {
   const boundX = width - CARD_WIDTH;
   const boundY = height - CARD_HEIGHT;
   const translateX = useSharedValue(0);
@@ -80,5 +77,3 @@ const Gesture = ({ width, height }: GestureProps) => {
     </View>
   );
 };
-
-export default Gesture;

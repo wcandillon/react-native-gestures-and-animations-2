@@ -10,7 +10,7 @@ import { withPause } from "react-native-redash";
 
 import { Button, StyleGuide } from "../../components";
 
-import ChatBubble from "./ChatBubble";
+import { ChatBubble } from "./ChatBubble";
 
 const easing = Easing.inOut(Easing.ease);
 const styles = StyleSheet.create({
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Timing = () => {
+export const Timing = () => {
   const [play, setPlay] = useState(false);
   const paused = useSharedValue(!play);
   const progress = useSharedValue(0);
@@ -44,5 +44,3 @@ const Timing = () => {
     </View>
   );
 };
-
-export default Timing;

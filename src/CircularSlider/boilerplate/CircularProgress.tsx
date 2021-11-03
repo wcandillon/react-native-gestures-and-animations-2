@@ -1,6 +1,5 @@
-import React from "react";
 import { StyleSheet } from "react-native";
-import Animated from "react-native-reanimated";
+import type Animated from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
 import { StyleGuide } from "../../components";
@@ -13,7 +12,7 @@ interface CircularProgressProps {
   strokeWidth: number;
 }
 
-const CircularProgress = ({ r, strokeWidth }: CircularProgressProps) => {
+export const CircularProgress = ({ r, strokeWidth }: CircularProgressProps) => {
   const radius = r - strokeWidth / 2;
   const circumference = radius * 2 * PI;
   return (
@@ -38,5 +37,3 @@ const CircularProgress = ({ r, strokeWidth }: CircularProgressProps) => {
     </Svg>
   );
 };
-
-export default CircularProgress;

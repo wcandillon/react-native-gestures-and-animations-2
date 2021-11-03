@@ -1,15 +1,16 @@
-import React, { ReactElement } from "react";
+import type { ReactElement } from "react";
+import React from "react";
 import { ScrollView } from "react-native";
 import { useSharedValue } from "react-native-reanimated";
 
-import SortableItem from "./SortableItem";
+import { SortableItem } from "./SortableItem";
 
 interface SortableListProps {
   children: ReactElement[];
   item: { width: number; height: number };
 }
 
-const SortableList = ({
+export const SortableList = ({
   children,
   item: { height, width },
 }: SortableListProps) => {
@@ -30,5 +31,3 @@ const SortableList = ({
     </ScrollView>
   );
 };
-
-export default SortableList;

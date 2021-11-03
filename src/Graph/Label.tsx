@@ -1,6 +1,6 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
-import Animated, { useDerivedValue } from "react-native-reanimated";
+import type Animated from "react-native-reanimated";
+import { useDerivedValue } from "react-native-reanimated";
 import { ReText, round } from "react-native-redash";
 
 import { StyleGuide } from "../components";
@@ -31,7 +31,7 @@ interface LabelProps {
   point: Animated.SharedValue<DataPoint>;
 }
 
-const Label = ({ point }: LabelProps) => {
+export const Label = ({ point }: LabelProps) => {
   const date = useDerivedValue(() => {
     const d = new Date(point.value.data.x);
     return d.toLocaleDateString("en-US", {
@@ -52,5 +52,3 @@ const Label = ({ point }: LabelProps) => {
     </View>
   );
 };
-
-export default Label;

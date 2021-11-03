@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import Animated from "react-native-reanimated";
+import type Animated from "react-native-reanimated";
 
-import Bubble from "./Bubble";
+import { Bubble } from "./Bubble";
 
 const { width: wWidth } = Dimensions.get("window");
 const width = wWidth * 0.8;
@@ -25,13 +25,11 @@ const styles = StyleSheet.create({
   },
 });
 
-interface SimpleActivityIndicatorProps {
+interface ChatBubbleProps {
   progress: Animated.SharedValue<number>;
 }
 
-const SimpleActivityIndicator = ({
-  progress,
-}: SimpleActivityIndicatorProps) => {
+export const ChatBubble = ({ progress }: ChatBubbleProps) => {
   const bubbles = [0, 1, 2];
   const delta = 1 / bubbles.length;
   return (
@@ -46,5 +44,3 @@ const SimpleActivityIndicator = ({
     </View>
   );
 };
-
-export default SimpleActivityIndicator;

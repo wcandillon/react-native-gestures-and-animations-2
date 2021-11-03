@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import { StyleSheet, View, LayoutRectangle } from "react-native";
+import type { LayoutRectangle } from "react-native";
+import { StyleSheet, View } from "react-native";
 
-import DynamicSpring from "./DynamicSpring";
+import { DynamicSpring as Spring } from "./DynamicSpring";
 
 const styles = StyleSheet.create({
   container: {
@@ -9,16 +10,14 @@ const styles = StyleSheet.create({
   },
 });
 
-const Demo = () => {
+export const DynamicSpring = () => {
   const [container, setContainer] = useState<null | LayoutRectangle>(null);
   return (
     <View
       style={styles.container}
       onLayout={({ nativeEvent: { layout } }) => setContainer(layout)}
     >
-      {container && <DynamicSpring {...container} />}
+      {container && <Spring {...container} />}
     </View>
   );
 };
-
-export default Demo;

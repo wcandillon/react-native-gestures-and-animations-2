@@ -1,4 +1,3 @@
-import React from "react";
 import { View, Dimensions, StyleSheet } from "react-native";
 import Svg, { Path, Defs, Stop, LinearGradient } from "react-native-svg";
 import * as shape from "d3-shape";
@@ -6,8 +5,8 @@ import { interpolate, Extrapolate } from "react-native-reanimated";
 
 import { parsePath } from "../../components/AnimatedHelpers";
 
-import Cursor from "./Cursor";
-import Label from "./Label";
+import { Cursor } from "./Cursor";
+import { Label } from "./Label";
 
 const { width } = Dimensions.get("window");
 const height = width;
@@ -56,7 +55,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Graph = () => {
+export const Graph = () => {
   const point = {
     coord: {
       x: 0,
@@ -95,5 +94,3 @@ const Graph = () => {
     </View>
   );
 };
-
-export default Graph;

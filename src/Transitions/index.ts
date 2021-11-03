@@ -1,1 +1,1 @@
-export { default } from "./Transitions";
+export { Transitions } from "./Transitions";

@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 export const LIST_ITEM_HEIGHT = 54;
@@ -38,7 +37,7 @@ interface ListItemProps {
   isLast: boolean;
 }
 
-const ListItem = ({ item, isLast }: ListItemProps) => {
+export const ListItem = ({ item, isLast }: ListItemProps) => {
   const bottomRadius = isLast ? 8 : 0;
   return (
     <View
@@ -57,5 +56,3 @@ const ListItem = ({ item, isLast }: ListItemProps) => {
     </View>
   );
 };
-
-export default ListItem;

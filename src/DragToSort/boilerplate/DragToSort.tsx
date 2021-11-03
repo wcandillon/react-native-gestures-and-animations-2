@@ -1,10 +1,9 @@
-import React from "react";
 import { View, StyleSheet, Dimensions } from "react-native";
 
 import { Cards, Card } from "../../components";
 import { CARD_HEIGHT } from "../../components/Card";
 
-import SortableList from "./SortableList";
+import { SortableList } from "./SortableList";
 
 const { width } = Dimensions.get("window");
 const styles = StyleSheet.create({
@@ -17,7 +16,7 @@ const styles = StyleSheet.create({
 });
 const cards = [Cards.Card1, Cards.Card2, Cards.Card3];
 
-const DragToSort = () => {
+export const DragToSort = () => {
   return (
     <SortableList item={{ width, height: CARD_HEIGHT + 32 }}>
       {cards.map((card, index) => (
@@ -28,5 +27,3 @@ const DragToSort = () => {
     </SortableList>
   );
 };
-
-export default DragToSort;

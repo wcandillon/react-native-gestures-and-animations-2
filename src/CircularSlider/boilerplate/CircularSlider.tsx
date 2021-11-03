@@ -1,11 +1,10 @@
-import React from "react";
 import { Dimensions, PixelRatio, StyleSheet, View } from "react-native";
 import Animated, { useSharedValue } from "react-native-reanimated";
 
 // import { canvas2Polar } from "../../components/AnimatedHelpers";
 
-import Cursor from "./Cursor";
-import CircularProgress from "./CircularProgress";
+import { Cursor } from "./Cursor";
+import { CircularProgress } from "./CircularProgress";
 
 const { width } = Dimensions.get("window");
 const size = width - 32;
@@ -24,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CircularSlider = () => {
+export const CircularSlider = () => {
   const theta = useSharedValue(0);
   return (
     <View style={styles.container}>
@@ -37,5 +36,3 @@ const CircularSlider = () => {
     </View>
   );
 };
-
-export default CircularSlider;

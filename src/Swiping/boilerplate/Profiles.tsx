@@ -5,8 +5,8 @@ import { RectButton } from "react-native-gesture-handler";
 
 import { StyleGuide } from "../../components";
 
-import { ProfileModel } from "./Profile";
-import Swipeable from "./Swipeable";
+import type { ProfileModel } from "./Profile";
+import { Swipeable } from "./Swipeable";
 
 const styles = StyleSheet.create({
   container: {
@@ -48,7 +48,7 @@ interface ProfilesProps {
   profiles: ProfileModel[];
 }
 
-const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
+export const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
   const [profiles, setProfiles] = useState(defaultProfiles);
   const onSwipe = useCallback(() => {
     setProfiles(profiles.slice(0, profiles.length - 1));
@@ -83,5 +83,3 @@ const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
     </SafeAreaView>
   );
 };
-
-export default Profiles;

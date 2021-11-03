@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
   useAnimatedStyle,
@@ -24,7 +23,7 @@ interface BubbleProps {
   end: number;
 }
 
-const Bubble = ({ progress, start, end }: BubbleProps) => {
+export const Bubble = ({ progress, start, end }: BubbleProps) => {
   const style = useAnimatedStyle(() => {
     const opacity = interpolate(
       progress.value,
@@ -42,5 +41,3 @@ const Bubble = ({ progress, start, end }: BubbleProps) => {
   });
   return <Animated.View style={[styles.bubble, style]} />;
 };
-
-export default Bubble;

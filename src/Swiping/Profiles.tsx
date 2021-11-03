@@ -6,8 +6,9 @@ import { useSharedValue } from "react-native-reanimated";
 
 import { StyleGuide } from "../components";
 
-import { ProfileModel } from "./Profile";
-import Swipeable, { SwipeHandler } from "./Swipeable";
+import type { ProfileModel } from "./Profile";
+import type { SwipeHandler } from "./Swipeable";
+import { Swipeable } from "./Swipeable";
 
 const styles = StyleSheet.create({
   container: {
@@ -49,7 +50,7 @@ interface ProfilesProps {
   profiles: ProfileModel[];
 }
 
-const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
+export const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
   const topCard = useRef<SwipeHandler>(null);
   const scale = useSharedValue(0);
   const [profiles, setProfiles] = useState(defaultProfiles);
@@ -99,5 +100,3 @@ const Profiles = ({ profiles: defaultProfiles }: ProfilesProps) => {
     </SafeAreaView>
   );
 };
-
-export default Profiles;

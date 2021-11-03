@@ -2,8 +2,8 @@ import * as React from "react";
 import { SafeAreaView, StyleSheet, View } from "react-native";
 import { RectButton } from "react-native-gesture-handler";
 
-import StyleGuide from "./StyleGuide";
-import Text from "./Text";
+import { StyleGuide } from "./StyleGuide";
+import { Text } from "./Text";
 
 interface ButtonProps {
   label: string;
@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Button = ({ label, primary, onPress }: ButtonProps) => {
+export const Button = ({ label, primary, onPress }: ButtonProps) => {
   const color = primary ? "white" : undefined;
   const backgroundColor = primary ? StyleGuide.palette.primary : undefined;
   return (
@@ -35,5 +35,3 @@ const Button = ({ label, primary, onPress }: ButtonProps) => {
     </RectButton>
   );
 };
-
-export default Button;

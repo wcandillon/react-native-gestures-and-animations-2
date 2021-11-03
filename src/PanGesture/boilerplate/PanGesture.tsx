@@ -1,4 +1,3 @@
-import React from "react";
 import { View, StyleSheet } from "react-native";
 
 import { Card, Cards } from "../../components";
@@ -14,7 +13,7 @@ interface GestureProps {
   height: number;
 }
 
-const Gesture = ({ width, height }: GestureProps) => {
+export const Gesture = ({ width, height }: GestureProps) => {
   console.log({ width, height });
   return (
     <View style={styles.container}>
@@ -22,5 +21,3 @@ const Gesture = ({ width, height }: GestureProps) => {
     </View>
   );
 };
-
-export default Gesture;

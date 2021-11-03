@@ -1,9 +1,8 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Eye from "./Eye";
-import Mouth from "./Mouth";
-import Slider from "./Slider";
+import { Eye } from "./Eye";
+import { Mouth } from "./Mouth";
+import { Slider } from "./Slider";
 
 const bad = "#FDBEEB";
 //const normal = "#FDEEBE";
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const PathMorphing = () => {
+export const ShapeMorphing = () => {
   const progress = 0.5;
   return (
     <View style={styles.container}>
@@ -44,5 +43,3 @@ const PathMorphing = () => {
     </View>
   );
 };
-
-export default PathMorphing;

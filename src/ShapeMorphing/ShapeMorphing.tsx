@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, {
   interpolateColor,
@@ -7,9 +6,9 @@ import Animated, {
   useSharedValue,
 } from "react-native-reanimated";
 
-import Eye from "./Eye";
-import Mouth from "./Mouth";
-import Slider, { SLIDER_WIDTH } from "./Slider";
+import { Eye } from "./Eye";
+import { Mouth } from "./Mouth";
+import { Slider, SLIDER_WIDTH } from "./Slider";
 
 const styles = StyleSheet.create({
   face: {
@@ -30,7 +29,7 @@ const bad = "#FDBEEB";
 const normal = "#FDEEBE";
 const good = "#BEFDE5";
 
-const PathMorphing = () => {
+export const ShapeMorphing = () => {
   const translateX = useSharedValue(0);
   const progress = useDerivedValue(() => translateX.value / SLIDER_WIDTH);
   const style = useAnimatedStyle(() => ({
@@ -55,5 +54,3 @@ const PathMorphing = () => {
     </Animated.View>
   );
 };
-
-export default PathMorphing;

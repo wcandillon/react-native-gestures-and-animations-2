@@ -4,7 +4,7 @@ import { useSpring } from "react-native-redash";
 
 import { Button, StyleGuide, cards } from "../components";
 
-import AnimatedCard from "./AnimatedCard";
+import { AnimatedCard } from "./AnimatedCard";
 
 const styles = StyleSheet.create({
   container: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const UseTransition = () => {
+export const Transitions = () => {
   const [toggled, setToggle] = useState(false);
   const transition = useSpring(toggled);
   return (
@@ -30,5 +30,3 @@ const UseTransition = () => {
     </View>
   );
 };
-
-export default UseTransition;

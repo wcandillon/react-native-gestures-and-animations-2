@@ -1,4 +1,3 @@
-import React from "react";
 import { Dimensions, PixelRatio, StyleSheet, View } from "react-native";
 import Animated, {
   useSharedValue,
@@ -9,8 +8,8 @@ import { canvas2Polar } from "react-native-redash";
 
 import { StyleGuide } from "../components";
 
-import Cursor from "./Cursor";
-import CircularProgress from "./CircularProgress";
+import { Cursor } from "./Cursor";
+import { CircularProgress } from "./CircularProgress";
 
 const { width } = Dimensions.get("window");
 const size = width - 32;
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const CircularSlider = () => {
+export const CircularSlider = () => {
   const theta = useSharedValue(defaultTheta);
   const backgroundColor = useDerivedValue(() => {
     return interpolateColor(
@@ -59,5 +58,3 @@ const CircularSlider = () => {
     </View>
   );
 };
-
-export default CircularSlider;

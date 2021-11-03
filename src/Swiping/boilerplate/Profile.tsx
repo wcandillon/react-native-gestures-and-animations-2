@@ -1,5 +1,3 @@
-// @flow
-import * as React from "react";
 import { Image, StyleSheet, Text, View } from "react-native";
 
 export interface ProfileModel {
@@ -62,7 +60,7 @@ interface CardProps {
   onTop: boolean;
 }
 
-const Profile = ({ profile }: CardProps) => {
+export const Profile = ({ profile }: CardProps) => {
   return (
     <View style={[StyleSheet.absoluteFill]}>
       <Image style={styles.image} source={profile.profile} />
@@ -82,5 +80,3 @@ const Profile = ({ profile }: CardProps) => {
     </View>
   );
 };
-
-export default Profile;

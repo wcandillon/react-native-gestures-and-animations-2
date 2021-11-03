@@ -1,8 +1,8 @@
-import React from "react";
 import { StyleSheet, Dimensions } from "react-native";
 import Animated from "react-native-reanimated";
 
-import { Card, Cards, StyleGuide } from "../../components";
+import type { Cards } from "../../components";
+import { Card, StyleGuide } from "../../components";
 
 const { width } = Dimensions.get("window");
 const origin = -(width / 2 - StyleGuide.spacing * 2);
@@ -21,7 +21,7 @@ interface AnimatedCardProps {
   card: Cards;
 }
 
-const AnimatedCard = ({ card, toggled, index }: AnimatedCardProps) => {
+export const AnimatedCard = ({ card, toggled, index }: AnimatedCardProps) => {
   const alpha = toggled ? ((index - 1) * Math.PI) / 6 : 0;
   const style = {
     transform: [
@@ -36,5 +36,3 @@ const AnimatedCard = ({ card, toggled, index }: AnimatedCardProps) => {
     </Animated.View>
   );
 };
-
-export default AnimatedCard;

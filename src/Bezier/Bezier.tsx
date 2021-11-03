@@ -1,4 +1,3 @@
-import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Svg, { Line, Path, Circle } from "react-native-svg";
 import Animated, {
@@ -6,7 +5,7 @@ import Animated, {
   useAnimatedProps,
 } from "react-native-reanimated";
 
-import ControlPoint, { CONTROL_POINT_RADIUS } from "./ControlPoint";
+import { ControlPoint, CONTROL_POINT_RADIUS } from "./ControlPoint";
 
 const { width } = Dimensions.get("window");
 const PADDING = 24;
@@ -36,7 +35,7 @@ const styles = StyleSheet.create({
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedLine = Animated.createAnimatedComponent(Line);
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-const BezierCurves = () => {
+export const Bezier = () => {
   const c1x = useSharedValue(min);
   const c1y = useSharedValue(min);
   const c2x = useSharedValue(max);
@@ -105,5 +104,3 @@ const BezierCurves = () => {
     </View>
   );
 };
-
-export default BezierCurves;

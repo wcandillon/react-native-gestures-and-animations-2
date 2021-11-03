@@ -1,4 +1,5 @@
-import React, { ReactElement } from "react";
+import type { ReactElement } from "react";
+import React from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -19,7 +20,7 @@ interface SortableItemProps {
   item: { height: number; width: number };
 }
 
-const SortableItem = ({
+export const SortableItem = ({
   index,
   offsets,
   children,
@@ -111,5 +112,3 @@ const SortableItem = ({
     </PanGestureHandler>
   );
 };
-
-export default SortableItem;

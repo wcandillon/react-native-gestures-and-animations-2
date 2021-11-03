@@ -4,7 +4,8 @@
 import parseSVG from "parse-svg-path";
 import absSVG from "abs-svg-path";
 import normalizeSVG from "normalize-svg-path";
-import { Vector, cubicBezier } from "react-native-redash";
+import type { Vector } from "react-native-redash";
+import { cubicBezier } from "react-native-redash";
 
 import { cubicBezierLength } from "./bezier";
 

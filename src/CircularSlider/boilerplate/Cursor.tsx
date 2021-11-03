@@ -8,7 +8,7 @@ interface CursorProps {
   strokeWidth: number;
 }
 
-const Cursor = ({ strokeWidth }: CursorProps) => {
+export const Cursor = ({ strokeWidth }: CursorProps) => {
   return (
     <View
       style={[
@@ -25,5 +25,3 @@ const Cursor = ({ strokeWidth }: CursorProps) => {
     />
   );
 };
-
-export default Cursor;

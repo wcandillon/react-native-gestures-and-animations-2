@@ -1,1 +1,1 @@
-export { default } from "./ShapeMorphing";
+export { ShapeMorphing } from "./ShapeMorphing";

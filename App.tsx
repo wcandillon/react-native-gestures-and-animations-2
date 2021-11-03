@@ -1,21 +1,20 @@
-import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import { Routes } from "./src/Routes";
-import Examples from "./src/Examples";
-import HeartOfTheMatter from "./src/HeartOfTheMatter";
-import PanGesture from "./src/PanGesture";
-import Transitions from "./src/Transitions";
-import CircularSlider from "./src/CircularSlider";
-import Graph from "./src/Graph";
-import Worklets from "./src/Worklets";
-import DragToSort from "./src/DragToSort";
-import DynamicSpring from "./src/DynamicSpring";
-import Animations from "./src/Animations";
-import Swiping, { swipingAssets } from "./src/Swiping";
-import Bezier from "./src/Bezier";
-import ShapeMorphing from "./src/ShapeMorphing";
-import Accordion from "./src/Accordion";
+import type { Routes } from "./src/Routes";
+import { Examples } from "./src/Examples";
+import { HeartOfTheMatter } from "./src/HeartOfTheMatter";
+import { PanGesture } from "./src/PanGesture";
+import { Transitions } from "./src/Transitions";
+import { CircularSlider } from "./src/CircularSlider";
+import { Graph } from "./src/Graph";
+import { Worklets } from "./src/Worklets";
+import { DragToSort } from "./src/DragToSort";
+import { DynamicSpring } from "./src/DynamicSpring";
+import { Animations } from "./src/Animations";
+import { Swiping, swipingAssets } from "./src/Swiping";
+import { Bezier } from "./src/Bezier";
+import { ShapeMorphing } from "./src/ShapeMorphing";
+import { Accordion } from "./src/Accordion";
 import { LoadAssets } from "./src/components";
 
 const assets = [...swipingAssets];
@@ -126,4 +125,5 @@ const App = () => (
   </LoadAssets>
 );
 
+// eslint-disable-next-line import/no-default-export
 export default App;

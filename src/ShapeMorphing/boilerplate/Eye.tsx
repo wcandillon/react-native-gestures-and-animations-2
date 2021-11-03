@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import { addCurve, close, createPath, serialize } from "react-native-redash";
@@ -92,7 +91,7 @@ addCurve(goodPath, {
 });
 close(goodPath);
 
-const Eye = ({ flip }: EyeProps) => {
+export const Eye = ({ flip }: EyeProps) => {
   const d = serialize(angryPath);
   const rotateY = flip ? "180deg" : "0deg";
   return (
@@ -119,5 +118,3 @@ const Eye = ({ flip }: EyeProps) => {
     </View>
   );
 };
-
-export default Eye;

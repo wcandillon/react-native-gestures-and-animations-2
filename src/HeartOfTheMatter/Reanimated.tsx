@@ -1,9 +1,6 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
@@ -26,7 +23,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeartOfTheMatter = () => {
+export const Reanimated = () => {
   const x = useSharedValue(0);
   const y = useSharedValue(0);
   const onGestureEvent = useAnimatedGestureHandler<
@@ -54,5 +51,3 @@ const HeartOfTheMatter = () => {
     </View>
   );
 };
-
-export default HeartOfTheMatter;

@@ -1,4 +1,3 @@
-import React from "react";
 import { View } from "react-native";
 
 export const CONTROL_POINT_RADIUS = 20;
@@ -10,7 +9,7 @@ interface ControlPointProps {
   max: number;
 }
 
-const ControlPoint = ({}: ControlPointProps) => {
+export const ControlPoint = ({}: ControlPointProps) => {
   return (
     <View
       style={[
@@ -23,5 +22,3 @@ const ControlPoint = ({}: ControlPointProps) => {
     />
   );
 };
-
-export default ControlPoint;

@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, View } from "react-native";
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 import Svg, { Path } from "react-native-svg";
@@ -100,7 +99,7 @@ addCurve(goodPath, {
 });
 close(goodPath);
 
-const Eye = ({ progress, flip }: EyeProps) => {
+export const Eye = ({ progress, flip }: EyeProps) => {
   const animatedProps = useAnimatedProps(() => ({
     d: interpolatePath(
       progress.value,
@@ -138,5 +137,3 @@ const Eye = ({ progress, flip }: EyeProps) => {
     </View>
   );
 };
-
-export default Eye;

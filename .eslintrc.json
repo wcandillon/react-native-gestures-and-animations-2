@@ -6,6 +6,7 @@
   },
   "rules": {
     "prefer-destructuring": 0,
-    "reanimated/js-function-in-worklet": 2
+    "reanimated/js-function-in-worklet": 2,
+    "react/react-in-jsx-scope": "off"
   }
 }

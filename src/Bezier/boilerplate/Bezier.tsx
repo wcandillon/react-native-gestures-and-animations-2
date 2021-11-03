@@ -1,8 +1,7 @@
-import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Svg, { Line, Path, Circle } from "react-native-svg";
 
-import ControlPoint, { CONTROL_POINT_RADIUS } from "./ControlPoint";
+import { ControlPoint, CONTROL_POINT_RADIUS } from "./ControlPoint";
 
 const { width } = Dimensions.get("window");
 const PADDING = 24;
@@ -30,7 +29,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const BezierCurves = () => {
+export const BezierCurves = () => {
   const c1x = min;
   const c1y = min;
   const c2x = max;
@@ -86,5 +85,3 @@ const BezierCurves = () => {
     </View>
   );
 };
-
-export default BezierCurves;

@@ -1,4 +1,3 @@
-import React from "react";
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 import { addCurve, createPath, interpolatePath } from "react-native-redash";
 import Svg, { Path } from "react-native-svg";
@@ -44,7 +43,7 @@ addCurve(goodPath, {
   c2: { x: 97.4902012, y: 38.64845107 },
 });
 
-const Mouth = ({ progress }: MouthProps) => {
+export const Mouth = ({ progress }: MouthProps) => {
   const animatedProps = useAnimatedProps(() => ({
     d: interpolatePath(
       progress.value,
@@ -63,5 +62,3 @@ const Mouth = ({ progress }: MouthProps) => {
     </Svg>
   );
 };
-
-export default Mouth;

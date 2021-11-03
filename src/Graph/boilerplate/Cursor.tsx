@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-unused-styles */
-import React from "react";
+
 import { View, StyleSheet } from "react-native";
 
-import { Path } from "../../components/AnimatedHelpers";
+import type { Path } from "../../components/AnimatedHelpers";
 
 const CURSOR = 100;
 const styles = StyleSheet.create({
@@ -27,12 +27,10 @@ interface CursorProps {
   path: Path;
 }
 
-const Cursor = ({}: CursorProps) => {
+export const Cursor = ({}: CursorProps) => {
   return (
     <View style={StyleSheet.absoluteFill}>
       <View style={styles.cursor} />
     </View>
   );
 };
-
-export default Cursor;

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-unused-styles */
-import React from "react";
+
 import { View, StyleSheet } from "react-native";
 
 import { StyleGuide } from "../../components";
@@ -32,8 +32,6 @@ interface LabelProps {
   point: DataPoint;
 }
 
-const Label = ({}: LabelProps) => {
+export const Label = ({}: LabelProps) => {
   return <View />;
 };
-
-export default Label;

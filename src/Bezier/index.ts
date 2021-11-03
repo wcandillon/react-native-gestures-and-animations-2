@@ -1,1 +1,1 @@
-export { default } from "./Bezier";
+export { Bezier } from "./Bezier";

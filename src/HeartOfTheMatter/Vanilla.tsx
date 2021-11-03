@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import React from "react";
+
 import { Animated, PanResponder, StyleSheet, View } from "react-native";
 
 import { StyleGuide } from "../components";
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const HeartOfTheMatter = () => {
+export const VanillaAnimated = () => {
   const position = new Animated.ValueXY();
   const panResponder = PanResponder.create({
     onMoveShouldSetPanResponderCapture: () => true,
@@ -49,5 +49,3 @@ const HeartOfTheMatter = () => {
     </View>
   );
 };
-
-export default HeartOfTheMatter;

@@ -1,7 +1,7 @@
-import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import List, { List as ListModel } from "./List";
+import type { List as ListModel } from "./List";
+import { List } from "./List";
 
 const list: ListModel = {
   name: "Total Points",
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Accordion = () => {
+export const Accordion = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Markets</Text>
@@ -56,5 +56,3 @@ const Accordion = () => {
     </View>
   );
 };
-
-export default Accordion;

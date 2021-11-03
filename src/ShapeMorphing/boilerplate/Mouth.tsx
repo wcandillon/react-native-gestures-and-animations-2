@@ -1,4 +1,3 @@
-import React from "react";
 import { addCurve, createPath, serialize } from "react-native-redash";
 import Svg, { Path } from "react-native-svg";
 
@@ -42,7 +41,7 @@ addCurve(goodPath, {
   c2: { x: 97.4902012, y: 38.64845107 },
 });
 
-const Mouth = ({}: MouthProps) => {
+export const Mouth = ({}: MouthProps) => {
   const d = serialize(angryPath);
   return (
     <Svg width={120} height={40} viewBox="0 0 120 40">
@@ -50,5 +49,3 @@ const Mouth = ({}: MouthProps) => {
     </Svg>
   );
 };
-
-export default Mouth;

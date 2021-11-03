@@ -1,13 +1,10 @@
-import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
 } from "react-native-reanimated";
-import {
-  PanGestureHandler,
-  PanGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { PanGestureHandler } from "react-native-gesture-handler";
 import { clamp } from "react-native-redash";
 
 const { width } = Dimensions.get("window");
@@ -55,7 +52,7 @@ type Offset = {
   y: number;
 };
 
-const Slider = ({ translateX }: SliderProps) => {
+export const Slider = ({ translateX }: SliderProps) => {
   const onGestureEvent = useAnimatedGestureHandler<
     PanGestureHandlerGestureEvent,
     Offset
@@ -83,5 +80,3 @@ const Slider = ({ translateX }: SliderProps) => {
     </View>
   );
 };
-
-export default Slider;

@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
@@ -20,7 +19,7 @@ interface ChevronProps {
   progress: Animated.SharedValue<number>;
 }
 
-const Chevron = ({ progress }: ChevronProps) => {
+export const Chevron = ({ progress }: ChevronProps) => {
   const style = useAnimatedStyle(() => ({
     backgroundColor: mixColor(progress.value, "#525251", "#e45645") as string,
     transform: [{ rotateZ: `${mix(progress.value, 0, Math.PI)}rad` }],
@@ -42,5 +41,3 @@ const Chevron = ({ progress }: ChevronProps) => {
     </Animated.View>
   );
 };
-
-export default Chevron;

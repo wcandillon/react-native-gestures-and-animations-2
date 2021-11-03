@@ -1,7 +1,7 @@
 import * as React from "react";
 
-import { ProfileModel } from "./Profile";
-import Profiles from "./Profiles";
+import type { ProfileModel } from "./Profile";
+import { Profiles } from "./Profiles";
 
 export const profiles: ProfileModel[] = [
   {
@@ -30,8 +30,6 @@ export const profiles: ProfileModel[] = [
   },
 ];
 
-const Swipe = () => {
+export const Swiping = () => {
   return <Profiles {...{ profiles }} />;
 };
-
-export default Swipe;

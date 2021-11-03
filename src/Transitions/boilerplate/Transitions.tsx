@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import { Button, StyleGuide, cards } from "../../components";
 
-import AnimatedCard from "./AnimatedCard";
+import { AnimatedCard } from "./AnimatedCard";
 
 const styles = StyleSheet.create({
   container: {
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const UseTransition = () => {
+export const UseTransition = () => {
   const [toggled, setToggle] = useState(false);
   return (
     <View style={styles.container}>
@@ -28,5 +28,3 @@ const UseTransition = () => {
     </View>
   );
 };
-
-export default UseTransition;

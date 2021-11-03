@@ -1,4 +1,3 @@
-import React from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import Animated, {
   useAnimatedRef,
@@ -11,8 +10,8 @@ import Animated, {
   runOnUI,
 } from "react-native-reanimated";
 
-import Chevron from "./Chevron";
-import Item, { ListItem } from "./ListItem";
+import { Chevron } from "./Chevron";
+import { ListItem } from "./ListItem";
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +42,7 @@ interface ListProps {
   list: List;
 }
 
-const List = ({ list }: ListProps) => {
+export const List = ({ list }: ListProps) => {
   const aref = useAnimatedRef<View>();
   const open = useSharedValue(false);
   const progress = useDerivedValue(() =>
@@ -80,7 +79,7 @@ const List = ({ list }: ListProps) => {
       <Animated.View style={[styles.items, style]}>
         <View ref={aref} collapsable={false}>
           {list.items.map((item, key) => (
-            <Item
+            <ListItem
               key={key}
               isLast={key === list.items.length - 1}
               {...{ item }}
@@ -91,5 +90,3 @@ const List = ({ list }: ListProps) => {
     </>
   );
 };
-
-export default List;

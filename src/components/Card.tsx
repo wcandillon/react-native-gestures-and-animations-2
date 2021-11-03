@@ -1,4 +1,3 @@
-import React from "react";
 import { Dimensions, Image, StyleSheet } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -44,8 +43,6 @@ interface CardProps {
   card: Cards;
 }
 
-const Card = ({ card }: CardProps) => {
+export const Card = ({ card }: CardProps) => {
   return <Image style={styles.card} source={assets[card]} />;
 };
-
-export default Card;

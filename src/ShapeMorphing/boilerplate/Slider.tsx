@@ -1,4 +1,3 @@
-import React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
 
 const { width } = Dimensions.get("window");
@@ -37,7 +36,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Slider = () => {
+export const Slider = () => {
   return (
     <View style={styles.container}>
       <View style={styles.dividerContainer}>
@@ -49,5 +48,3 @@ const Slider = () => {
     </View>
   );
 };
-
-export default Slider;

@@ -1,1 +1,1 @@
-export { Worklets } from "./boilerplate/Worklets";
+export { Worklets } from "./Worklets";

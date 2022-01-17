@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import Animated from "react-native-reanimated";
+import Animated, {
+  FadeInUp,
+  FadeOutUp,
+  Layout,
+  SlideInDown,
+  SlideInUp,
+  StretchInY,
+  StretchOutY,
+  Transition,
+} from "react-native-reanimated";
 
 import { Chevron } from "./Chevron";
 import { ListItem } from "./ListItem";
@@ -39,13 +48,18 @@ export const List = ({ list }: ListProps) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setOpen((o) => !o)}>
-        <Animated.View style={[styles.container]}>
+        <Animated.View style={styles.container} layout={Layout}>
           <Text style={styles.title}>Total Points</Text>
-          <Chevron />
+          <Chevron open={open} />
         </Animated.View>
       </TouchableWithoutFeedback>
       {open && (
-        <View style={styles.items}>
+        <Animated.View
+          style={styles.items}
+          entering={FadeInUp}
+          exiting={FadeOutUp}
+          layout={Layout}
+        >
           <View collapsable={false}>
             {list.items.map((item, key) => (
               <ListItem
@@ -55,7 +69,7 @@ export const List = ({ list }: ListProps) => {
               />
             ))}
           </View>
-        </View>
+        </Animated.View>
       )}
     </>
   );

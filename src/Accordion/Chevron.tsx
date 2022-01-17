@@ -1,7 +1,6 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Svg, { Path } from "react-native-svg";
-import Animated, { useAnimatedStyle } from "react-native-reanimated";
-import { mix, mixColor } from "react-native-redash";
+import Animated from "react-native-reanimated";
 
 const size = 30;
 const styles = StyleSheet.create({
@@ -15,17 +14,15 @@ const styles = StyleSheet.create({
   },
 });
 
-interface ChevronProps {
-  progress: Animated.SharedValue<number>;
-}
+interface ChevronProps {}
 
-export const Chevron = ({ progress }: ChevronProps) => {
-  const style = useAnimatedStyle(() => ({
-    backgroundColor: mixColor(progress.value, "#525251", "#e45645") as string,
-    transform: [{ rotateZ: `${mix(progress.value, 0, Math.PI)}rad` }],
-  }));
+export const Chevron = ({}: ChevronProps) => {
+  // const style = useAnimatedStyle(() => ({
+  //   backgroundColor: mixColor(progress.value, "#525251", "#e45645") as string,
+  //   transform: [{ rotateZ: `${mix(progress.value, 0, Math.PI)}rad` }],
+  // }));
   return (
-    <Animated.View style={[styles.container, style]}>
+    <View style={[styles.container, { backgroundColor: "#525251" }]}>
       <Svg
         width={24}
         height={24}
@@ -38,6 +35,6 @@ export const Chevron = ({ progress }: ChevronProps) => {
       >
         <Path d="M6 9l6 6 6-6" />
       </Svg>
-    </Animated.View>
+    </View>
   );
 };

@@ -1,14 +1,6 @@
+import { useState } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import Animated, {
-  useAnimatedRef,
-  measure,
-  useSharedValue,
-  useAnimatedStyle,
-  useDerivedValue,
-  withSpring,
-  withTiming,
-  runOnUI,
-} from "react-native-reanimated";
+import Animated from "react-native-reanimated";
 
 import { Chevron } from "./Chevron";
 import { ListItem } from "./ListItem";
@@ -43,50 +35,28 @@ interface ListProps {
 }
 
 export const List = ({ list }: ListProps) => {
-  const aref = useAnimatedRef<View>();
-  const open = useSharedValue(false);
-  const progress = useDerivedValue(() =>
-    open.value ? withSpring(1) : withTiming(0)
-  );
-  const height = useSharedValue(0);
-  const headerStyle = useAnimatedStyle(() => ({
-    borderBottomLeftRadius: progress.value === 0 ? 8 : 0,
-    borderBottomRightRadius: progress.value === 0 ? 8 : 0,
-  }));
-  const style = useAnimatedStyle(() => ({
-    height: height.value * progress.value + 1,
-    opacity: progress.value === 0 ? 0 : 1,
-  }));
+  const [open, setOpen] = useState(false);
   return (
     <>
-      <TouchableWithoutFeedback
-        onPress={() => {
-          if (height.value === 0) {
-            runOnUI(() => {
-              "worklet";
-              const m = measure(aref);
-              height.value = m.height;
-            })();
-          }
-          open.value = !open.value;
-        }}
-      >
-        <Animated.View style={[styles.container, headerStyle]}>
+      <TouchableWithoutFeedback onPress={() => setOpen((o) => !o)}>
+        <Animated.View style={[styles.container]}>
           <Text style={styles.title}>Total Points</Text>
-          <Chevron {...{ progress }} />
+          <Chevron />
         </Animated.View>
       </TouchableWithoutFeedback>
-      <Animated.View style={[styles.items, style]}>
-        <View ref={aref} collapsable={false}>
-          {list.items.map((item, key) => (
-            <ListItem
-              key={key}
-              isLast={key === list.items.length - 1}
-              {...{ item }}
-            />
-          ))}
+      {open && (
+        <View style={styles.items}>
+          <View collapsable={false}>
+            {list.items.map((item, key) => (
+              <ListItem
+                key={key}
+                isLast={key === list.items.length - 1}
+                {...{ item }}
+              />
+            ))}
+          </View>
         </View>
-      </Animated.View>
+      )}
     </>
   );
 };

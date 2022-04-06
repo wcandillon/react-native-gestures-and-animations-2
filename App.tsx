@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import type { Routes } from "./src/Routes";
 import { Examples } from "./src/Examples";
 import { HeartOfTheMatter } from "./src/HeartOfTheMatter";
-import { PanGesture } from "./src/PanGesture";
+import { PanGesture } from "./src/PanGesture/boilerplate/PanGesture";
 import { Transitions } from "./src/Transitions";
 import { CircularSlider } from "./src/CircularSlider";
 import { Graph } from "./src/Graph";

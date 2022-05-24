@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 export const Animations = () => {
-  const [play, setPlay] = useState(false);
+  const [play, setPlay] = useState(true);
   const paused = useSharedValue(!play);
   const progress = useSharedValue(0);
   useEffect(() => {

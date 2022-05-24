@@ -38,7 +38,7 @@ export const ChatBubble = ({ progress }: ChatBubbleProps) => {
         {bubbles.map((i) => {
           const start = i * delta;
           const end = start + delta;
-          return <Bubble key={i} {...{ start, end, progress }} />;
+          return <Bubble key={i} start={start} end={end} progress={progress} />;
         })}
       </View>
     </View>

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 import Svg, { Path } from "react-native-svg";
 import Animated, { useAnimatedStyle } from "react-native-reanimated";
-import { mix, mixColor } from "react-native-redash";
+import { mix, mixColor, useTiming } from "react-native-redash";
 
 const size = 30;
 const styles = StyleSheet.create({
@@ -16,10 +16,11 @@ const styles = StyleSheet.create({
 });
 
 interface ChevronProps {
-  progress: Animated.SharedValue<number>;
+  open: boolean;
 }
 
-export const Chevron = ({ progress }: ChevronProps) => {
+export const Chevron = ({ open }: ChevronProps) => {
+  const progress = useTiming(open ? 1 : 0);
   const style = useAnimatedStyle(() => ({
     backgroundColor: mixColor(progress.value, "#525251", "#e45645") as string,
     transform: [{ rotateZ: `${mix(progress.value, 0, Math.PI)}rad` }],

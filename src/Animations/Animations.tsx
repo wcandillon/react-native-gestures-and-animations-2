@@ -6,11 +6,11 @@ import {
   useSharedValue,
   Easing,
 } from "react-native-reanimated";
-import { withPause } from "react-native-redash";
 
 import { Button, StyleGuide } from "../components";
 
 import { ChatBubble } from "./ChatBubble";
+import { withPause } from "./withPause";
 
 const easing = Easing.inOut(Easing.ease);
 const styles = StyleSheet.create({
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
 });
 
 export const Animations = () => {
-  const [play, setPlay] = useState(false);
+  const [play, setPlay] = useState(true);
   const paused = useSharedValue(!play);
   const progress = useSharedValue(0);
   useEffect(() => {

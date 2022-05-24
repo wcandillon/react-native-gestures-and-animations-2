@@ -1,15 +1,6 @@
 import { useState } from "react";
 import { StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
-import Animated, {
-  FadeInUp,
-  FadeOutUp,
-  Layout,
-  SlideInDown,
-  SlideInUp,
-  StretchInY,
-  StretchOutY,
-  Transition,
-} from "react-native-reanimated";
+import Animated, { FadeInUp, FadeOutUp, Layout } from "react-native-reanimated";
 
 import { Chevron } from "./Chevron";
 import { ListItem } from "./ListItem";

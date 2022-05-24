@@ -37,7 +37,10 @@ export const Bubble = ({ progress, start, end }: BubbleProps) => {
       [1, 1.5],
       Extrapolate.CLAMP
     );
-    return { opacity, transform: [{ scale }] };
+    return {
+      opacity,
+      transform: [{ scale }],
+    };
   });
-  return <Animated.View style={[styles.bubble, style]} />;
+  return <Animated.View style={[style, styles.bubble]} />;
 };

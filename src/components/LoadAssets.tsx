@@ -1,6 +1,6 @@
 import type { ReactElement } from "react";
 import React, { useCallback, useEffect, useState } from "react";
-import AppLoading from "expo-app-loading";
+import * as SplashScreen from "expo-splash-screen";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
 import type { InitialState } from "@react-navigation/native";
@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View } from "react-native";
 
 const NAVIGATION_STATE_KEY = `NAVIGATION_STATE_KEY-${Constants.manifest?.sdkVersion}`;
 
@@ -45,6 +46,7 @@ export const LoadAssets = ({ assets, fonts, children }: LoadAssetsProps) => {
   useEffect(() => {
     const restoreState = async () => {
       try {
+        await SplashScreen.preventAutoHideAsync();
         const savedStateString = await AsyncStorage.getItem(
           NAVIGATION_STATE_KEY
         );
@@ -65,13 +67,23 @@ export const LoadAssets = ({ assets, fonts, children }: LoadAssetsProps) => {
       AsyncStorage.setItem(NAVIGATION_STATE_KEY, JSON.stringify(state)),
     []
   );
-  if (!ready || !isNavigationReady) {
-    return <AppLoading />;
+
+  const onLayoutRootView = useCallback(async () => {
+    if (ready) {
+      await SplashScreen.hideAsync();
+    }
+  }, [ready]);
+
+  if (!ready) {
+    return null;
   }
+
   return (
-    <NavigationContainer {...{ onStateChange, initialState }}>
-      <StatusBar style="light" />
-      {children}
-    </NavigationContainer>
+    <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+      <NavigationContainer {...{ onStateChange, initialState }}>
+        <StatusBar style="light" />
+        {children}
+      </NavigationContainer>
+    </View>
   );
 };

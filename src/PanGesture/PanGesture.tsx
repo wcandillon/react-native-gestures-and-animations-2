@@ -7,9 +7,11 @@ import Animated, {
 } from "react-native-reanimated";
 import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import { PanGestureHandler } from "react-native-gesture-handler";
-import { clamp, withBouncing } from "react-native-redash";
+import { clamp } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
+
+import { withBouncing } from "./withBouncing";
 
 const styles = StyleSheet.create({
   container: {

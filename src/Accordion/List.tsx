@@ -48,7 +48,7 @@ export const List = ({ list }: ListProps) => {
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setOpen((o) => !o)}>
-        <Animated.View style={styles.container} layout={Layout}>
+        <Animated.View layout={Layout} style={styles.container}>
           <Text style={styles.title}>Total Points</Text>
           <Chevron open={open} />
         </Animated.View>

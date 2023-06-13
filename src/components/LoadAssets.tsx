@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import * as SplashScreen from "expo-splash-screen";
 import { Asset } from "expo-asset";
 import * as Font from "expo-font";
-import type { InitialState } from "@react-navigation/native";
+import type { InitialState, NavigationState } from "@react-navigation/native";
 import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 import Constants from "expo-constants";
@@ -63,7 +63,7 @@ export const LoadAssets = ({ assets, fonts, children }: LoadAssetsProps) => {
     }
   }, [isNavigationReady]);
   const onStateChange = useCallback(
-    (state) =>
+    (state?: NavigationState) =>
       AsyncStorage.setItem(NAVIGATION_STATE_KEY, JSON.stringify(state)),
     []
   );

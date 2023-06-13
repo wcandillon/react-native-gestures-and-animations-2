@@ -9,19 +9,17 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [16.x]
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
+      uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - name: GitHub Action for Yarn
-      uses: Borales/actions-yarn@v2.3.0
-    - name: npm install, build, and test
-      run: |
-        yarn lint
-        yarn tsc
-      env:
-        CI: true
+
+    - name: Install root node dependencies
+      run: yarn
+
+    - name: Typecheck the build scripts
+      run: yarn tsc

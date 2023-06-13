@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { ColorValue, StyleSheet } from "react-native";
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
@@ -24,7 +24,7 @@ export const CircularProgress = ({
   const circumference = radius * 2 * PI;
   const props = useAnimatedProps(() => {
     return {
-      stroke: backgroundColor.value,
+      stroke: backgroundColor.value as ColorValue,
       strokeDashoffset: theta.value * radius,
     };
   });

@@ -7,7 +7,7 @@ import { StyleGuide } from "./StyleGuide";
 
 export interface TextProps extends OriginalTextProps {
   dark?: boolean;
-  type?: keyof typeof StyleGuide["typography"];
+  type?: keyof (typeof StyleGuide)["typography"];
   children: ReactNode;
 }
 

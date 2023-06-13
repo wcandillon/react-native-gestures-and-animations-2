@@ -1,4 +1,5 @@
-import { ColorValue, StyleSheet } from "react-native";
+import type { ColorValue } from "react-native";
+import { StyleSheet } from "react-native";
 import Animated, { useAnimatedProps } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 

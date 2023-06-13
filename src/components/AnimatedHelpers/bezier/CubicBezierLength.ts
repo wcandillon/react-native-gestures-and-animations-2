@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-loss-of-precision */
 import type { Vector } from "react-native-redash";
 
 type CtrlPoint = [number, number, number, number];

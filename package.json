@@ -44,12 +44,16 @@
     "@types/react-native": "~0.67.6",
     "eslint": "^8.41.0",
     "eslint-config-react-native-wcandillon": "^3.10.0",
-    "eslint-plugin-reanimated": "1.2.4",
     "patch-package": "^6.2.2",
     "typescript": "^5.3.3"
   },
   "private": true,
   "engines": {
-    "node": ">=12"
+    "node": ">=20"
+  },
+  "resolutions": {
+    "@typescript-eslint/eslint-plugin": "6.10.0",
+    "@typescript-eslint/parser": "6.10.0",
+    "eslint-plugin-flowtype": "8.0.3"
   }
 }

@@ -10,11 +10,15 @@ import { canvas2Polar, polar2Canvas, clamp } from "react-native-redash";
 
 const THRESHOLD = 0.001;
 
+type Value<T> = {
+  value: T;
+};
+
 interface CursorProps {
   r: number;
   strokeWidth: number;
-  theta: Animated.SharedValue<number>;
-  backgroundColor: Animated.SharedValue<string | number>;
+  theta: Value<number>;
+  backgroundColor: Value<string | number>;
 }
 
 export const Cursor = ({
@@ -63,7 +67,8 @@ export const Cursor = ({
       center
     );
     return {
-      backgroundColor: backgroundColor.value,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      backgroundColor: backgroundColor.value as any,
       transform: [{ translateX: translation.x }, { translateY: translation.y }],
     };
   });

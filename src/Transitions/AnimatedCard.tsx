@@ -16,8 +16,12 @@ const styles = StyleSheet.create({
   },
 });
 
+type Value<T> = Readonly<{
+  value: T;
+}>;
+
 interface AnimatedCardProps {
-  transition: Animated.SharedValue<number>;
+  transition: Value<number>;
   index: number;
   card: Cards;
 }

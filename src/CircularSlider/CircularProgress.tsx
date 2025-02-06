@@ -8,11 +8,15 @@ import { StyleGuide } from "../components";
 const { PI } = Math;
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 
+type Value<T> = Readonly<{
+  value: T;
+}>;
+
 interface CircularProgressProps {
-  theta: Animated.SharedValue<number>;
+  theta: Value<number>;
   r: number;
   strokeWidth: number;
-  backgroundColor: Animated.SharedValue<string | number>;
+  backgroundColor: Value<string | number>;
 }
 
 export const CircularProgress = ({

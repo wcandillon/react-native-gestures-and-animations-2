@@ -1,15 +1,14 @@
 import type { Ref } from "react";
 import React, { forwardRef, useImperativeHandle } from "react";
 import { StyleSheet, Dimensions } from "react-native";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   Extrapolate,
   interpolate,
   runOnJS,
-  useAnimatedGestureHandler,
   useSharedValue,
   withSpring,
+  type SharedValue,
 } from "react-native-reanimated";
 import { snapPoint } from "react-native-redash";
 
@@ -29,12 +28,12 @@ export interface SwipeHandler {
 interface SwiperProps {
   onSwipe: () => void;
   profile: ProfileModel;
-  scale: Animated.SharedValue<number>;
+  scale: SharedValue<number>;
   onTop: boolean;
 }
 
 const swipe = (
-  translateX: Animated.SharedValue<number>,
+  translateX: SharedValue<number>,
   dest: number,
   velocity: number,
   cb: () => void
@@ -45,8 +44,6 @@ const swipe = (
     {
       velocity,
       overshootClamping: dest === 0 ? false : true,
-      restSpeedThreshold: dest === 0 ? 0.01 : 100,
-      restDisplacementThreshold: dest === 0 ? 0.01 : 100,
     },
     () => {
       if (dest !== 0) {
@@ -60,6 +57,8 @@ export const Swipeable = forwardRef(
   ({ onSwipe, profile, scale, onTop }: SwiperProps, ref: Ref<SwipeHandler>) => {
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
+    const offsetX = useSharedValue(0);
+    const offsetY = useSharedValue(0);
 
     useImperativeHandle(ref, () => ({
       swipeLeft: () => {
@@ -70,32 +69,29 @@ export const Swipeable = forwardRef(
       },
     }));
 
-    const onGestureEvent = useAnimatedGestureHandler<
-      PanGestureHandlerGestureEvent,
-      { x: number; y: number }
-    >({
-      onStart: (_, ctx) => {
-        ctx.x = translateX.value;
-        ctx.y = translateY.value;
-      },
-      onActive: ({ translationX, translationY }, { x, y }) => {
-        translateX.value = x + translationX;
-        translateY.value = y + translationY;
+    const pan = Gesture.Pan()
+      .onStart(() => {
+        offsetX.value = translateX.value;
+        offsetY.value = translateY.value;
+      })
+      .onUpdate((event) => {
+        translateX.value = offsetX.value + event.translationX;
+        translateY.value = offsetY.value + event.translationY;
         scale.value = interpolate(
           translateX.value,
           [-width / 4, 0, width / 4],
           [1, 0.95, 1],
           Extrapolate.CLAMP
         );
-      },
-      onEnd: ({ velocityX, velocityY }) => {
-        const dest = snapPoint(translateX.value, velocityX, snapPoints);
+      })
+      .onEnd((event) => {
+        const dest = snapPoint(translateX.value, event.velocityX, snapPoints);
         swipe(translateX, dest, 5, onSwipe);
-        translateY.value = withSpring(0, { velocity: velocityY });
-      },
-    });
+        translateY.value = withSpring(0, { velocity: event.velocityY });
+      });
+
     return (
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
+      <GestureDetector gesture={pan}>
         <Animated.View style={StyleSheet.absoluteFill}>
           <Profile
             profile={profile}
@@ -105,7 +101,7 @@ export const Swipeable = forwardRef(
             onTop={onTop}
           />
         </Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
     );
   }
 );

@@ -1,10 +1,5 @@
-import Animated, {
-  useAnimatedGestureHandler,
-  withDecay,
-  useSharedValue,
-} from "react-native-reanimated";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import Animated, { withDecay, useSharedValue } from "react-native-reanimated";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { clamp } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../../components";
@@ -22,38 +17,35 @@ export const DraggableCard = ({ width, height }: DraggableCardProps) => {
   };
   const boundX = width - CARD_WIDTH;
   const boundY = height - CARD_HEIGHT;
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    {
-      offsetX: number;
-      offsetY: number;
-    }
-  >({
-    onStart: (_, ctx) => {
-      ctx.offsetX = translate.x.value;
-      ctx.offsetY = translate.y.value;
-    },
-    onActive: (event, ctx) => {
-      translate.x.value = clamp(ctx.offsetX + event.translationX, 0, boundX);
-      translate.y.value = clamp(ctx.offsetY + event.translationY, 0, boundY);
-    },
-    onEnd: ({ velocityX, velocityY }) => {
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      offsetX.value = translate.x.value;
+      offsetY.value = translate.y.value;
+    })
+    .onUpdate((event) => {
+      translate.x.value = clamp(offsetX.value + event.translationX, 0, boundX);
+      translate.y.value = clamp(offsetY.value + event.translationY, 0, boundY);
+    })
+    .onEnd((event) => {
       translate.x.value = withDecay({
-        velocity: velocityX,
+        velocity: event.velocityX,
         clamp: [0, boundX],
       });
       translate.y.value = withDecay({
-        velocity: velocityY,
+        velocity: event.velocityY,
         clamp: [0, boundY],
       });
-    },
-  });
+    });
+
   const style = useTranslate(translate);
   return (
-    <PanGestureHandler {...{ onGestureEvent }}>
-      <Animated.View {...{ style }}>
+    <GestureDetector gesture={pan}>
+      <Animated.View style={style}>
         <Card card={Cards.Card1} />
       </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };

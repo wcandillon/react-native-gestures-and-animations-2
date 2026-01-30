@@ -1,12 +1,10 @@
 import { View, StyleSheet } from "react-native";
 import Animated, {
-  useAnimatedGestureHandler,
   useSharedValue,
   useAnimatedStyle,
   withDecay,
 } from "react-native-reanimated";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { clamp, withBouncing } from "react-native-redash";
 
 import { Card, Cards, CARD_WIDTH, CARD_HEIGHT } from "../components";
@@ -27,38 +25,35 @@ export const PanGesture = ({ width, height }: GestureProps) => {
   const boundY = height - CARD_HEIGHT;
   const translateX = useSharedValue(0);
   const translateY = useSharedValue(0);
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    {
-      offsetX: number;
-      offsetY: number;
-    }
-  >({
-    onStart: (_, ctx) => {
-      ctx.offsetX = translateX.value;
-      ctx.offsetY = translateY.value;
-    },
-    onActive: (event, ctx) => {
-      translateX.value = clamp(ctx.offsetX + event.translationX, 0, boundX);
-      translateY.value = clamp(ctx.offsetY + event.translationY, 0, boundY);
-    },
-    onEnd: ({ velocityX, velocityY }) => {
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      offsetX.value = translateX.value;
+      offsetY.value = translateY.value;
+    })
+    .onUpdate((event) => {
+      translateX.value = clamp(offsetX.value + event.translationX, 0, boundX);
+      translateY.value = clamp(offsetY.value + event.translationY, 0, boundY);
+    })
+    .onEnd((event) => {
       translateX.value = withBouncing(
         withDecay({
-          velocity: velocityX,
+          velocity: event.velocityX,
         }),
         0,
         boundX
       );
       translateY.value = withBouncing(
         withDecay({
-          velocity: velocityY,
+          velocity: event.velocityY,
         }),
         0,
         boundY
       );
-    },
-  });
+    });
+
   const style = useAnimatedStyle(() => {
     return {
       transform: [
@@ -69,11 +64,11 @@ export const PanGesture = ({ width, height }: GestureProps) => {
   });
   return (
     <View style={styles.container}>
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
-        <Animated.View {...{ style }}>
+      <GestureDetector gesture={pan}>
+        <Animated.View style={style}>
           <Card card={Cards.Card1} />
         </Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
 };

@@ -3,14 +3,14 @@ import React from "react";
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
-  useAnimatedGestureHandler,
   withSpring,
   useDerivedValue,
+  type SharedValue,
 } from "react-native-reanimated";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 
 export interface Offset {
-  y: Animated.SharedValue<number>;
+  y: SharedValue<number>;
 }
 
 interface SortableItemProps {
@@ -32,12 +32,13 @@ export const SortableItem = ({
   const safeOffsetY = useSharedValue(0);
   const x = useSharedValue(0);
   const y = useSharedValue(offset.y.value);
-  const onGestureEvent = useAnimatedGestureHandler({
-    onStart: () => {
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
       gestureActive.value = true;
       safeOffsetY.value = offset.y.value;
-    },
-    onActive: (event) => {
+    })
+    .onUpdate((event) => {
       x.value = event.translationX;
       y.value = safeOffsetY.value + event.translationY;
       const offsetY = Math.round(y.value / height) * height;
@@ -48,8 +49,8 @@ export const SortableItem = ({
           offset.y.value = tmp;
         }
       });
-    },
-    onEnd: (event) => {
+    })
+    .onEnd((event) => {
       gestureActive.value = false;
       gestureFinishing.value = true;
       x.value = withSpring(0, {
@@ -57,8 +58,6 @@ export const SortableItem = ({
         mass: 1,
         damping: 10,
         overshootClamping: false,
-        restSpeedThreshold: 0.001,
-        restDisplacementThreshold: 0.001,
         velocity: event.velocityX,
       });
       y.value = withSpring(
@@ -68,14 +67,12 @@ export const SortableItem = ({
           mass: 1,
           damping: 10,
           overshootClamping: false,
-          restSpeedThreshold: 0.001,
-          restDisplacementThreshold: 0.001,
           velocity: event.velocityY,
         },
         () => (gestureFinishing.value = false)
       );
-    },
-  });
+    });
+
   const translateX = useDerivedValue(() => x.value);
   const translateY = useDerivedValue(() => {
     if (gestureActive.value) {
@@ -93,7 +90,7 @@ export const SortableItem = ({
     ],
   }));
   return (
-    <PanGestureHandler {...{ onGestureEvent }}>
+    <GestureDetector gesture={pan}>
       <Animated.View
         style={[
           {
@@ -109,6 +106,6 @@ export const SortableItem = ({
       >
         {children}
       </Animated.View>
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };

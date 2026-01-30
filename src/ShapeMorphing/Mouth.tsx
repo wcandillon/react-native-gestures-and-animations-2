@@ -1,9 +1,12 @@
-import Animated, { useAnimatedProps } from "react-native-reanimated";
+import Animated, {
+  useAnimatedProps,
+  type SharedValue,
+} from "react-native-reanimated";
 import { addCurve, createPath, interpolatePath } from "react-native-redash";
 import Svg, { Path } from "react-native-svg";
 
 interface MouthProps {
-  progress: Animated.SharedValue<number>;
+  progress: SharedValue<number>;
 }
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);

@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { View, StyleSheet, Text, Platform } from "react-native";
-import type Animated from "react-native-reanimated";
-import { useSharedValue, runOnUI, runOnJS } from "react-native-reanimated";
+import {
+  useSharedValue,
+  runOnUI,
+  runOnJS,
+  type SharedValue,
+} from "react-native-reanimated";
 import { ReText } from "react-native-redash";
 
 import { Button } from "../components";
@@ -22,7 +26,7 @@ const formatDatetime = (datetime: Date) => {
 };
 
 const sayHello = (
-  text: Animated.SharedValue<string>,
+  text: SharedValue<string>,
   from: string,
   cb: () => void
 ) => {

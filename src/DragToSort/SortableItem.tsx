@@ -4,7 +4,6 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  useDerivedValue,
   type SharedValue,
 } from "react-native-reanimated";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
@@ -20,6 +19,11 @@ interface SortableItemProps {
   item: { height: number; width: number };
 }
 
+const clamp = (value: number, min: number, max: number) => {
+  "worklet";
+  return Math.min(Math.max(value, min), max);
+};
+
 export const SortableItem = ({
   index,
   offsets,
@@ -29,28 +33,53 @@ export const SortableItem = ({
   const gestureActive = useSharedValue(false);
   const gestureFinishing = useSharedValue(false);
   const offset = offsets[index];
-  const safeOffsetY = useSharedValue(0);
+  const startY = useSharedValue(0);
   const x = useSharedValue(0);
-  const y = useSharedValue(offset.y.value);
+  const y = useSharedValue(0);
+  const currentIndex = useSharedValue(index);
 
   const pan = Gesture.Pan()
     .onStart(() => {
+      "worklet";
       gestureActive.value = true;
-      safeOffsetY.value = offset.y.value;
+      startY.value = offset.y.value;
+      y.value = offset.y.value;
+      currentIndex.value = Math.round(offset.y.value / height);
     })
     .onUpdate((event) => {
+      "worklet";
       x.value = event.translationX;
-      y.value = safeOffsetY.value + event.translationY;
-      const offsetY = Math.round(y.value / height) * height;
-      offsets.forEach((o, i) => {
-        if (o.y.value === offsetY && i !== index) {
-          const tmp = o.y.value;
-          o.y.value = offset.y.value;
-          offset.y.value = tmp;
+      const newY = startY.value + event.translationY;
+      y.value = newY;
+
+      // Calculate the target slot index based on the center of the dragged item
+      const maxIndex = offsets.length - 1;
+      const targetIndex = clamp(
+        Math.round(newY / height),
+        0,
+        maxIndex
+      );
+
+      // Only swap if we moved to a different slot
+      if (targetIndex !== currentIndex.value) {
+        // Find the item currently at the target position
+        for (let i = 0; i < offsets.length; i++) {
+          if (i !== index) {
+            const otherIndex = Math.round(offsets[i].y.value / height);
+            if (otherIndex === targetIndex) {
+              // Swap: move the other item to our current position
+              offsets[i].y.value = currentIndex.value * height;
+              break;
+            }
+          }
         }
-      });
+        // Update our logical position
+        offset.y.value = targetIndex * height;
+        currentIndex.value = targetIndex;
+      }
     })
     .onEnd((event) => {
+      "worklet";
       gestureActive.value = false;
       gestureFinishing.value = true;
       x.value = withSpring(0, {
@@ -69,26 +98,28 @@ export const SortableItem = ({
           overshootClamping: false,
           velocity: event.velocityY,
         },
-        () => (gestureFinishing.value = false)
+        () => {
+          "worklet";
+          gestureFinishing.value = false;
+        }
       );
     });
 
-  const translateX = useDerivedValue(() => x.value);
-  const translateY = useDerivedValue(() => {
-    if (gestureActive.value) {
-      return y.value;
-    } else {
-      return withSpring(offset.y.value);
-    }
+  const style = useAnimatedStyle(() => {
+    const translateY = gestureActive.value
+      ? y.value
+      : withSpring(offset.y.value);
+
+    return {
+      zIndex: gestureActive.value || gestureFinishing.value ? 100 : 0,
+      transform: [
+        { translateX: x.value },
+        { translateY },
+        { scale: withSpring(gestureActive.value ? 1.1 : 1) },
+      ],
+    };
   });
-  const style = useAnimatedStyle(() => ({
-    zIndex: gestureActive.value || gestureFinishing.value ? 100 : 0,
-    transform: [
-      { translateX: translateX.value },
-      { translateY: translateY.value },
-      { scale: withSpring(gestureActive.value ? 1.1 : 1) },
-    ],
-  }));
+
   return (
     <GestureDetector gesture={pan}>
       <Animated.View

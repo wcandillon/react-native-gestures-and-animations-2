@@ -1,6 +1,5 @@
 import { View, StyleSheet } from "react-native";
-import type Animated from "react-native-reanimated";
-import { useDerivedValue } from "react-native-reanimated";
+import { useDerivedValue, type SharedValue } from "react-native-reanimated";
 import { ReText, round } from "react-native-redash";
 
 import { StyleGuide } from "../components";
@@ -28,7 +27,7 @@ export interface DataPoint {
 }
 
 interface LabelProps {
-  point: Animated.SharedValue<DataPoint>;
+  point: SharedValue<DataPoint>;
 }
 
 export const Label = ({ point }: LabelProps) => {

@@ -6,6 +6,7 @@ import Animated, {
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
+  type SharedValue,
 } from "react-native-reanimated";
 
 export interface ProfileModel {
@@ -66,9 +67,9 @@ const styles = StyleSheet.create({
 
 interface CardProps {
   profile: ProfileModel;
-  translateX: Animated.SharedValue<number>;
-  translateY: Animated.SharedValue<number>;
-  scale: Animated.SharedValue<number>;
+  translateX: SharedValue<number>;
+  translateY: SharedValue<number>;
+  scale: SharedValue<number>;
   onTop: boolean;
 }
 

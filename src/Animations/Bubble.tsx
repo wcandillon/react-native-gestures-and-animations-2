@@ -3,6 +3,7 @@ import Animated, {
   useAnimatedStyle,
   interpolate,
   Extrapolate,
+  type SharedValue,
 } from "react-native-reanimated";
 
 import { StyleGuide } from "../components";
@@ -18,7 +19,7 @@ const styles = StyleSheet.create({
 });
 
 interface BubbleProps {
-  progress: Animated.SharedValue<number>;
+  progress: SharedValue<number>;
   start: number;
   end: number;
 }

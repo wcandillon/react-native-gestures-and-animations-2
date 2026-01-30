@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Dimensions, StyleSheet, View } from "react-native";
-import type Animated from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 
 import { Bubble } from "./Bubble";
 
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 });
 
 interface ChatBubbleProps {
-  progress: Animated.SharedValue<number>;
+  progress: SharedValue<number>;
 }
 
 export const ChatBubble = ({ progress }: ChatBubbleProps) => {

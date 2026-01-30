@@ -7,45 +7,44 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "lint": "eslint --ext .ts,.tsx . --max-warnings 0",
-    "tsc": "tsc",
-    "ci": "yarn lint && yarn tsc"
+    "typecheck": "tsc",
+    "ci": "yarn lint && yarn typecheck"
   },
   "dependencies": {
-    "@expo/vector-icons": "^14.0.2",
-    "@react-native-async-storage/async-storage": "1.23.1",
-    "@react-native-community/masked-view": "0.1.10",
+    "@expo/vector-icons": "^15.0.3",
+    "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-masked-view/masked-view": "0.3.2",
     "@react-navigation/native": "5.9.4",
     "@react-navigation/stack": "5.14.5",
     "abs-svg-path": "^0.1.1",
     "d3-shape": "^2.0.0",
-    "expo": "^52.0.30",
-    "expo-asset": "~11.0.3",
-    "expo-constants": "~17.0.5",
-    "expo-font": "~13.0.3",
-    "expo-splash-screen": "~0.29.21",
-    "expo-status-bar": "~2.0.1",
+    "expo": "^54.0.32",
+    "expo-asset": "~12.0.12",
+    "expo-font": "~14.0.11",
+    "expo-splash-screen": "~31.0.13",
+    "expo-status-bar": "~3.0.9",
     "normalize-svg-path": "^1.1.0",
     "parse-svg-path": "^0.1.2",
-    "react": "18.3.1",
-    "react-dom": "18.3.1",
-    "react-native": "0.76.6",
-    "react-native-gesture-handler": "~2.20.2",
-    "react-native-reanimated": "~3.16.1",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-native": "0.81.5",
+    "react-native-gesture-handler": "~2.28.0",
+    "react-native-reanimated": "~4.1.1",
     "react-native-redash": "16.3.0",
-    "react-native-safe-area-context": "4.12.0",
-    "react-native-screens": "~4.4.0",
-    "react-native-svg": "15.8.0",
-    "react-native-web": "~0.19.13"
+    "react-native-safe-area-context": "~5.6.0",
+    "react-native-screens": "~4.16.0",
+    "react-native-svg": "15.12.1",
+    "react-native-web": "^0.21.0",
+    "react-native-worklets": "0.5.1"
   },
   "devDependencies": {
     "@types/d3-shape": "^1.3.2",
-    "@types/react": "~18.3.12",
-    "@types/react-dom": "~18.3.1",
-    "@types/react-native": "~0.67.6",
+    "@types/react": "~19.1.10",
+    "@types/react-dom": "~19.1.7",
     "eslint": "^8.41.0",
     "eslint-config-react-native-wcandillon": "^3.10.0",
     "patch-package": "^6.2.2",
-    "typescript": "^5.3.3"
+    "typescript": "~5.9.2"
   },
   "private": true,
   "engines": {
@@ -55,5 +54,6 @@
     "@typescript-eslint/eslint-plugin": "6.10.0",
     "@typescript-eslint/parser": "6.10.0",
     "eslint-plugin-flowtype": "8.0.3"
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

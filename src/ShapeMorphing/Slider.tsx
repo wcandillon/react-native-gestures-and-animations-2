@@ -1,10 +1,10 @@
 import { Dimensions, StyleSheet, View } from "react-native";
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
+  useSharedValue,
+  type SharedValue,
 } from "react-native-reanimated";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { clamp } from "react-native-redash";
 
 const { width } = Dimensions.get("window");
@@ -44,26 +44,21 @@ const styles = StyleSheet.create({
 });
 
 interface SliderProps {
-  translateX: Animated.SharedValue<number>;
+  translateX: SharedValue<number>;
 }
 
-type Offset = {
-  x: number;
-  y: number;
-};
-
 export const Slider = ({ translateX }: SliderProps) => {
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    Offset
-  >({
-    onStart: (_, ctx) => {
-      ctx.x = translateX.value;
-    },
-    onActive: ({ translationX }, ctx) => {
-      translateX.value = clamp(ctx.x + translationX, 0, SLIDER_WIDTH);
-    },
-  });
+  const offsetX = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .minDistance(0)
+    .onStart(() => {
+      offsetX.value = translateX.value;
+    })
+    .onUpdate((event) => {
+      translateX.value = clamp(offsetX.value + event.translationX, 0, SLIDER_WIDTH);
+    });
+
   const style = useAnimatedStyle(() => ({
     transform: [{ translateX: translateX.value }],
   }));
@@ -72,11 +67,11 @@ export const Slider = ({ translateX }: SliderProps) => {
       <View style={styles.dividerContainer}>
         <View style={styles.divider} />
       </View>
-      <PanGestureHandler minDist={0} onGestureEvent={onGestureEvent}>
+      <GestureDetector gesture={pan}>
         <Animated.View style={[styles.cursor, style]}>
           <View style={styles.cursorPoint} />
         </Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
 };

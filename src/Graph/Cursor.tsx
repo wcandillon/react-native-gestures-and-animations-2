@@ -1,12 +1,12 @@
 import { View, StyleSheet, Dimensions } from "react-native";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  useAnimatedGestureHandler,
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   withDecay,
+  useSharedValue,
+  type SharedValue,
 } from "react-native-reanimated";
 
 import type { Path } from "../components/AnimatedHelpers";
@@ -35,41 +35,36 @@ const styles = StyleSheet.create({
 
 interface CursorProps {
   path: Path;
-  length: Animated.SharedValue<number>;
-  point: Animated.SharedValue<DataPoint>;
+  length: SharedValue<number>;
+  point: SharedValue<DataPoint>;
 }
 
 export const Cursor = ({ path, length, point }: CursorProps) => {
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    {
-      offsetX: number;
-      offsetY: number;
-    }
-  >({
-    onStart: (_event, ctx) => {
-      ctx.offsetX = interpolate(
+  const offsetX = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      offsetX.value = interpolate(
         length.value,
         [0, path.length],
         [0, width],
         Extrapolate.CLAMP
       );
-    },
-    onActive: (event, ctx) => {
+    })
+    .onUpdate((event) => {
       length.value = interpolate(
-        ctx.offsetX + event.translationX,
+        offsetX.value + event.translationX,
         [0, width],
         [0, path.length],
         Extrapolate.CLAMP
       );
-    },
-    onEnd: ({ velocityX }) => {
+    })
+    .onEnd((event) => {
       length.value = withDecay({
-        velocity: velocityX,
+        velocity: event.velocityX,
         clamp: [0, path.length],
       });
-    },
-  });
+    });
 
   const style = useAnimatedStyle(() => {
     const { coord } = point.value;
@@ -82,11 +77,11 @@ export const Cursor = ({ path, length, point }: CursorProps) => {
 
   return (
     <View style={StyleSheet.absoluteFill}>
-      <PanGestureHandler {...{ onGestureEvent }}>
+      <GestureDetector gesture={pan}>
         <Animated.View style={[styles.cursorContainer, style]}>
           <View style={styles.cursor} />
         </Animated.View>
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
 };

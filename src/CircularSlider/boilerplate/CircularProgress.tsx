@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import type Animated from "react-native-reanimated";
+import type { SharedValue } from "react-native-reanimated";
 import Svg, { Circle } from "react-native-svg";
 
 import { StyleGuide } from "../../components";
@@ -7,7 +7,7 @@ import { StyleGuide } from "../../components";
 const { PI } = Math;
 
 interface CircularProgressProps {
-  theta: Animated.SharedValue<number>;
+  theta: SharedValue<number>;
   r: number;
   strokeWidth: number;
 }

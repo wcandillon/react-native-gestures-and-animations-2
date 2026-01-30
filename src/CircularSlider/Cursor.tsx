@@ -1,11 +1,10 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
+  useSharedValue,
 } from "react-native-reanimated";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { canvas2Polar, polar2Canvas, clamp } from "react-native-redash";
 
 const THRESHOLD = 0.001;
@@ -28,24 +27,24 @@ export const Cursor = ({
   backgroundColor,
 }: CursorProps) => {
   const center = { x: r, y: r };
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    {
-      offset: { x: number; y: number };
-    }
-  >({
-    onStart: (_event, ctx) => {
-      ctx.offset = polar2Canvas(
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      const offset = polar2Canvas(
         {
           theta: theta.value,
           radius: r,
         },
         center
       );
-    },
-    onActive: (event, ctx) => {
-      const x = ctx.offset.x + event.translationX;
-      const y1 = ctx.offset.y + event.translationY;
+      offsetX.value = offset.x;
+      offsetY.value = offset.y;
+    })
+    .onUpdate((event) => {
+      const x = offsetX.value + event.translationX;
+      const y1 = offsetY.value + event.translationY;
       let y: number;
       if (x < r) {
         y = y1;
@@ -56,8 +55,8 @@ export const Cursor = ({
       }
       const value = canvas2Polar({ x, y }, center).theta;
       theta.value = value > 0 ? value : 2 * Math.PI + value;
-    },
-  });
+    });
+
   const style = useAnimatedStyle(() => {
     const translation = polar2Canvas(
       {
@@ -73,7 +72,7 @@ export const Cursor = ({
     };
   });
   return (
-    <PanGestureHandler onGestureEvent={onGestureEvent}>
+    <GestureDetector gesture={pan}>
       <Animated.View
         style={[
           {
@@ -87,6 +86,6 @@ export const Cursor = ({
           style,
         ]}
       />
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };

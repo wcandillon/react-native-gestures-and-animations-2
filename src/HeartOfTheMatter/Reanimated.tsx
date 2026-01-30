@@ -1,8 +1,6 @@
 import { StyleSheet, View } from "react-native";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
@@ -26,28 +24,28 @@ const styles = StyleSheet.create({
 export const Reanimated = () => {
   const x = useSharedValue(0);
   const y = useSharedValue(0);
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    { x: number; y: number }
-  >({
-    onStart: (_, ctx) => {
-      ctx.x = x.value;
-      ctx.y = y.value;
-    },
-    onActive: ({ translationX, translationY }, ctx) => {
-      x.value = ctx.x + translationX;
-      y.value = ctx.y + translationY;
-    },
-  });
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      offsetX.value = x.value;
+      offsetY.value = y.value;
+    })
+    .onUpdate((event) => {
+      x.value = offsetX.value + event.translationX;
+      y.value = offsetY.value + event.translationY;
+    });
+
   const style = useAnimatedStyle(() => ({
     transform: [{ translateX: x.value }, { translateY: y.value }],
   }));
   //useMakeJsThreadBusy();
   return (
     <View style={styles.container}>
-      <PanGestureHandler onGestureEvent={onGestureEvent}>
+      <GestureDetector gesture={pan}>
         <Animated.View style={[styles.ball, style]} />
-      </PanGestureHandler>
+      </GestureDetector>
     </View>
   );
 };

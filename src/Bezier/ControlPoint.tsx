@@ -1,36 +1,34 @@
 import Animated, {
-  useAnimatedGestureHandler,
   useAnimatedStyle,
+  useSharedValue,
+  type SharedValue,
 } from "react-native-reanimated";
-import type { PanGestureHandlerGestureEvent } from "react-native-gesture-handler";
-import { PanGestureHandler } from "react-native-gesture-handler";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import { clamp } from "react-native-redash";
 
 export const CONTROL_POINT_RADIUS = 20;
 
-type Offset = { x: number; y: number };
-
 interface ControlPointProps {
-  x: Animated.SharedValue<number>;
-  y: Animated.SharedValue<number>;
+  x: SharedValue<number>;
+  y: SharedValue<number>;
   min: number;
   max: number;
 }
 
 export const ControlPoint = ({ x, y, min, max }: ControlPointProps) => {
-  const onGestureEvent = useAnimatedGestureHandler<
-    PanGestureHandlerGestureEvent,
-    Offset
-  >({
-    onStart: (_, ctx) => {
-      ctx.x = x.value;
-      ctx.y = y.value;
-    },
-    onActive: ({ translationX, translationY }, ctx) => {
-      x.value = clamp(ctx.x + translationX, min, max);
-      y.value = clamp(ctx.y + translationY, min, max);
-    },
-  });
+  const offsetX = useSharedValue(0);
+  const offsetY = useSharedValue(0);
+
+  const pan = Gesture.Pan()
+    .onStart(() => {
+      offsetX.value = x.value;
+      offsetY.value = y.value;
+    })
+    .onUpdate((event) => {
+      x.value = clamp(offsetX.value + event.translationX, min, max);
+      y.value = clamp(offsetY.value + event.translationY, min, max);
+    });
+
   const style = useAnimatedStyle(() => ({
     transform: [
       { translateX: x.value - CONTROL_POINT_RADIUS },
@@ -38,7 +36,7 @@ export const ControlPoint = ({ x, y, min, max }: ControlPointProps) => {
     ],
   }));
   return (
-    <PanGestureHandler onGestureEvent={onGestureEvent}>
+    <GestureDetector gesture={pan}>
       <Animated.View
         style={[
           {
@@ -49,6 +47,6 @@ export const ControlPoint = ({ x, y, min, max }: ControlPointProps) => {
           style,
         ]}
       />
-    </PanGestureHandler>
+    </GestureDetector>
   );
 };
